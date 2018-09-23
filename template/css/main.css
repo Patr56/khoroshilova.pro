@@ -8,12 +8,14 @@ html {
     padding: 0;
     width: 100%;
     height: 100%;
+
     font-family: 'Open Sans Condensed', sans-serif;
 
     color: #fff;
-    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-    background-size: 400% 400%;
-    animation: GradientBackground 60s ease infinite;
+}
+
+h1, h2, h3 {
+    font-weight: 100;
 }
 
 .shadow {
@@ -22,6 +24,10 @@ html {
     float: left;
     width: 100%;
     height: 100%;
+
+    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-size: 400% 400%;
+    animation: GradientBackground 60s ease infinite;
     box-shadow: inset 0px 0px 100px rgba(0,0,0,0.5);
 }
 
@@ -52,8 +58,8 @@ html {
 }
 
 .link {
-    color: rgb(221, 221, 221);
-    text-decoration: underline;
+    color: #dddddd;
+    text-decoration: none;
 }
 
 .link__active {
@@ -63,7 +69,7 @@ html {
 
 .link:hover {
     color: white;
-    text-decoration: underline;
+    text-decoration: none;
     filter: drop-shadow(1px 1px 5px rgba(0,0,0,0.5));
 }
 
@@ -96,14 +102,26 @@ html {
     background-image: url("../images/speech.svg");
 }
 
-.logo_title {
+.logo_info {
     vertical-align: middle;
+    text-align: left;
     display: inline-block;
+}
+
+.logo_title {
+    display: block;
     margin: 0;
     padding: 0 0 0 20px;
     font-weight: 100;
     font-size: 3em;
-    line-height: 2em;
+    line-height: 1em;
+}
+
+.logo_subtitle {
+    display: block;
+    margin: 0;
+    padding: 0 0 0 20px;
+    line-height: 1em;
 }
 
 .nav {
@@ -202,4 +220,123 @@ html {
     width: 250px;
     height: 250px;
     background-image: url("../images/qr-code.svg")
+}
+
+.album_pages {
+    position: relative;
+    top: -37px;
+}
+
+.album_label {
+    position: relative;
+    padding: 0px 0 0 0;
+    z-index: 3;
+    color: black;
+}
+
+.album {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    padding: 0 15px;
+}
+
+.album_page {
+    position: absolute;
+    border: 2px solid black;
+    width: 204px;
+    height: 172px;
+    background-color: white;
+}
+
+.album_photo {
+    display: inline-block;
+    width: 200px;
+    height: 137px;
+    border: 2px solid white;
+}
+
+.album_page__transform-init {
+    z-index: 1;
+}
+
+.album_page__transform-1 {
+    transform: rotate(1deg);
+}
+
+.album_page__transform-2 {
+    transform: rotate(-1deg);
+}
+.album_page__transform-3 {
+    transform: rotate(2deg);
+}
+.album_page__transform-4 {
+    transform: rotate(-2deg);
+}
+.album_page__transform-5 {
+    transform: rotate(3deg);
+}
+
+.clothesline {
+    width: 200%;
+    margin-left: -50%;
+    border: 0;
+    height: 7px;
+    background-image: url(../images/native-american-lasso.svg);
+    background-size: 10px;
+    background-repeat: repeat-x;
+    background-position-x: 0px;
+}
+
+.photo-albums {
+    text-align: center;
+}
+
+.album_pin {
+    position: relative;
+    top: -23px;
+    z-index: 2;
+    display: inline-block;
+    width: 20px;
+    height: 28px;
+    background-image: url(../images/pin.svg);
+    background-repeat: no-repeat;
+    background-size: 20px;
+}
+
+.album_pin__transform-1 {
+    transform: rotate(10deg);
+}
+
+.album_pin__transform-2 {
+    transform: rotate(-10deg);
+}
+
+.album_pin__transform-3 {
+    transform: rotate(5deg);
+}
+
+.album_pin__transform-4 {
+    transform: rotate(-5deg);
+}
+
+.divider {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 0 2px 0;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-image: url(../images/divide-mathematical-sign.svg);
+}
+
+.contacts {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.contacts_details {
+    list-style-type: none;
+    margin: 0;
+    padding: 20px 0 0 0;
 }
