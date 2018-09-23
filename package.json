@@ -1,0 +1,24 @@
+{
+  "name": "khoroshilova.pro",
+  "version": "1.0.0",
+  "description": "khoroshilova.pro",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ss": "http-server template --port 8080 -o",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Patr56/khoroshilova.pro.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Patr56/khoroshilova.pro/issues"
+  },
+  "homepage": "https://github.com/Patr56/khoroshilova.pro#readme",
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  }
+}
