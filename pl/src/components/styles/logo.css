@@ -1,0 +1,51 @@
+
+.logo {
+
+}
+
+.logo_image {
+    background-image: url("./images/photo-camera.svg");
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+}
+
+.logo_image__portfolio {
+    background-image: url("./images/gallery.svg");
+}
+
+.logo_image__price {
+    background-image: url("./images/money.svg");
+}
+
+.logo_image__blog {
+    background-image: url("./images/diary.svg");
+}
+
+.logo_image__contacts {
+    background-image: url("./images/speech.svg");
+}
+
+.logo_info {
+    vertical-align: middle;
+    text-align: left;
+    display: inline-block;
+}
+
+.logo_title {
+    display: block;
+    margin: 0;
+    padding: 0 0 0 20px;
+    font-weight: 100;
+    font-size: 3em;
+    line-height: 1em;
+}
+
+.logo_subtitle {
+    display: block;
+    margin: 0;
+    padding: 0 0 0 20px;
+    line-height: 1em;
+}

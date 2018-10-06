@@ -1,0 +1,64 @@
+.nav {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.navigation {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation_link {
+    display: inline-block;
+    padding: 0 32px;
+}
+
+.navigation_icon {
+    width: 100px;
+    height: 100px;
+}
+
+.navigation_label {
+    vertical-align: bottom;
+}
+
+.navigation_icon__portfolio {
+    background-image: url("./images/gallery-bw.svg")
+}
+.navigation_icon__portfolio-active {
+    background-image: url("./images/gallery-active.svg")
+}
+.navigation_icon__portfolio:hover {
+    background-image: url("./images/gallery.svg")
+}
+
+.navigation_icon__price {
+    background-image: url("./images/money-bw.svg")
+}
+.navigation_icon__price-active {
+    background-image: url("./images/money-active.svg")
+}
+.navigation_icon__price:hover {
+    background-image: url("./images/money.svg")
+}
+
+.navigation_icon__blog {
+    background-image: url("./images/diary-bw.svg")
+}
+.navigation_icon__blog-active {
+    background-image: url("./images/diary-active.svg")
+}
+.navigation_icon__blog:hover {
+    background-image: url("./images/diary.svg")
+}
+
+.navigation_icon__contacts {
+    background-image: url("./images/speech-bw.svg")
+}
+.navigation_icon__contacts-active {
+    background-image: url("./images/speech-active.svg")
+}
+.navigation_icon__contacts:hover {
+    background-image: url("./images/speech.svg")
+}

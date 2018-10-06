@@ -1,0 +1,21 @@
+.footer {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.social_link {
+    padding: 0 15px;
+    background-repeat: no-repeat;
+    background-position-x: 15px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+
+.social_link__instagram {
+    background-image: url("./images/instagram.svg")
+}
+
+.social_link__vk {
+    background-image: url("./images/vk.svg")
+}
