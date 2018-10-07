@@ -11,7 +11,7 @@ function generatePhotos(index, max) {
     for (var i = 0; i < max; i++) {
         var idImage = getRandomInt(0, 9);
         res.push({
-            id: i.toString()+"-"+index.toString(),
+            id: index.toString() + "-" + i.toString(),
             name: randomWords({exactly: getRandomInt(1, 5), join: ' '}),
             isCover: false,
             url: {
@@ -47,12 +47,15 @@ function result(data) {
     }
 }
 
-app.get('/rest/albums/last', function (req, res) {
+app.get('/rest/album/last', function (req, res) {
     res.send(result({albums: generateAlbum(4, 2, 10)}));
 });
 
-app.get('/rest/albums/:id', function (req, res) {
-    res.send(result({albums: generateAlbum(getRandomInt(3, 20), 1, 50)}));
+app.get('/rest/album/:id', function (req, res) {
+    res.send(result({
+        albums: generateAlbum(getRandomInt(3, 20), 1, 50),
+        photos: generatePhotos(req.params.id, getRandomInt(1, 50))
+    }));
 });
 
 app.use(express.static('../template/images'));

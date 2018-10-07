@@ -2,7 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects'
 
 import {loadAlbums, loadLastAlbums} from './ServiceAPI';
 import {EActions, EStatus} from "./Enums";
-import {IAction, IAlbum} from "./Models";
+import {IAction, IAlbum, IAlbumsRs} from "./Models";
 
 function* fetchLastAlbums() {
     try {
@@ -20,7 +20,7 @@ export function* getLastAlbums() {
 
 function* fetchAlbums(action: IAction<string>) {
     try {
-        const data: IAlbum[] = yield call(loadAlbums, action.payload);
+        const data: IAlbumsRs = yield call(loadAlbums, action.payload);
         yield put({type: `${EActions.GET_ALBUMS}_${EStatus.SUCCESSES}`, payload: data});
     } catch (e) {
         yield put({type: `${EActions.GET_ALBUMS}_${EStatus.FAILURE}`,  payload: e.message});

@@ -3,7 +3,7 @@ import * as React from "react";
 import {Breadcrumbs} from "../../Breadcrumbs";
 
 import "./styles/portfolio.css";
-import {IAlbum, IBreadcrumb, IData, IStore} from "../../../Models";
+import {IBreadcrumb, IStore, IStoreAlbums} from "../../../Models";
 import {AlbumList} from "../../AlbumList";
 import {Dispatch} from "redux";
 import {getAlbums} from "../../../Actions";
@@ -22,8 +22,8 @@ interface IActionProps {
     loadAlbums: (id: string) => void;
 }
 
-interface IStoreProps {
-    albums: IData<IAlbum[]>;
+interface IStoreProps extends IStoreAlbums {
+
 }
 
 interface IOwnProps {
@@ -41,12 +41,12 @@ export class Portfolio extends React.Component<IProps, {}> {
     }
 
     render() {
-        const {albums: {data, status}} = this.props;
+        const {data: {albums, photos}, status} = this.props;
 
         return (
             <div>
                 <Breadcrumbs breadcrumbs={breadcrumbs}/>
-                {status === EStatus.SUCCESSES ? <AlbumList albums={data}/> : "Загрузка"}
+                {status === EStatus.SUCCESSES ? <AlbumList albums={albums} photos={photos}/> : "Загрузка"}
             </div>
 
         );
@@ -55,7 +55,7 @@ export class Portfolio extends React.Component<IProps, {}> {
 
 const mapStateToProps = (store: IStore): IStoreProps => {
     return {
-        albums: store.reducerGetAlbums.albums,
+        ...store.reducerGetAlbums
     }
 };
 

@@ -6,9 +6,12 @@
 
 .album_label {
     position: relative;
-    padding: 0px 0 0 0;
+    padding: 0 10px;
     z-index: 3;
     color: black;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .album {

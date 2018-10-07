@@ -1,3 +1,5 @@
+import {EStatus} from "./Enums";
+
 /**
  * Фото.
  *
@@ -6,10 +8,6 @@
  * @prop {string} name Название фото.
  * @prop {boolean} isCover Является обложкой.
  */
-import {EStatus} from "./Enums";
-import {reducerLastAlbums} from "./reducers/ReducerLastAlbums";
-import {reducerGetAlbums} from "./reducers/ReducerGetAlbums";
-
 export interface IPhoto {
     id: string;
     url: IURLImage;
@@ -56,6 +54,7 @@ export interface ILastAlbumsRs {
 
 export interface IAlbumsRs {
     albums: IAlbum[];
+    photos?: IPhoto[];
 }
 
 export interface IResponse<T> {
@@ -75,8 +74,8 @@ export interface IStoreLastAlbums {
     lastAlbums: IData<IAlbum[]>;
 }
 
-export interface IStoreAlbums {
-    albums: IData<IAlbum[]>;
+export interface IStoreAlbums extends IData<IAlbumsRs>{
+
 }
 
 export interface IStore {

@@ -1,18 +1,19 @@
 import * as React from "react";
 
-import {IAlbum} from "../Models";
+import {IAlbumsRs} from "../Models";
 import {ALBUM_IN_LINE} from "../Config";
 
 import "./styles/album-list.css";
 import {Album} from "./Album";
 
-interface IProps {
-    albums: IAlbum[];
+interface IProps extends IAlbumsRs {
+
 }
 
 export class AlbumList extends React.Component<IProps, {}> {
     render() {
-        const {albums} = this.props;
+        const {albums, photos} = this.props;
+        let albumLength = albums.length;
 
         return (
             <div className="album-list">
@@ -21,7 +22,13 @@ export class AlbumList extends React.Component<IProps, {}> {
                         {index % ALBUM_IN_LINE === 0 && <div className="clothesline"/>}
                         <Album photos={album.photos}/>
                     </React.Fragment>
-                )) }
+                ))}
+                {photos && photos.map((photo, index) => (
+                    <React.Fragment key={photo.id}>
+                        {(albumLength + index) % ALBUM_IN_LINE === 0 && <div className="clothesline"/>}
+                        <Album photos={[photo]}/>
+                    </React.Fragment>
+                ))}
             </div>
         );
     }

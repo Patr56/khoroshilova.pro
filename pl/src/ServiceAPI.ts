@@ -3,7 +3,7 @@ import {IAlbumsRs, ILastAlbumsRs, IResponse} from "./Models";
 
 export function loadLastAlbums(): Promise<ILastAlbumsRs> {
     return axios.request({
-        url: '/rest/albums/last',
+        url: '/rest/album/last',
         method: 'get',
     }).then((result: AxiosResponse<IResponse<ILastAlbumsRs>>) => {
         if (result.data.success === true) {
@@ -16,7 +16,7 @@ export function loadLastAlbums(): Promise<ILastAlbumsRs> {
 
 export function loadAlbums(id: string): Promise<IAlbumsRs> {
     return axios.request({
-        url: `/rest/albums/${id}`,
+        url: `/rest/album/${id}`,
         method: 'get',
     }).then((result: AxiosResponse<IResponse<IAlbumsRs>>) => {
         if (result.data.success === true) {
