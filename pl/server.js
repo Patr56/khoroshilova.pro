@@ -27,10 +27,10 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function generateAlbum(count, min, max) {
+function generateAlbum(startId, count, min, max) {
 
     var res = [];
-    for (var i = 0; i < count; i++) {
+    for (var i = startId + 1; i < (startId + count + 1); i++) {
         res.push({
             id: i.toString(),
             name: randomWords({exactly: getRandomInt(1, 5), join: ' '}),
@@ -48,13 +48,27 @@ function result(data) {
 }
 
 app.get('/rest/album/last', function (req, res) {
-    res.send(result({albums: generateAlbum(4, 2, 10)}));
+    res.send(result({
+        id: "last",
+        name: randomWords({exactly: getRandomInt(1, 5), join: ' '}),
+        albums: generateAlbum(0, 4, 2, 10)
+    }));
+});
+
+
+app.get('/rest/album/:type(simple|poster|location)', function (req, res) {
+    res.send(result({
+        id: req.params.type,
+        name: randomWords({exactly: getRandomInt(1, 5), join: ' '}),
+        photos: generatePhotos(req.params.type, getRandomInt(3, 4))
+    }));
 });
 
 app.get('/rest/album/:id', function (req, res) {
     res.send(result({
         id: req.params.id,
-        albums: generateAlbum(getRandomInt(3, 20), 1, 50),
+        name: randomWords({exactly: getRandomInt(1, 5), join: ' '}),
+        albums: generateAlbum(req.params.id * 1, getRandomInt(3, 20), 1, 50),
         photos: generatePhotos(req.params.id, getRandomInt(1, 50))
     }));
 });
@@ -63,7 +77,8 @@ app.get('/rest/album/', function (req, res) {
     var id = "root";
     res.send(result({
         id: id,
-        albums: generateAlbum(getRandomInt(3, 20), 1, 50),
+        name: randomWords({exactly: getRandomInt(1, 5), join: ' '}),
+        albums: generateAlbum(0, getRandomInt(3, 20), 1, 50),
         photos: generatePhotos(id, getRandomInt(1, 50))
     }));
 });

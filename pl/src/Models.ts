@@ -59,6 +59,7 @@ export interface IAlbumsBase {
 
 export interface IAlbumsRs extends IAlbumsBase {
     id: string;
+    name: string;
 }
 
 export interface IResponse<T> {
@@ -71,7 +72,6 @@ export interface IData<T> {
     status: EStatus,
     data: T;
     error: string;
-
 }
 
 export interface IStoreLastAlbums {
@@ -91,7 +91,19 @@ export interface IStoreAlbums {
     albums: IAlbums;
 }
 
+export interface IStoreGallery {
+    isOpen: boolean;
+    viewPhoto: IViewPhoto;
+}
+
 export interface IStore {
     reducerLastAlbums: IStoreLastAlbums;
     reducerGetAlbums: IStoreAlbums;
+    reducerGallery: IStoreGallery;
+}
+
+export interface IViewPhoto {
+    index: number;
+    albumId: string;
+    photoId: string;
 }

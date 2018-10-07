@@ -1,8 +1,8 @@
 import * as React from "react";
 
 import "./styles/price.css";
-import {generate} from "../../../Utils";
-import {AlbumList} from "../../AlbumList";
+
+import AlbumList from "../../AlbumList";
 
 export class Price extends React.Component<{}, {}> {
     render() {
@@ -27,7 +27,7 @@ export class Price extends React.Component<{}, {}> {
                 <p>Все фотографии заказчик получает в электронном виде через файлообменник "Яндекс.Диск"</p>
                 <p>Пример:</p>
 
-                <AlbumList albums={generate(4)} id="1"/>
+                <AlbumList id="poster"/>
 
                 <p>Стоимость без дополнительных опций: 6000р.</p>
 
@@ -38,7 +38,7 @@ export class Price extends React.Component<{}, {}> {
                 <p>Все фотографии заказчик получает в электронном виде через файлообменник "Яндекс.Диск"</p>
                 <p>Пример:</p>
 
-                <AlbumList albums={generate(4)} id="1"/>
+                <AlbumList id="simple"/>
 
                 <p>Стоимость:</p>
                 <ul>
@@ -54,7 +54,7 @@ export class Price extends React.Component<{}, {}> {
                 <p>Все фотографии заказчик получает в электронном виде через файлообменник "Яндекс.Диск"</p>
                 <p>Пример:</p>
 
-                <AlbumList albums={generate(4)} id="1"/>
+                <AlbumList id="location"/>
 
                 <p>Стоимость: от 3500р.</p>
 

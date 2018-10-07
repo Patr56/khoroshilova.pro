@@ -12,7 +12,6 @@ const initialStore = (): IStoreLastAlbums => ({
 });
 
 export const reducerLastAlbums = (store: IStoreLastAlbums = initialStore(), action: IAction<any>): IStoreLastAlbums => {
-    console.info(action.type, action.payload);
 
     switch (action.type) {
         case `${EActions.GET_LAST_ALBUMS}_${EStatus.BEGIN}`:

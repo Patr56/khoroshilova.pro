@@ -4,7 +4,7 @@ import {Dispatch} from 'redux'
 
 import {Breadcrumbs} from "../../Breadcrumbs";
 import {IAlbum, IBreadcrumb, IData, IStore} from "../../../Models";
-import {AlbumList} from "../../AlbumList";
+import AlbumList from "../../AlbumList";
 
 import {getLastAlbums} from "../../../Actions";
 import {EStatus} from "../../../Enums";
@@ -44,7 +44,7 @@ export class Home extends React.Component<IProps, {}> {
         return (
             <div>
                 <Breadcrumbs breadcrumbs={breadcrumbs}/>
-                {status === EStatus.SUCCESSES ? <AlbumList albums={data}/> : "Загрузка"}
+                {status === EStatus.SUCCESSES ? <AlbumList id="last"/> : "Загрузка"}
             </div>
         );
     }

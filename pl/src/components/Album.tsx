@@ -13,6 +13,10 @@ interface IProps {
 
 export class Album extends React.Component<IProps, {}> {
 
+    shouldComponentUpdate(nextProps: IProps): boolean {
+        return this.props.photos === nextProps.photos
+    }
+
     getRandomArbitrary = (min: number, max: number): number => Math.random() * (max - min) + min;
 
     getStyle = (): React.CSSProperties => ({

@@ -6,6 +6,7 @@ export const initAlbum = (): IData<IAlbumsRs>  => ({
     error: null,
     data: {
         id: null,
+        name: null,
         albums: [],
         photos: []
     }
