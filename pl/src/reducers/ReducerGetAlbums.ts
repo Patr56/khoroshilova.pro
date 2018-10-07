@@ -1,13 +1,19 @@
 import {IAction, IAlbumsRs, IData, IStoreAlbums} from "../Models";
 import {EActions, EStatus} from "../Enums";
 
-const initialStore = (): IData<IAlbumsRs> => ({
+export const initAlbum = (): IData<IAlbumsRs>  => ({
     status: EStatus.IDLE,
-    data: {
-        albums: [],
-        photos: [],
-    },
     error: null,
+    data: {
+        id: null,
+        albums: [],
+        photos: []
+    }
+});
+
+const initialStore = (): IStoreAlbums => ({
+    currentAlbumId: null,
+    albums: {}
 });
 
 export const reducerGetAlbums = (store: IStoreAlbums = initialStore(), action: IAction<any>): IStoreAlbums => {
@@ -15,26 +21,44 @@ export const reducerGetAlbums = (store: IStoreAlbums = initialStore(), action: I
 
     switch (action.type) {
         case `${EActions.GET_ALBUMS}_${EStatus.BEGIN}`:
+            const currentAlbumId = action.payload as string;
             return {
-                ...initialStore(),
-                status: EStatus.BEGIN
+                ...store,
+                currentAlbumId,
+                albums: {
+                    ...store.albums,
+                    [currentAlbumId]: {
+                        ...initAlbum(),
+                        status: EStatus.BEGIN,
+                    }
+                }
             };
         case `${EActions.GET_ALBUMS}_${EStatus.SUCCESSES}`:
             const data = action.payload as IAlbumsRs;
             return {
                 ...store,
-                data: {...data},
-                error: null,
-                status: EStatus.SUCCESSES
-
+                currentAlbumId: data.id,
+                albums: {
+                    ...store.albums,
+                    [data.id]: {
+                        status: EStatus.SUCCESSES,
+                        error: null,
+                        data
+                    }
+                }
             };
         case `${EActions.GET_ALBUMS}_${EStatus.FAILURE}`:
             const error: string = action.payload;
             return {
                 ...store,
-                data: null,
-                error,
-                status: EStatus.FAILURE
+                albums: {
+                    ...store.albums,
+                    [store.currentAlbumId]: {
+                        status: EStatus.FAILURE,
+                        data: null,
+                        error
+                    }
+                }
             };
         default:
             return store;

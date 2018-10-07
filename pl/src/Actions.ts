@@ -6,7 +6,7 @@ export const getLastAlbums = (): IAction<void> => ({
     payload: null
 });
 
-export const getAlbums = (id: string): IAction<string> => ({
+export const getAlbums = (id?: string): IAction<string> => ({
     type: EActions.GET_ALBUMS,
     payload: id
 });

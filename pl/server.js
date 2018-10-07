@@ -15,8 +15,8 @@ function generatePhotos(index, max) {
             name: randomWords({exactly: getRandomInt(1, 5), join: ' '}),
             isCover: false,
             url: {
-                original: "/album/" +  idImage + ".jpg",
-                preview: "/album/" +  idImage + ".jpg"
+                original: "/original/" +  idImage + ".jpg",
+                preview: "/preview/" +  idImage + ".jpg"
             }
         })
     }
@@ -53,8 +53,18 @@ app.get('/rest/album/last', function (req, res) {
 
 app.get('/rest/album/:id', function (req, res) {
     res.send(result({
+        id: req.params.id,
         albums: generateAlbum(getRandomInt(3, 20), 1, 50),
         photos: generatePhotos(req.params.id, getRandomInt(1, 50))
+    }));
+});
+
+app.get('/rest/album/', function (req, res) {
+    var id = "root";
+    res.send(result({
+        id: id,
+        albums: generateAlbum(getRandomInt(3, 20), 1, 50),
+        photos: generatePhotos(id, getRandomInt(1, 50))
     }));
 });
 

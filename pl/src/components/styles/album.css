@@ -30,11 +30,16 @@
     background-color: white;
 }
 
-.album_photo {
-    display: inline-block;
+.album_cover {
     width: 200px;
-    height: 137px;
+    height: 133px;
     border: 2px solid white;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.album_photo {
+    width: 200px;
 }
 
 .album_page__transform-init {

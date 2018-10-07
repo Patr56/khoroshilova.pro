@@ -14,9 +14,9 @@ export function loadLastAlbums(): Promise<ILastAlbumsRs> {
     });
 }
 
-export function loadAlbums(id: string): Promise<IAlbumsRs> {
+export function loadAlbums(id?: string): Promise<IAlbumsRs> {
     return axios.request({
-        url: `/rest/album/${id}`,
+        url: `/rest/album/${typeof id !== "undefined" ? id : ""}`,
         method: 'get',
     }).then((result: AxiosResponse<IResponse<IAlbumsRs>>) => {
         if (result.data.success === true) {

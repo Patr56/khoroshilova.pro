@@ -52,9 +52,13 @@ export interface ILastAlbumsRs {
     albums: IAlbum[];
 }
 
-export interface IAlbumsRs {
-    albums: IAlbum[];
+export interface IAlbumsBase {
+    albums?: IAlbum[];
     photos?: IPhoto[];
+}
+
+export interface IAlbumsRs extends IAlbumsBase {
+    id: string;
 }
 
 export interface IResponse<T> {
@@ -74,8 +78,17 @@ export interface IStoreLastAlbums {
     lastAlbums: IData<IAlbum[]>;
 }
 
-export interface IStoreAlbums extends IData<IAlbumsRs>{
+export interface IAlbums {
+    [id: string]: IData<IAlbumsRs>
+}
 
+/**
+ * @prop {string} currentAlbumId Альбом для отображения.
+ * @prop {IAlbums} albums Альбомы.
+ */
+export interface IStoreAlbums {
+    currentAlbumId: string;
+    albums: IAlbums;
 }
 
 export interface IStore {

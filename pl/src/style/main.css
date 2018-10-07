@@ -29,6 +29,7 @@ h1, h2, h3 {
 }
 
 .link:hover {
+    cursor: pointer;
     color: white;
     text-decoration: none;
     filter: drop-shadow(1px 1px 5px rgba(0,0,0,0.5));

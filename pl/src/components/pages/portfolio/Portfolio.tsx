@@ -3,12 +3,13 @@ import * as React from "react";
 import {Breadcrumbs} from "../../Breadcrumbs";
 
 import "./styles/portfolio.css";
-import {IBreadcrumb, IStore, IStoreAlbums} from "../../../Models";
+import {IAlbumsRs, IBreadcrumb, IData, IStore, IStoreAlbums} from "../../../Models";
 import {AlbumList} from "../../AlbumList";
 import {Dispatch} from "redux";
 import {getAlbums} from "../../../Actions";
 import {connect} from "react-redux";
 import {EStatus} from "../../../Enums";
+import {initAlbum} from "../../../reducers/ReducerGetAlbums";
 
 const breadcrumbs: IBreadcrumb[] = [
     {
@@ -19,11 +20,12 @@ const breadcrumbs: IBreadcrumb[] = [
 
 
 interface IActionProps {
-    loadAlbums: (id: string) => void;
+    loadAlbums: (id?: string) => void;
 }
 
-interface IStoreProps extends IStoreAlbums {
-
+interface IStoreProps {
+    currentAlbumId: string;
+    portfolio: IData<IAlbumsRs>;
 }
 
 interface IOwnProps {
@@ -37,16 +39,22 @@ interface IProps extends IOwnProps, IStoreProps, IActionProps {
 export class Portfolio extends React.Component<IProps, {}> {
 
     componentDidMount() {
-        this.props.loadAlbums("1");
+        this.props.loadAlbums();
     }
 
     render() {
-        const {data: {albums, photos}, status} = this.props;
+        const {portfolio: {data: {albums, photos}, status}, currentAlbumId} = this.props;
 
         return (
             <div>
                 <Breadcrumbs breadcrumbs={breadcrumbs}/>
-                {status === EStatus.SUCCESSES ? <AlbumList albums={albums} photos={photos}/> : "Загрузка"}
+                {status === EStatus.SUCCESSES ? (
+                    <AlbumList
+                        albums={albums}
+                        photos={photos}
+                        id={currentAlbumId}
+                    />
+                ) : "Загрузка"}
             </div>
 
         );
@@ -54,14 +62,20 @@ export class Portfolio extends React.Component<IProps, {}> {
 }
 
 const mapStateToProps = (store: IStore): IStoreProps => {
+    const currentAlbumId = store.reducerGetAlbums.currentAlbumId;
+    const currentAlbum = store.reducerGetAlbums.albums[currentAlbumId];
+
+    const portfolio: IData<IAlbumsRs> = currentAlbum ? {...currentAlbum} : initAlbum();
+
     return {
-        ...store.reducerGetAlbums
+        currentAlbumId,
+        portfolio
     }
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): IActionProps => {
     return {
-        loadAlbums: (id: string) => {
+        loadAlbums: (id?: string) => {
             dispatch(getAlbums(id))
         }
     }
