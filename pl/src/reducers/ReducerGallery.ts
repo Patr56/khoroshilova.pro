@@ -10,6 +10,12 @@ export const initGallery = (): IStoreGallery  => ({
     }
 });
 
+/**
+ * Редьюсер для работы с галлерей и просмотра фотографий.
+ * 
+ * @param store 
+ * @param action 
+ */
 export const reducerGallery = (store: IStoreGallery = initGallery(), action: IAction<any>): IStoreGallery => {
 
     switch (action.type) {

@@ -13,7 +13,6 @@ export const initAlbum = (): IData<IAlbumsRs>  => ({
 });
 
 const initialStore = (): IStoreAlbums => ({
-    currentAlbumId: null,
     albums: {}
 });
 
@@ -25,7 +24,6 @@ export const reducerGetAlbums = (store: IStoreAlbums = initialStore(), action: I
             const currentAlbumId = action.payload as string;
             return {
                 ...store,
-                currentAlbumId,
                 albums: {
                     ...store.albums,
                     [currentAlbumId]: {
@@ -38,7 +36,6 @@ export const reducerGetAlbums = (store: IStoreAlbums = initialStore(), action: I
             const data = action.payload as IAlbumsRs;
             return {
                 ...store,
-                currentAlbumId: data.id,
                 albums: {
                     ...store.albums,
                     [data.id]: {
@@ -49,15 +46,15 @@ export const reducerGetAlbums = (store: IStoreAlbums = initialStore(), action: I
                 }
             };
         case `${EActions.GET_ALBUMS}_${EStatus.FAILURE}`:
-            const error: string = action.payload;
+            const error = action.payload;
             return {
                 ...store,
                 albums: {
                     ...store.albums,
-                    [store.currentAlbumId]: {
+                    [error.id]: {
                         status: EStatus.FAILURE,
                         data: null,
-                        error
+                        error: error.error
                     }
                 }
             };

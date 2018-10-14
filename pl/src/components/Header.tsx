@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Route, RouteComponentProps, withRouter} from "react-router";
+import {RouteComponentProps, withRouter} from "react-router";
 
 import {Navigation} from "./Navigation";
 import {Logo} from "./Logo";

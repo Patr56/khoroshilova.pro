@@ -23,7 +23,7 @@ function* fetchAlbums(action: IAction<string>) {
         const data: IAlbumsRs = yield call(loadAlbums, action.payload);
         yield put({type: `${EActions.GET_ALBUMS}_${EStatus.SUCCESSES}`, payload: data});
     } catch (e) {
-        yield put({type: `${EActions.GET_ALBUMS}_${EStatus.FAILURE}`,  payload: e.message});
+        yield put({type: `${EActions.GET_ALBUMS}_${EStatus.FAILURE}`,  payload: {id: action.payload, error: e.message}});
     }
 }
 

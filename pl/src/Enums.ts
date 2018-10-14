@@ -8,6 +8,7 @@ export enum EStatus {
 export enum EActions {
     GET_LAST_ALBUMS = 'GET_LAST_ALBUMS',
     GET_ALBUMS = 'GET_ALBUMS',
+    GET_BLOGS = 'GET_BLOGS',
     VIEW_PHOTO = 'VIEW_PHOTO',
     CLOSE_GALLERY = 'CLOSE_GALLERY',
     GALLERY_NEXT_PHOTO = 'GALLERY_NEXT_PHOTO',

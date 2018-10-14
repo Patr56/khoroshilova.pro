@@ -1,0 +1,7 @@
+.no-match {
+    text-align: center;
+}
+
+.no-match__message {
+    font-size: 4em;
+}

@@ -83,11 +83,9 @@ export interface IAlbums {
 }
 
 /**
- * @prop {string} currentAlbumId Альбом для отображения.
  * @prop {IAlbums} albums Альбомы.
  */
 export interface IStoreAlbums {
-    currentAlbumId: string;
     albums: IAlbums;
 }
 
@@ -106,4 +104,26 @@ export interface IViewPhoto {
     index: number;
     albumId: string;
     photoId: string;
+}
+
+/**
+ * Параметры в пути.
+ */
+export interface IPath {
+    id: string;
+}
+
+/**
+ * Статья в блоге.
+ * 
+ * @prop {string} [id] ID.
+ * @prop {string} [title] Заголовок.
+ * @prop {number} [datetime] Время публикации.
+ * @prop {string} text Текст статьи.
+ */
+export interface IArticle {
+    id?: string,
+    title?: string;
+    datetime?: number;
+    text: string;
 }

@@ -1,9 +1,10 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router";
 
-import {IAlbumsRs, IData, IStore} from "../Models";
+import {IAlbumsRs, IData, IStore, IPath} from "../Models";
 import {ALBUM_IN_LINE} from "../Config";
 
-import "./styles/album-list.css";
 import {Album} from "./Album";
 import {initAlbum} from "../reducers/ReducerGetAlbums";
 import {Dispatch} from "redux";
@@ -11,6 +12,7 @@ import {getAlbums, viewPhoto} from "../Actions";
 import {connect} from "react-redux";
 import {EStatus} from "../Enums";
 
+import "./styles/album-list.css";
 
 interface IActionProps {
     loadAlbums: (id?: string) => void;
@@ -21,13 +23,12 @@ interface IStoreProps {
     album: IData<IAlbumsRs>;
 }
 
-interface IOwnProps {
-    id?: string;
+interface IOwnProps extends IPath {
     onClickAlbum?: (albumId: string) => void;
     onClickPhoto?: (albumId: string, photoId: string, index: number) => void;
 }
 
-interface IProps extends IOwnProps, IStoreProps, IActionProps {
+interface IProps extends IOwnProps, IStoreProps, IActionProps, RouteComponentProps<IPath> {
 
 }
 
@@ -37,8 +38,14 @@ export class AlbumList extends React.Component<IProps, {}> {
         this.props.loadAlbums(this.props.id);
     }
 
+    componentWillReceiveProps(nextProps: IProps) {
+        if (this.props.id !== nextProps.id) {
+            nextProps.loadAlbums(nextProps.id);
+        }
+    }
+
     handleClickAlbum = (albumId: string) => () => {
-        this.props.loadAlbums(albumId);
+        // this.props.loadAlbums(albumId);
         this.props.onClickAlbum && this.props.onClickAlbum(albumId);
     };
 
@@ -48,8 +55,10 @@ export class AlbumList extends React.Component<IProps, {}> {
     };
 
     render() {
-        const {album: {status, data: {albums, photos, id}, error}} = this.props;
-        let albumLength = albums && albums.length;
+        const {album: {status, data: {albums, photos, id}, error}, id: index, match: {url}} = this.props;
+        let albumLength = albums && albums.length || 0;
+
+        console.log('index', index);
 
         return (
             <div className="album-list">
@@ -62,10 +71,12 @@ export class AlbumList extends React.Component<IProps, {}> {
                 {albums && albums.map((album, index) => (
                     <React.Fragment key={album.id}>
                         {index % ALBUM_IN_LINE === 0 && <div className="clothesline"/>}
-                        <Album
-                            photos={album.photos}
-                            onClick={this.handleClickAlbum(album.id)}
-                        />
+                        <Link to={`/portfolio/${album.id}`}>
+                            <Album
+                                photos={album.photos}
+                                onClick={this.handleClickAlbum(album.id)}
+                            />
+                        </Link>
                     </React.Fragment>
                 ))}
                 {photos && id && photos.map((photo, index) => (
@@ -82,10 +93,8 @@ export class AlbumList extends React.Component<IProps, {}> {
     }
 }
 
-const mapStateToProps = (store: IStore): IStoreProps => {
-    const currentAlbumId = store.reducerGetAlbums.currentAlbumId;
-    const currentAlbum = store.reducerGetAlbums.albums[currentAlbumId];
-
+const mapStateToProps = (store: IStore, ownProps: IOwnProps): IStoreProps => {
+    const currentAlbum = store.reducerGetAlbums.albums[ownProps.id];
     const album: IData<IAlbumsRs> = currentAlbum ? {...currentAlbum} : initAlbum();
 
     return {
@@ -104,7 +113,7 @@ const mapDispatchToProps = (dispatch: Dispatch): IActionProps => {
     }
 };
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(AlbumList)
+)(AlbumList))

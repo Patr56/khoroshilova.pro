@@ -21,7 +21,7 @@ export class Navigation extends React.Component<IProps, {}> {
             <nav className="nav">
                 <ul className="navigation">
                     <li className="navigation_link">
-                        <NavLink className="link" activeClassName="link__active" to="/portfolio" title="Портфолио">
+                        <NavLink className="link" activeClassName="link__active" to="/portfolio/1" title="Портфолио">
                             {showIcon && <div className="navigation_icon navigation_icon__portfolio" />}
                             Портфолио
                         </NavLink>

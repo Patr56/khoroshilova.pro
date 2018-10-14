@@ -1,33 +1,36 @@
 import * as React from "react";
+import {RouteComponentProps, withRouter} from "react-router";
 
 import {Breadcrumbs} from "../../Breadcrumbs";
 
-import "./styles/portfolio.css";
-import {IBreadcrumb} from "../../../Models";
+import {IBreadcrumb, IPath} from "../../../Models";
 import AlbumList from "../../AlbumList";
 
 const breadcrumbs: IBreadcrumb[] = [
     {
-        path: "/portfolio",
+        path: "/portfolio/1",
         name: "Работы"
     }
 ];
 
-
-interface IProps {
+interface IProps extends RouteComponentProps<IPath> {
 
 }
 
 export class Portfolio extends React.Component<IProps, {}> {
 
     render() {
+        const {match: {params: {id}}} = this.props;
 
         return (
             <div>
                 <Breadcrumbs breadcrumbs={breadcrumbs}/>
-                <AlbumList/>
+                <AlbumList id={id}/>
             </div>
-
         );
     }
 }
+
+const PortfolioWithRoute = withRouter(Portfolio);
+
+export default PortfolioWithRoute;

@@ -15,7 +15,7 @@ export class Footer extends React.Component<{}, {}> {
                     <a className="link social_link social_link__vk" href="#" title="VK" />
                 </div>
 
-                <p className="copyright">© 2018 khoroshilova.pro Copyright</p>
+                <p className="copyright">© 2018 <a className="link" href="https://khoroshilova.pro">khoroshilova.pro</a></p>
             </footer>
         );
     }
