@@ -1,0 +1,62 @@
+{
+  "name": "pl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "size-limit": [
+    {
+      "limit": "200 KB",
+      "path": "docs/js/bundle.js"
+    }
+  ],
+  "scripts": {
+    "start:dev": "webpack-dev-server --hot --inline",
+    "start:mock": "node server.js",
+    "build": "webpack && npm run size",
+    "size": "size-limit",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "moment": "^2.22.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-images": "^0.5.19",
+    "react-markdown": "^4.0.3",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.0",
+    "redux-actions-async": "^0.3.2",
+    "redux-saga": "^0.16.0",
+    "remark-shortcodes": "^0.2.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.15",
+    "@types/react-dom": "^16.0.8",
+    "@types/react-redux": "^6.0.9",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/redux": "^3.6.0",
+    "autoprefixer": "^9.1.5",
+    "awesome-typescript-loader": "^5.2.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^1.0.0",
+    "cssnano": "^4.1.4",
+    "express": "^4.16.3",
+    "express-http-proxy": "^1.4.0",
+    "extract-text-webpack-plugin": "next",
+    "file-loader": "^2.0.0",
+    "postcss-import": "^12.0.0",
+    "postcss-loader": "^3.0.0",
+    "random-words": "^1.1.0",
+    "size-limit": "^0.20.1",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.0",
+    "typescript": "^3.1.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9"
+  }
+}

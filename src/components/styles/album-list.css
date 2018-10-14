@@ -1,0 +1,14 @@
+.album-list {
+    text-align: center;
+}
+
+.clothesline {
+    width: 200%;
+    margin-left: -50%;
+    border: 0;
+    height: 7px;
+    background-image: url(./images/native-american-lasso.svg);
+    background-size: 10px;
+    background-repeat: repeat-x;
+    background-position-x: 0px;
+}

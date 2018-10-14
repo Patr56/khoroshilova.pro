@@ -1,0 +1,92 @@
+
+.album_pages {
+    position: relative;
+    top: -37px;
+}
+
+.album_label {
+    position: relative;
+    padding: 0 10px;
+    z-index: 3;
+    color: black;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.album {
+    display: inline-block;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    padding: 0 15px;
+}
+
+.album_page {
+    position: absolute;
+    border: 2px solid black;
+    width: 204px;
+    height: 172px;
+    background-color: white;
+}
+
+.album_cover {
+    width: 200px;
+    height: 133px;
+    border: 2px solid white;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.album_photo {
+    width: 200px;
+}
+
+.album_page__transform-init {
+    z-index: 1;
+}
+
+.album_page__transform-1 {
+    transform: rotate(1deg);
+}
+
+.album_page__transform-2 {
+    transform: rotate(-1deg);
+}
+.album_page__transform-3 {
+    transform: rotate(2deg);
+}
+.album_page__transform-4 {
+    transform: rotate(-2deg);
+}
+.album_page__transform-5 {
+    transform: rotate(3deg);
+}
+
+.album_pin {
+    position: relative;
+    top: -23px;
+    z-index: 2;
+    display: inline-block;
+    width: 20px;
+    height: 28px;
+    background-image: url(./images/pin.svg);
+    background-repeat: no-repeat;
+    background-size: 20px;
+}
+
+.album_pin__transform-1 {
+    transform: rotate(10deg);
+}
+
+.album_pin__transform-2 {
+    transform: rotate(-10deg);
+}
+
+.album_pin__transform-3 {
+    transform: rotate(5deg);
+}
+
+.album_pin__transform-4 {
+    transform: rotate(-5deg);
+}

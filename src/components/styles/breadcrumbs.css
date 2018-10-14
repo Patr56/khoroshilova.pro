@@ -1,0 +1,13 @@
+.breadcrumbs {
+    text-align: center;
+}
+
+.divider {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 0 2px 0;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-image: url(./images/divide-mathematical-sign.svg);
+}
