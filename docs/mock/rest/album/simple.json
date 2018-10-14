@@ -1,0 +1,45 @@
+{
+    "success":true,
+    "body":{
+       "id":"simple",
+       "name":"hot tribe handsome mass",
+       "photos":[
+          {
+             "id":"simple-0",
+             "name":"folks",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/1.jpg",
+                "preview":"/images/preview/1.jpg"
+             }
+          },
+          {
+             "id":"simple-1",
+             "name":"cave scientist frame question mine",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/2.jpg",
+                "preview":"/images/preview/2.jpg"
+             }
+          },
+          {
+             "id":"simple-2",
+             "name":"equally",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/2.jpg",
+                "preview":"/images/preview/2.jpg"
+             }
+          },
+          {
+             "id":"simple-3",
+             "name":"wooden zoo slowly expression",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/2.jpg",
+                "preview":"/images/preview/2.jpg"
+             }
+          }
+       ]
+    }
+ }

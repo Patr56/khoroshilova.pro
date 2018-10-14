@@ -52,8 +52,8 @@ export const reducerGetAlbums = (store: IStoreAlbums = initialStore(), action: I
                 albums: {
                     ...store.albums,
                     [error.id]: {
+                        ...initAlbum(),
                         status: EStatus.FAILURE,
-                        data: null,
                         error: error.error
                     }
                 }

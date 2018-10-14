@@ -1,0 +1,45 @@
+{
+    "success":true,
+    "body":{
+       "id":"poster",
+       "name":"tomorrow",
+       "photos":[
+          {
+             "id":"poster-0",
+             "name":"colony rose instance facing family",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/2.jpg",
+                "preview":"/images/preview/2.jpg"
+             }
+          },
+          {
+             "id":"poster-1",
+             "name":"stood mad between snake poor",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/7.jpg",
+                "preview":"/images/preview/7.jpg"
+             }
+          },
+          {
+             "id":"poster-2",
+             "name":"tonight consider individual plastic collect",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/8.jpg",
+                "preview":"/images/preview/8.jpg"
+             }
+          },
+          {
+             "id":"poster-3",
+             "name":"distant declared fat eleven",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/8.jpg",
+                "preview":"/images/preview/8.jpg"
+             }
+          }
+       ]
+    }
+ }

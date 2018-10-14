@@ -1,0 +1,45 @@
+{
+    "success":true,
+    "body":{
+       "id":"location",
+       "name":"chapter garage",
+       "photos":[
+          {
+             "id":"location-0",
+             "name":"collect thumb",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/3.jpg",
+                "preview":"/images/preview/3.jpg"
+             }
+          },
+          {
+             "id":"location-1",
+             "name":"country aloud deal tropical",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/0.jpg",
+                "preview":"/images/preview/0.jpg"
+             }
+          },
+          {
+             "id":"location-2",
+             "name":"lack",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/1.jpg",
+                "preview":"/images/preview/1.jpg"
+             }
+          },
+          {
+             "id":"location-3",
+             "name":"task activity drawn replace support",
+             "isCover":false,
+             "url":{
+                "original":"/images/original/1.jpg",
+                "preview":"/images/preview/1.jpg"
+             }
+          }
+       ]
+    }
+ }
