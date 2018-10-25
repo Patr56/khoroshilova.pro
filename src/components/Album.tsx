@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Link} from "react-router-dom";
 
+import {getRandom} from "../Util";
 import {IPhoto} from "../Models";
 import {MAX_PHOTO_IN_ALBUM_PREVIEW} from "../Config";
 
@@ -17,10 +17,8 @@ export class Album extends React.Component<IProps, {}> {
         return this.props.photos === nextProps.photos
     }
 
-    getRandomArbitrary = (min: number, max: number): number => Math.random() * (max - min) + min;
-
     getStyle = (): React.CSSProperties => ({
-        transform: `rotate(${this.getRandomArbitrary(-5, 5)}deg)`
+        transform: `rotate(${getRandom(-5, 5)}deg)`
     });
 
     handlerClick = () => {

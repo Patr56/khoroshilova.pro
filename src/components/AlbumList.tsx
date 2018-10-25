@@ -11,6 +11,7 @@ import {Dispatch} from "redux";
 import {getAlbums, viewPhoto} from "../Actions";
 import {connect} from "react-redux";
 import {EStatus} from "../Enums";
+import {getRandomInt} from "../Util";
 
 import "./styles/album-list.css";
 
@@ -54,8 +55,12 @@ export class AlbumList extends React.Component<IProps, {}> {
         this.props.onClickPhoto && this.props.onClickPhoto(albumId, photoId, index);
     };
 
+    getRandomBird = () => {
+        return getRandomInt(1, 4);
+    }
+
     render() {
-        const {album: {status, data: {albums, photos, id}, error}, id: index, match: {url}} = this.props;
+        const {album: {status, data: {albums, photos, id}, error}} = this.props;
         let albumLength = albums && albums.length || 0;
 
         return (
@@ -68,7 +73,7 @@ export class AlbumList extends React.Component<IProps, {}> {
                 )}
                 {albums && albums.map((album, index) => (
                     <React.Fragment key={album.id}>
-                        {index % ALBUM_IN_LINE === 0 && <div className="clothesline"/>}
+                        {index % ALBUM_IN_LINE === 0 && (<div className={`clothesline clothesline__left-${this.getRandomBird()} clothesline__right-${this.getRandomBird()}`}/>)}
                         <Link to={`/portfolio/${album.id}`}>
                             <Album
                                 photos={album.photos}
@@ -79,7 +84,9 @@ export class AlbumList extends React.Component<IProps, {}> {
                 ))}
                 {photos && id && photos.map((photo, index) => (
                     <React.Fragment key={photo.id}>
-                        {(albumLength + index) % ALBUM_IN_LINE === 0 && <div className="clothesline"/>}
+                        {(albumLength + index) % ALBUM_IN_LINE === 0 && (
+                            <div className={`clothesline clothesline__left-${this.getRandomBird()} clothesline__right-${this.getRandomBird()}`}/>
+                        )}
                         <Album
                             photos={[photo]}
                             onClick={this.handleClickPhoto(id, photo.id, index)}

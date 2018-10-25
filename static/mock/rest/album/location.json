@@ -2,44 +2,35 @@
     "success":true,
     "body":{
        "id":"location",
-       "name":"chapter garage",
+       "name":"Локация",
        "photos":[
-          {
-             "id":"location-0",
-             "name":"collect thumb",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/3.jpg",
-                "preview":"/images/preview/3.jpg"
-             }
-          },
-          {
-             "id":"location-1",
-             "name":"country aloud deal tropical",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/0.jpg",
-                "preview":"/images/preview/0.jpg"
-             }
-          },
-          {
-             "id":"location-2",
-             "name":"lack",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/1.jpg",
-                "preview":"/images/preview/1.jpg"
-             }
-          },
-          {
-             "id":"location-3",
-             "name":"task activity drawn replace support",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/1.jpg",
-                "preview":"/images/preview/1.jpg"
-             }
-          }
-       ]
+        {
+           "id":"location-001",
+           "name":"Орск",
+           "isCover":false,
+           "url":{
+              "original":"/images/original/location/001.jpg",
+              "preview":"/images/preview/location/001.jpg"
+           }
+        },
+        {
+            "id":"location-002",
+            "name":"Орск",
+            "isCover":false,
+            "url":{
+               "original":"/images/original/location/002.jpg",
+               "preview":"/images/preview/location/002.jpg"
+            }
+        },
+        {
+            "id":"location-003",
+            "name":"Орск",
+            "isCover":false,
+            "url":{
+               "original":"/images/original/location/003.jpg",
+               "preview":"/images/preview/location/003.jpg"
+            }
+        }
+     ]
     }
  }
