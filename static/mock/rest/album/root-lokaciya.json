@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "body": {
+    "level": 1,
+    "name": "Локация",
+    "id": "root-lokaciya",
+    "albums": [
+      {
+        "id": "root-lokaciya-orsk",
+        "name": "Орск",
+        "level": 2,
+        "photos": [],
+        "url": {
+          "original": "",
+          "preview": ""
+        },
+        "count": 0
+      }
+    ],
+    "photos": []
+  }
+}

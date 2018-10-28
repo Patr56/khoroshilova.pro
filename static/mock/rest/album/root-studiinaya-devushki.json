@@ -1,0 +1,95 @@
+{
+  "success": true,
+  "body": {
+    "level": 2,
+    "name": "Девушки",
+    "id": "root-studiinaya-devushki",
+    "albums": [
+      {
+        "id": "root-studiinaya-devushki-dasha",
+        "name": "Даша",
+        "level": 3,
+        "photos": [
+          {
+            "id": 117,
+            "url": {
+              "original": "images/original/ac816-dasha/1.jpg",
+              "preview": "images/preview/ac816-dasha/1.jpg"
+            },
+            "name": "1.jpg",
+            "isCover": false
+          }
+        ],
+        "url": {
+          "original": "images/original/ac816-dasha/1.jpg",
+          "preview": "images/preview/ac816-dasha/1.jpg"
+        },
+        "count": 12
+      },
+      {
+        "id": "root-studiinaya-devushki-kristina",
+        "name": "Кристина",
+        "level": 3,
+        "photos": [
+          {
+            "id": 129,
+            "url": {
+              "original": "images/original/ac816-kristina/1.jpg",
+              "preview": "images/preview/ac816-kristina/1.jpg"
+            },
+            "name": "1.jpg",
+            "isCover": false
+          }
+        ],
+        "url": {
+          "original": "images/original/ac816-kristina/1.jpg",
+          "preview": "images/preview/ac816-kristina/1.jpg"
+        },
+        "count": 6
+      },
+      {
+        "id": "root-studiinaya-devushki-kseniya",
+        "name": "Ксения",
+        "level": 3,
+        "photos": [
+          {
+            "id": 135,
+            "url": {
+              "original": "images/original/ac816-kseniya/1.jpg",
+              "preview": "images/preview/ac816-kseniya/1.jpg"
+            },
+            "name": "1.jpg",
+            "isCover": false
+          }
+        ],
+        "url": {
+          "original": "images/original/ac816-kseniya/1.jpg",
+          "preview": "images/preview/ac816-kseniya/1.jpg"
+        },
+        "count": 22
+      },
+      {
+        "id": "root-studiinaya-devushki-lena",
+        "name": "Лена",
+        "level": 3,
+        "photos": [
+          {
+            "id": 157,
+            "url": {
+              "original": "images/original/ac816-lena/1.jpg",
+              "preview": "images/preview/ac816-lena/1.jpg"
+            },
+            "name": "1.jpg",
+            "isCover": false
+          }
+        ],
+        "url": {
+          "original": "images/original/ac816-lena/1.jpg",
+          "preview": "images/preview/ac816-lena/1.jpg"
+        },
+        "count": 7
+      }
+    ],
+    "photos": []
+  }
+}
