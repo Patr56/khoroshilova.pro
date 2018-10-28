@@ -6,8 +6,10 @@ const crypto = require('crypto');
 const transliteration = require('transliteration');
 const slugify = transliteration.slugify;
 const sharp = require('sharp');
+const lodash = require('lodash');
 const TextToSVG = require('text-to-svg');
 const textToSVG = TextToSVG.loadSync();
+const fs = require("fs");
 
 
 const attributes = {
@@ -24,9 +26,13 @@ const watermarkLogo = textToSVG.getSVG('khoroshilova.pro', options);
 const rootDir = path.join("/", "Users", "pavel", "for_site");
 const staticDir = path.join(__dirname, "static");
 const imagesDir = path.join(staticDir, "images");
+const mockRestDir = path.join(staticDir, "mock", "rest");
+const mockRestAlbumDir = path.join(mockRestDir, "album");
 
-// rimraf.sync(imagesDir);
-// mkdirp.sync(imagesDir);
+rimraf.sync(imagesDir);
+rimraf.sync(mockRestAlbumDir);
+mkdirp.sync(imagesDir);
+mkdirp.sync(mockRestAlbumDir);
 
 const ORIGINAL = "original";
 const PREVIEW = "preview";
@@ -118,6 +124,122 @@ function copyImages(filesInfo) {
 
 }
 
+function getDirId(dirs, level) {
+    return dirs.map(slugify).slice(0, level).join('-');
+}
+
+function prepareAlbums(filesInfo) {
+    const albums = filesInfo.reduce((alb, fileInfo) => {
+
+        fileInfo.dir.forEach((name, level) => {
+
+            const id = getDirId(fileInfo.dir, level + 1);
+            const idPrev = getDirId(fileInfo.dir, level);
+            const findDirIndex = lodash.findIndex(alb, (albumItem) => albumItem.id === id);
+
+            if (findDirIndex < 0) {
+                alb.push({
+                    // id,
+                    level,
+                    name,
+                    id,
+                    albums: [],
+                    photos: [],
+                })
+            } else {
+                const findDirPrevIndex = lodash.findIndex(alb, (albumItem) => albumItem.id === idPrev);
+                if (findDirPrevIndex >= 0) {
+                    const findDirInIndex = lodash.findIndex(alb[findDirPrevIndex].albums, (albumItem) => albumItem.id === id);
+                    if (findDirInIndex < 0) {
+                        alb[findDirPrevIndex].albums.push({
+                            // id: alb[findDirIndex].id,
+                            id: getDirId(fileInfo.dir, level + 1),
+                            name: alb[findDirIndex].name,
+                            level: alb[findDirIndex].level,
+                            photos: [],
+                            url: {
+                                original: '',
+                                preview: ''
+                            },
+                            count: 0
+                        })
+                    }
+                }
+            }
+        });
+
+        const id = getDirId(fileInfo.dir, fileInfo.dir.length);
+        const findDirIndex = lodash.findIndex(alb, (albumItem) => albumItem.id === id);
+
+        if (findDirIndex >= 0) {
+            alb[findDirIndex].photos.push({
+                id: fileInfo.id,
+                url: {
+                    original: fileInfo.path.original,
+                    preview: fileInfo.path.preview,
+                },
+                name: fileInfo.fileName,
+                isCover: false
+            })
+        }
+
+        return alb;
+    }, []);
+
+    const albumsAddAlbumInfo = albums.map((album) => {
+
+        if (album.albums.length > 0) {
+            album.albums = album.albums.map((innerAlbum) => {
+                const findAlbumIndex = lodash.findIndex(albums, (albumItem) => albumItem.id === innerAlbum.id);
+                const coverPhoto = albums[findAlbumIndex].photos.filter((photo) => photo.isCover === true);
+
+                if (coverPhoto.length > 0) {
+                    innerAlbum.photos.push( {...coverPhoto[0]});
+                    innerAlbum.url = {
+                        original: coverPhoto[0].url.original,
+                        preview: coverPhoto[0].url.preview,
+                    }
+                } else {
+                    if (albums[findAlbumIndex].photos.length > 0) {
+                        innerAlbum.photos.push({...albums[findAlbumIndex].photos[0]});
+                        innerAlbum.url = {
+                            original: albums[findAlbumIndex].photos[0].url.original,
+                            preview: albums[findAlbumIndex].photos[0].url.preview,
+                        }
+                    }
+
+                }
+
+                innerAlbum.count = albums[findAlbumIndex].photos.length;
+
+                return innerAlbum;
+            })
+        }
+
+        return album;
+    });
+
+    return albumsAddAlbumInfo;
+}
+
+function getResponse(body) {
+    return JSON.stringify({
+        success: true,
+        body,
+    }, null, 2)
+}
+
+function createMockAlbumFile(albums) {
+    albums.forEach((album) => {
+
+        fs.writeFile(path.join(mockRestAlbumDir, album.id + ".json"), getResponse(album), (err) => {
+            if (err) throw err;
+            console.log('The file has been saved!');
+        });
+
+    })
+}
+
 recursive(rootDir, IGNORE_FILES, function (err, files) {
 
     if (err) {
@@ -127,9 +249,12 @@ recursive(rootDir, IGNORE_FILES, function (err, files) {
 
     const filesInfo = files.map(prepareFileInfo);
 
+    const albums = prepareAlbums(filesInfo);
 
-    // createDirectories(filesInfo);
-    // copyImages(filesInfo);
+    createMockAlbumFile(albums);
+
+     createDirectories(filesInfo);
+     copyImages(filesInfo);
 });
 
 

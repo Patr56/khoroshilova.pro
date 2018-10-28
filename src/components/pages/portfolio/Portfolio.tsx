@@ -8,7 +8,7 @@ import AlbumList from "../../AlbumList";
 
 const breadcrumbs: IBreadcrumb[] = [
     {
-        path: "/portfolio/1",
+        path: "/portfolio/root",
         name: "Работы"
     }
 ];

@@ -3,7 +3,7 @@ import {IAlbumsRs, ILastAlbumsRs, IResponse} from "./Models";
 import {REST_ACTIVE} from "./Config";
 
 function getUrl(url: string) {
-    return REST_ACTIVE ? url : `/mock/${url}.json`;
+    return REST_ACTIVE ? url : `/mock${url}.json`;
 }
 
 export function loadLastAlbums(): Promise<ILastAlbumsRs> {
@@ -25,6 +25,7 @@ export function loadAlbums(id?: string): Promise<IAlbumsRs> {
         method: 'get',
     }).then((result: AxiosResponse<IResponse<IAlbumsRs>>) => {
         if (result.data.success === true) {
+            console.log('result.data', result.data)
             return result.data.body;
         } else {
             throw new Error(result.data.error);

@@ -1304,7 +1304,7 @@ module.exports = function xhrAdapter(config) {
     // For IE 8/9 CORS support
     // Only supports POST and GET calls and doesn't returns the response headers.
     // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
+    if (true &&
         typeof window !== 'undefined' &&
         window.XDomainRequest && !('withCredentials' in request) &&
         !isURLSameOrigin(config.url)) {
@@ -5566,20 +5566,6 @@ function wordCharacter(character) {
     typeof character === 'number' ? fromCode(character) : character.charAt(0)
   )
 }
-
-
-/***/ }),
-
-/***/ "./node_modules/isarray/index.js":
-/*!***************************************!*\
-  !*** ./node_modules/isarray/index.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
 
 
 /***/ }),
@@ -24030,7 +24016,7 @@ var substr = 'ab'.substr(-1) === 'b'
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isarray = __webpack_require__(/*! isarray */ "./node_modules/isarray/index.js")
+var isarray = __webpack_require__(/*! isarray */ "./node_modules/path-to-regexp/node_modules/isarray/index.js")
 
 /**
  * Expose `pathToRegexp`.
@@ -24456,6 +24442,20 @@ function pathToRegexp (path, keys, options) {
 
   return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/path-to-regexp/node_modules/isarray/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/path-to-regexp/node_modules/isarray/index.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
 
 
 /***/ }),
@@ -24950,7 +24950,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
           );
           err.name = 'Invariant Violation';
           throw err;
-        } else if ("development" !== 'production' && typeof console !== 'undefined') {
+        } else if (true && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
           if (
@@ -34050,7 +34050,7 @@ function sagaMiddlewareFactory() {
     throw new Error('`options.logger` passed to the Saga middleware is not a function!');
   }
 
-  if ("development" === 'development' && options.onerror) {
+  if (true && options.onerror) {
     throw new Error('`options.onerror` was removed. Use `options.onError` instead.');
   }
 
@@ -36312,7 +36312,7 @@ function applyMiddleware() {
 
 function isCrushed() {}
 
-if ("development" !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+if (true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
   warning('You are currently using minified code outside of NODE_ENV === "production". ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) ' + 'to ensure you have the correct code for your production build.');
 }
 
@@ -44158,7 +44158,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var Config_1 = __webpack_require__(/*! ./Config */ "./src/Config.ts");
 function getUrl(url) {
-    return Config_1.REST_ACTIVE ? url : "/mock/" + url + ".json";
+    return Config_1.REST_ACTIVE ? url : "/mock" + url + ".json";
 }
 function loadLastAlbums() {
     return axios_1.default.request({
@@ -44180,6 +44180,7 @@ function loadAlbums(id) {
         method: 'get',
     }).then(function (result) {
         if (result.data.success === true) {
+            console.log('result.data', result.data);
             return result.data.body;
         }
         else {
@@ -44236,6 +44237,22 @@ sagaMiddleware.run(Sagas_1.getAlbums);
 
 /***/ }),
 
+/***/ "./src/Util.ts":
+/*!*********************!*\
+  !*** ./src/Util.ts ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getRandom = function (min, max) { return Math.random() * (max - min) + min; };
+exports.getRandomInt = function (min, max) { return Math.floor(exports.getRandom(min, max)); };
+
+
+/***/ }),
+
 /***/ "./src/components/Album.tsx":
 /*!**********************************!*\
   !*** ./src/components/Album.tsx ***!
@@ -44260,15 +44277,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "react");
+var Util_1 = __webpack_require__(/*! ../Util */ "./src/Util.ts");
 var Config_1 = __webpack_require__(/*! ../Config */ "./src/Config.ts");
 __webpack_require__(/*! ./styles/album.css */ "./src/components/styles/album.css");
 var Album = /** @class */ (function (_super) {
     __extends(Album, _super);
     function Album() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.getRandomArbitrary = function (min, max) { return Math.random() * (max - min) + min; };
         _this.getStyle = function () { return ({
-            transform: "rotate(" + _this.getRandomArbitrary(-5, 5) + "deg)"
+            transform: "rotate(" + Util_1.getRandom(-5, 5) + "deg)"
         }); };
         _this.handlerClick = function () {
             _this.props.onClick();
@@ -44341,6 +44358,7 @@ var ReducerGetAlbums_1 = __webpack_require__(/*! ../reducers/ReducerGetAlbums */
 var Actions_1 = __webpack_require__(/*! ../Actions */ "./src/Actions.ts");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var Enums_1 = __webpack_require__(/*! ../Enums */ "./src/Enums.ts");
+var Util_1 = __webpack_require__(/*! ../Util */ "./src/Util.ts");
 __webpack_require__(/*! ./styles/album-list.css */ "./src/components/styles/album-list.css");
 var AlbumList = /** @class */ (function (_super) {
     __extends(AlbumList, _super);
@@ -44354,6 +44372,9 @@ var AlbumList = /** @class */ (function (_super) {
             _this.props.viewPhoto(albumId, photoId, index);
             _this.props.onClickPhoto && _this.props.onClickPhoto(albumId, photoId, index);
         }; };
+        _this.getRandomBird = function () {
+            return Util_1.getRandomInt(1, 4);
+        };
         return _this;
     }
     AlbumList.prototype.componentDidMount = function () {
@@ -44366,17 +44387,19 @@ var AlbumList = /** @class */ (function (_super) {
     };
     AlbumList.prototype.render = function () {
         var _this = this;
-        var _a = this.props, _b = _a.album, status = _b.status, _c = _b.data, albums = _c.albums, photos = _c.photos, id = _c.id, error = _b.error, index = _a.id, url = _a.match.url;
+        var _a = this.props.album, status = _a.status, _b = _a.data, albums = _b.albums, photos = _b.photos, id = _b.id, error = _a.error;
         var albumLength = albums && albums.length || 0;
+        console.log('albums', albums);
+        console.log('photos', photos);
         return (React.createElement("div", { className: "album-list" },
             status === Enums_1.EStatus.BEGIN && (React.createElement("div", { className: "album-list_loader" }, "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430")),
             status === Enums_1.EStatus.FAILURE && (React.createElement("div", { className: "album-list_failure" }, error)),
             albums && albums.map(function (album, index) { return (React.createElement(React.Fragment, { key: album.id },
-                index % Config_1.ALBUM_IN_LINE === 0 && React.createElement("div", { className: "clothesline" }),
+                index % Config_1.ALBUM_IN_LINE === 0 && (React.createElement("div", { className: "clothesline clothesline__left-" + _this.getRandomBird() + " clothesline__right-" + _this.getRandomBird() })),
                 React.createElement(react_router_dom_1.Link, { to: "/portfolio/" + album.id },
                     React.createElement(Album_1.Album, { photos: album.photos, onClick: _this.handleClickAlbum(album.id) })))); }),
             photos && id && photos.map(function (photo, index) { return (React.createElement(React.Fragment, { key: photo.id },
-                (albumLength + index) % Config_1.ALBUM_IN_LINE === 0 && React.createElement("div", { className: "clothesline" }),
+                (albumLength + index) % Config_1.ALBUM_IN_LINE === 0 && (React.createElement("div", { className: "clothesline clothesline__left-" + _this.getRandomBird() + " clothesline__right-" + _this.getRandomBird() })),
                 React.createElement(Album_1.Album, { photos: [photo], onClick: _this.handleClickPhoto(id, photo.id, index) }))); })));
     };
     return AlbumList;
@@ -44385,6 +44408,7 @@ exports.AlbumList = AlbumList;
 var mapStateToProps = function (store, ownProps) {
     var currentAlbum = store.reducerGetAlbums.albums[ownProps.id];
     var album = currentAlbum ? __assign({}, currentAlbum) : ReducerGetAlbums_1.initAlbum();
+    console.log('store', store);
     return {
         album: album
     };
@@ -44881,7 +44905,7 @@ var Navigation = /** @class */ (function (_super) {
         return (React.createElement("nav", { className: "nav" },
             React.createElement("ul", { className: "navigation" },
                 React.createElement("li", { className: "navigation_link" },
-                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/portfolio/1", title: "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E" },
+                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/portfolio/root", title: "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E" },
                         showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__portfolio" }),
                         "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E")),
                 React.createElement("li", { className: "navigation_link" },
@@ -45260,7 +45284,7 @@ var Breadcrumbs_1 = __webpack_require__(/*! ../../Breadcrumbs */ "./src/componen
 var AlbumList_1 = __webpack_require__(/*! ../../AlbumList */ "./src/components/AlbumList.tsx");
 var breadcrumbs = [
     {
-        path: "/portfolio/1",
+        path: "/portfolio/root",
         name: "Работы"
     }
 ];

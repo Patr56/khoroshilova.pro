@@ -1,45 +1,47 @@
 {
-    "success":true,
-    "body":{
-       "id":"simple",
-       "name":"hot tribe handsome mass",
-       "photos":[
-          {
-             "id":"simple-0",
-             "name":"folks",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/1.jpg",
-                "preview":"/images/preview/1.jpg"
-             }
-          },
-          {
-             "id":"simple-1",
-             "name":"cave scientist frame question mine",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/2.jpg",
-                "preview":"/images/preview/2.jpg"
-             }
-          },
-          {
-             "id":"simple-2",
-             "name":"equally",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/2.jpg",
-                "preview":"/images/preview/2.jpg"
-             }
-          },
-          {
-             "id":"simple-3",
-             "name":"wooden zoo slowly expression",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/2.jpg",
-                "preview":"/images/preview/2.jpg"
-             }
-          }
-       ]
-    }
- }
+  "success": true,
+  "body": {
+    "level": 0,
+    "name": "simple",
+    "id": "simple",
+    "albums": [],
+    "photos": [
+      {
+        "id": 8,
+        "url": {
+          "original": "images/original/d41d8-simple/3.jpg",
+          "preview": "images/preview/d41d8-simple/3.jpg"
+        },
+        "name": "3.jpg",
+        "isCover": false
+      },
+      {
+        "id": 9,
+        "url": {
+          "original": "images/original/d41d8-simple/4.jpg",
+          "preview": "images/preview/d41d8-simple/4.jpg"
+        },
+        "name": "4.jpg",
+        "isCover": false
+      },
+      {
+        "id": 10,
+        "url": {
+          "original": "images/original/d41d8-simple/5.jpg",
+          "preview": "images/preview/d41d8-simple/5.jpg"
+        },
+        "name": "5.jpg",
+        "isCover": false
+      },
+      {
+        "id": 11,
+        "url": {
+          "original": "images/original/d41d8-simple/oblozhka.jpg",
+          "preview": "images/preview/d41d8-simple/oblozhka.jpg"
+        },
+        "name": "oblozhka.jpg",
+        "isCover": false
+      }
+    ]
+  }
+}

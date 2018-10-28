@@ -1,45 +1,47 @@
 {
-    "success":true,
-    "body":{
-       "id":"poster",
-       "name":"tomorrow",
-       "photos":[
-          {
-             "id":"poster-0",
-             "name":"colony rose instance facing family",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/2.jpg",
-                "preview":"/images/preview/2.jpg"
-             }
-          },
-          {
-             "id":"poster-1",
-             "name":"stood mad between snake poor",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/7.jpg",
-                "preview":"/images/preview/7.jpg"
-             }
-          },
-          {
-             "id":"poster-2",
-             "name":"tonight consider individual plastic collect",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/8.jpg",
-                "preview":"/images/preview/8.jpg"
-             }
-          },
-          {
-             "id":"poster-3",
-             "name":"distant declared fat eleven",
-             "isCover":false,
-             "url":{
-                "original":"/images/original/8.jpg",
-                "preview":"/images/preview/8.jpg"
-             }
-          }
-       ]
-    }
- }
+  "success": true,
+  "body": {
+    "level": 0,
+    "name": "poster",
+    "id": "poster",
+    "albums": [],
+    "photos": [
+      {
+        "id": 4,
+        "url": {
+          "original": "images/original/d41d8-poster/1.JPG",
+          "preview": "images/preview/d41d8-poster/1.JPG"
+        },
+        "name": "1.JPG",
+        "isCover": false
+      },
+      {
+        "id": 5,
+        "url": {
+          "original": "images/original/d41d8-poster/2.JPG",
+          "preview": "images/preview/d41d8-poster/2.JPG"
+        },
+        "name": "2.JPG",
+        "isCover": false
+      },
+      {
+        "id": 6,
+        "url": {
+          "original": "images/original/d41d8-poster/3.JPG",
+          "preview": "images/preview/d41d8-poster/3.JPG"
+        },
+        "name": "3.JPG",
+        "isCover": false
+      },
+      {
+        "id": 7,
+        "url": {
+          "original": "images/original/d41d8-poster/4.JPG",
+          "preview": "images/preview/d41d8-poster/4.JPG"
+        },
+        "name": "4.JPG",
+        "isCover": false
+      }
+    ]
+  }
+}

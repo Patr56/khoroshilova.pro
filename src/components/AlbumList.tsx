@@ -63,6 +63,9 @@ export class AlbumList extends React.Component<IProps, {}> {
         const {album: {status, data: {albums, photos, id}, error}} = this.props;
         let albumLength = albums && albums.length || 0;
 
+        console.log('albums', albums);
+        console.log('photos', photos);
+
         return (
             <div className="album-list">
                 {status === EStatus.BEGIN && (
@@ -101,7 +104,7 @@ export class AlbumList extends React.Component<IProps, {}> {
 const mapStateToProps = (store: IStore, ownProps: IOwnProps): IStoreProps => {
     const currentAlbum = store.reducerGetAlbums.albums[ownProps.id];
     const album: IData<IAlbumsRs> = currentAlbum ? {...currentAlbum} : initAlbum();
-
+    console.log('store', store)
     return {
         album
     }
