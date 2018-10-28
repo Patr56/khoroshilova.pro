@@ -34,6 +34,7 @@ export const reducerGetAlbums = (store: IStoreAlbums = initialStore(), action: I
             };
         case `${EActions.GET_ALBUMS}_${EStatus.SUCCESSES}`:
             const data = action.payload as IAlbumsRs;
+
             return {
                 ...store,
                 albums: {

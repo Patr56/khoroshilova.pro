@@ -19,6 +19,8 @@ export interface IAlbum {
     id: string;
     name: string;
     photos: IPhoto[];
+    url: IURLImage;
+    count: number;
 }
 
 /**

@@ -1,0 +1,53 @@
+{
+  "success": true,
+  "body": {
+    "level": 2,
+    "name": "Парни",
+    "id": "root-studiinaya-parni",
+    "albums": [
+      {
+        "id": "root-studiinaya-parni-lena",
+        "name": "Лена",
+        "level": 3,
+        "photos": [
+          {
+            "id": 164,
+            "url": {
+              "original": "images/original/0426c-lena/1.jpg",
+              "preview": "images/preview/0426c-lena/1.jpg"
+            },
+            "name": "1.jpg",
+            "isCover": false
+          }
+        ],
+        "url": {
+          "original": "images/original/0426c-lena/1.jpg",
+          "preview": "images/preview/0426c-lena/1.jpg"
+        },
+        "count": 7
+      },
+      {
+        "id": "root-studiinaya-parni-sasha",
+        "name": "Саша",
+        "level": 3,
+        "photos": [
+          {
+            "id": 171,
+            "url": {
+              "original": "images/original/0426c-sasha/1.jpg",
+              "preview": "images/preview/0426c-sasha/1.jpg"
+            },
+            "name": "1.jpg",
+            "isCover": false
+          }
+        ],
+        "url": {
+          "original": "images/original/0426c-sasha/1.jpg",
+          "preview": "images/preview/0426c-sasha/1.jpg"
+        },
+        "count": 4
+      }
+    ],
+    "photos": []
+  }
+}

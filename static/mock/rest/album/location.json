@@ -1,36 +1,47 @@
 {
-    "success":true,
-    "body":{
-       "id":"location",
-       "name":"Локация",
-       "photos":[
-        {
-           "id":"location-001",
-           "name":"Орск",
-           "isCover":false,
-           "url":{
-              "original":"/images/original/location/001.jpg",
-              "preview":"/images/preview/location/001.jpg"
-           }
+  "success": true,
+  "body": {
+    "level": 0,
+    "name": "location",
+    "id": "location",
+    "albums": [],
+    "photos": [
+      {
+        "id": 0,
+        "url": {
+          "original": "images/original/d41d8-location/10.jpg",
+          "preview": "images/preview/d41d8-location/10.jpg"
         },
-        {
-            "id":"location-002",
-            "name":"Орск",
-            "isCover":false,
-            "url":{
-               "original":"/images/original/location/002.jpg",
-               "preview":"/images/preview/location/002.jpg"
-            }
+        "name": "10.jpg",
+        "isCover": false
+      },
+      {
+        "id": 1,
+        "url": {
+          "original": "images/original/d41d8-location/11.jpg",
+          "preview": "images/preview/d41d8-location/11.jpg"
         },
-        {
-            "id":"location-003",
-            "name":"Орск",
-            "isCover":false,
-            "url":{
-               "original":"/images/original/location/003.jpg",
-               "preview":"/images/preview/location/003.jpg"
-            }
-        }
-     ]
-    }
- }
+        "name": "11.jpg",
+        "isCover": false
+      },
+      {
+        "id": 2,
+        "url": {
+          "original": "images/original/d41d8-location/12.jpg",
+          "preview": "images/preview/d41d8-location/12.jpg"
+        },
+        "name": "12.jpg",
+        "isCover": false
+      },
+      {
+        "id": 3,
+        "url": {
+          "original": "images/original/d41d8-location/oblozhka.jpg",
+          "preview": "images/preview/d41d8-location/oblozhka.jpg"
+        },
+        "name": "oblozhka.jpg",
+        "isCover": false
+      }
+    ]
+  }
+}

@@ -104,6 +104,10 @@
     overflow-x: hidden;
 }
 
+.app {
+    width: 100%;
+}
+
 h1, h2, h3 {
     font-weight: 100;
 }
@@ -111,6 +115,7 @@ h1, h2, h3 {
 .link {
     color: #dddddd;
     text-decoration: none;
+    font-size: 1em;
 }
 
 .link__active {
@@ -262,34 +267,104 @@ h1, h2, h3 {
     height: 100%;
 
     background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-position: 50% 50%;
     background-size: 400% 400%;
-    animation: GradientBackground 60s ease infinite;
     box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
-}
-
-@keyframes GradientBackground {
-    0% {
-        background-position: 0% 50%
-    }
-    50% {
-        background-position: 100% 50%
-    }
-    100% {
-        background-position: 0% 50%
-    }
 }.album-list {
     text-align: center;
 }
 
 .clothesline {
-    width: 200%;
-    margin-left: -50%;
-    border: 0;
-    height: 7px;
-    background-image: url(/images/56aa031e0aeba169133e482b07203383-native-american-lasso.svg);
-    background-size: 10px;
-    background-repeat: repeat-x;
-    background-position-x: 0px;
+    width: 100%;
+    border: 1px dotted #4a4490;
+    height: 1px;
+    background-color: #9c9c9c;
+}
+
+
+.clothesline__left-1::before {
+    float: left;
+    content: '';
+    display: block;
+    background-image: url(/images/10e5419a2818ed9932f46c1fcf3ec5c7-bird.svg);
+    transform: scale(-1, 1);
+    width: 30px;
+    height: 30px;
+    margin: -10px 0 0 -30px;
+}
+
+
+.clothesline__right-1::after {
+    float: right;
+    content: '';
+    display: block;
+    background-image: url(/images/10e5419a2818ed9932f46c1fcf3ec5c7-bird.svg);
+    width: 30px;
+    height: 30px;
+    margin: -10px -30px 0 0;
+}
+
+.clothesline__left-2::before {
+    float: left;
+    content: '';
+    display: block;
+    background-image: url(/images/77d2f397005f823e150283e65d019317-bird2.svg);
+    width: 30px;
+    height: 30px;
+    margin: -16px 0 0 -30px;
+}
+
+.clothesline__right-2::after {
+    float: right;
+    content: '';
+    display: block;
+    background-image: url(/images/77d2f397005f823e150283e65d019317-bird2.svg);
+    transform: scale(-1, 1);
+    width: 30px;
+    height: 30px;
+    margin: -16px -30px 0 0;
+}
+
+.clothesline__left-3::before {
+    float: left;
+    content: '';
+    display: block;
+    background-image: url(/images/922e0e7be31ac4373e3e7127738cb93e-dove.svg);
+    width: 30px;
+    height: 30px;
+    margin: -11px 0 0 -30px;
+}
+
+.clothesline__right-3::after {
+    float: right;
+    content: '';
+    display: block;
+    background-image: url(/images/922e0e7be31ac4373e3e7127738cb93e-dove.svg);
+    transform: scale(-1, 1);
+    width: 30px;
+    height: 30px;
+    margin: -11px -30px 0 0;
+}
+
+.clothesline__left-4::before {
+    float: left;
+    content: '';
+    display: block;
+    background-image: url(/images/2a4dacff7425dfee5135648c7c826aec-pigeon.svg);
+    width: 30px;
+    height: 30px;
+    margin: -14px 0 0 -30px;
+}
+
+.clothesline__right-4::after {
+    float: right;
+    content: '';
+    display: block;
+    background-image: url(/images/2a4dacff7425dfee5135648c7c826aec-pigeon.svg);
+    transform: scale(-1, 1);
+    width: 30px;
+    height: 30px;
+    margin: -14px -30px 0 0;
 }.footer {
     text-align: center;
     padding: 30px 0;

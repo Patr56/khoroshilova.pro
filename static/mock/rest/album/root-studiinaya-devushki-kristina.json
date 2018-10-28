@@ -1,0 +1,65 @@
+{
+  "success": true,
+  "body": {
+    "level": 3,
+    "name": "Кристина",
+    "id": "root-studiinaya-devushki-kristina",
+    "albums": [],
+    "photos": [
+      {
+        "id": 129,
+        "url": {
+          "original": "images/original/ac816-kristina/1.jpg",
+          "preview": "images/preview/ac816-kristina/1.jpg"
+        },
+        "name": "1.jpg",
+        "isCover": false
+      },
+      {
+        "id": 130,
+        "url": {
+          "original": "images/original/ac816-kristina/2.jpg",
+          "preview": "images/preview/ac816-kristina/2.jpg"
+        },
+        "name": "2.jpg",
+        "isCover": false
+      },
+      {
+        "id": 131,
+        "url": {
+          "original": "images/original/ac816-kristina/3.jpg",
+          "preview": "images/preview/ac816-kristina/3.jpg"
+        },
+        "name": "3.jpg",
+        "isCover": false
+      },
+      {
+        "id": 132,
+        "url": {
+          "original": "images/original/ac816-kristina/4.jpg",
+          "preview": "images/preview/ac816-kristina/4.jpg"
+        },
+        "name": "4.jpg",
+        "isCover": false
+      },
+      {
+        "id": 133,
+        "url": {
+          "original": "images/original/ac816-kristina/5.jpg",
+          "preview": "images/preview/ac816-kristina/5.jpg"
+        },
+        "name": "5.jpg",
+        "isCover": false
+      },
+      {
+        "id": 134,
+        "url": {
+          "original": "images/original/ac816-kristina/oblozhka.jpg",
+          "preview": "images/preview/ac816-kristina/oblozhka.jpg"
+        },
+        "name": "oblozhka.jpg",
+        "isCover": false
+      }
+    ]
+  }
+}
