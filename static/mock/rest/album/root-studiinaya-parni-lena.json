@@ -9,15 +9,6 @@
       {
         "id": 164,
         "url": {
-          "original": "images/original/0426c-lena/1.jpg",
-          "preview": "images/preview/0426c-lena/1.jpg"
-        },
-        "name": "1.jpg",
-        "isCover": false
-      },
-      {
-        "id": 165,
-        "url": {
           "original": "images/original/0426c-lena/2.jpg",
           "preview": "images/preview/0426c-lena/2.jpg"
         },
@@ -25,12 +16,21 @@
         "isCover": false
       },
       {
-        "id": 166,
+        "id": 165,
         "url": {
           "original": "images/original/0426c-lena/3.jpg",
           "preview": "images/preview/0426c-lena/3.jpg"
         },
         "name": "3.jpg",
+        "isCover": false
+      },
+      {
+        "id": 166,
+        "url": {
+          "original": "images/original/0426c-lena/1.jpg",
+          "preview": "images/preview/0426c-lena/1.jpg"
+        },
+        "name": "1.jpg",
         "isCover": false
       },
       {
