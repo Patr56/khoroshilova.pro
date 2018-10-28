@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "body": {
+    "id": "glavnaya-reportazh",
+    "level": 1,
+    "name": "Репортаж",
+    "breadcrumbs": [
+      {
+        "id": "glavnaya",
+        "name": "Главная"
+      },
+      {
+        "id": "glavnaya-reportazh",
+        "name": "Репортаж"
+      }
+    ],
+    "albums": [
+      {
+        "id": "glavnaya-reportazh-parkrun-kuzminki",
+        "name": "Parkrun Кузминки",
+        "level": 2,
+        "photos": [
+          {
+            "id": 26,
+            "url": {
+              "original": "images/original/c38cd-120/10.JPG",
+              "preview": "images/preview/c38cd-120/10.JPG"
+            },
+            "name": "Parkrun Кузминки",
+            "isCover": false
+          }
+        ],
+        "count": 4
+      }
+    ],
+    "photos": []
+  }
+}

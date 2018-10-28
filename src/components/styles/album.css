@@ -38,6 +38,10 @@
     display: inline-block;
 }
 
+.album_cover__photo {
+    height: 168px;
+}
+
 .album_photo {
     width: 200px;
 }

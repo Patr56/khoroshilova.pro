@@ -12,14 +12,19 @@ interface IProps {
 export class Breadcrumbs extends React.Component<IProps, {}> {
     render() {
         const {breadcrumbs} = this.props;
+
+        if (!breadcrumbs || breadcrumbs.length === 0) {
+            return null;
+        }
+
         const lastIndex = breadcrumbs.length - 1;
 
         return (
             <div className="breadcrumbs">
                 <h2>
                     {breadcrumbs.map((breadcrumb, index) => (
-                        <React.Fragment key={breadcrumb.path}>
-                            <NavLink className="link" activeClassName="link__active" to={breadcrumb.path}>{breadcrumb.name}</NavLink>
+                        <React.Fragment key={breadcrumb.id}>
+                            <NavLink className="link" activeClassName="link__active" to={breadcrumb.id}>{breadcrumb.name}</NavLink>
                             {index < lastIndex && <span className="divider" />}
                         </React.Fragment>
                     ))}

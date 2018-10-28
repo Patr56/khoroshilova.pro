@@ -11,7 +11,7 @@ import {EStatus} from "../../../Enums";
 
 const breadcrumbs: IBreadcrumb[] = [
     {
-        path: "/",
+        id: "/",
         name: "Новые работы"
     }
 ];
@@ -34,17 +34,11 @@ interface IProps extends IOwnProps, IStoreProps, IActionProps {
 
 export class Home extends React.Component<IProps, {}> {
 
-    componentDidMount() {
-        this.props.loadLastAlbums();
-    }
-
     render() {
-        const {lastAlbums: {data, status}} = this.props;
-
         return (
             <div>
                 <Breadcrumbs breadcrumbs={breadcrumbs}/>
-                {status === EStatus.SUCCESSES ? <AlbumList id="last"/> : "Загрузка"}
+                <AlbumList id="glavnaya-studiinaya"/>
             </div>
         );
     }

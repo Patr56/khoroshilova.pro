@@ -1,0 +1,55 @@
+{
+  "success": true,
+  "body": {
+    "id": "glavnaya-studiinaya",
+    "level": 1,
+    "name": "Студийная",
+    "breadcrumbs": [
+      {
+        "id": "glavnaya",
+        "name": "Главная"
+      },
+      {
+        "id": "glavnaya-studiinaya",
+        "name": "Студийная"
+      }
+    ],
+    "albums": [
+      {
+        "id": "glavnaya-studiinaya-devushki",
+        "name": "Девушки",
+        "level": 2,
+        "photos": [
+          {
+            "id": 117,
+            "url": {
+              "original": "images/original/bcf32-dasha/10.jpg",
+              "preview": "images/preview/bcf32-dasha/10.jpg"
+            },
+            "name": "Девушки",
+            "isCover": false
+          }
+        ],
+        "count": 4
+      },
+      {
+        "id": "glavnaya-studiinaya-parni",
+        "name": "Парни",
+        "level": 2,
+        "photos": [
+          {
+            "id": 164,
+            "url": {
+              "original": "images/original/5175a-sasha/2.jpg",
+              "preview": "images/preview/5175a-sasha/2.jpg"
+            },
+            "name": "Парни",
+            "isCover": false
+          }
+        ],
+        "count": 4
+      }
+    ],
+    "photos": []
+  }
+}

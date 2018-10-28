@@ -3,24 +3,22 @@ import {RouteComponentProps, withRouter} from "react-router";
 
 import {Breadcrumbs} from "../../Breadcrumbs";
 
-import {IBreadcrumb, IPath} from "../../../Models";
+import {IBreadcrumb, IPath, IStore} from "../../../Models";
 import AlbumList from "../../AlbumList";
+import {connect} from "react-redux";
 
-const breadcrumbs: IBreadcrumb[] = [
-    {
-        path: "/portfolio/root",
-        name: "Работы"
-    }
-];
+interface IStoreProps {
+    breadcrumbs: IBreadcrumb[];
+}
 
-interface IProps extends RouteComponentProps<IPath> {
+interface IProps extends RouteComponentProps<IPath>, IStoreProps {
 
 }
 
 export class Portfolio extends React.Component<IProps, {}> {
 
     render() {
-        const {match: {params: {id}}} = this.props;
+        const {match: {params: {id}}, breadcrumbs} = this.props;
 
         return (
             <div>
@@ -33,4 +31,14 @@ export class Portfolio extends React.Component<IProps, {}> {
 
 const PortfolioWithRoute = withRouter(Portfolio);
 
-export default PortfolioWithRoute;
+const mapStateToProps = (store: IStore, ownProps: IProps): IStoreProps => {
+    const album = store.reducerGetAlbums.albums[ownProps.match.params.id];
+
+    return {
+        breadcrumbs: album ? album.data.breadcrumbs : [],
+    }
+};
+
+export default connect(
+    mapStateToProps,
+)(PortfolioWithRoute)

@@ -5,7 +5,7 @@ import {Route, Switch, withRouter, RouteComponentProps} from "react-router";
 
 import Home from "./pages/home/Home";
 import {Blog} from "./pages/blog/Blog";
-import {Portfolio} from "./pages/portfolio/Portfolio";
+import Portfolio from "./pages/portfolio/Portfolio";
 import {Price} from "./pages/price/Price";
 import {Contacts} from "./pages/contacts/Contacts";
 import {NoMatch} from "./pages/404/NoMatch";

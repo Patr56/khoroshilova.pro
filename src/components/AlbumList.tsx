@@ -57,14 +57,11 @@ export class AlbumList extends React.Component<IProps, {}> {
 
     getRandomBird = () => {
         return getRandomInt(1, 4);
-    }
+    };
 
     render() {
         const {album: {status, data: {albums, photos, id}, error}} = this.props;
         let albumLength = albums && albums.length || 0;
-
-        console.log('albums', albums);
-        console.log('photos', photos);
 
         return (
             <div className="album-list">
@@ -80,6 +77,7 @@ export class AlbumList extends React.Component<IProps, {}> {
                         <Link to={`/portfolio/${album.id}`}>
                             <Album
                                 photos={album.photos}
+                                count={album.count}
                                 onClick={this.handleClickAlbum(album.id)}
                             />
                         </Link>
@@ -92,6 +90,7 @@ export class AlbumList extends React.Component<IProps, {}> {
                         )}
                         <Album
                             photos={[photo]}
+                            count={0}
                             onClick={this.handleClickPhoto(id, photo.id, index)}
                         />
                     </React.Fragment>
@@ -104,7 +103,7 @@ export class AlbumList extends React.Component<IProps, {}> {
 const mapStateToProps = (store: IStore, ownProps: IOwnProps): IStoreProps => {
     const currentAlbum = store.reducerGetAlbums.albums[ownProps.id];
     const album: IData<IAlbumsRs> = currentAlbum ? {...currentAlbum} : initAlbum();
-    console.log('store', store)
+
     return {
         album
     }

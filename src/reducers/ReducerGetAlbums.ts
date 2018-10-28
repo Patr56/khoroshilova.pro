@@ -8,7 +8,8 @@ export const initAlbum = (): IData<IAlbumsRs>  => ({
         id: null,
         name: null,
         albums: [],
-        photos: []
+        photos: [],
+        breadcrumbs: []
     }
 });
 

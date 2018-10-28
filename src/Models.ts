@@ -38,11 +38,11 @@ export interface IURLImage {
  * Хлебные крошки для навигации.
  *
  * @prop {string} name Название.
- * @prop {string} path Путь.
+ * @prop {string} id Путь.
  */
 export interface IBreadcrumb {
     name: string;
-    path: string;
+    id: string;
 }
 
 export interface IAction<T> {
@@ -62,6 +62,7 @@ export interface IAlbumsBase {
 export interface IAlbumsRs extends IAlbumsBase {
     id: string;
     name: string;
+    breadcrumbs: IBreadcrumb[];
 }
 
 export interface IResponse<T> {

@@ -82,7 +82,7 @@ function createDirectories(filesInfo) {
         mkdirp.sync(path.join(imagesDir, PREVIEW, dirName));
     });
 
-    console.log(dirNames);
+    // console.log(dirNames);
 }
 
 function copyImages(filesInfo) {
@@ -93,10 +93,15 @@ function copyImages(filesInfo) {
 
         const pre = new Promise((resolve) => {
             sharp(fileInfo.originalPath)
-                .resize(200)
+                .resize({
+                    width: 200,
+                    height: 168,
+                    fit: sharp.fit.cover,
+                    position: sharp.position.top
+                })
                 .toFile(path.join(staticDir, fileInfo.path.preview))
                 .then(() => {
-                    console.log('done pre', fileInfo.path.preview);
+                    // console.log('done pre', fileInfo.path.preview);
                     resolve()
                 });
         });
@@ -109,7 +114,7 @@ function copyImages(filesInfo) {
                 .overlayWith(new Buffer(watermarkLogo), {gravity: sharp.gravity.southeast})
                 .toFile(path.join(staticDir, fileInfo.path.original))
                 .then(() => {
-                    console.log('done ori', fileInfo.path.original);
+                    // console.log('done ori', fileInfo.path.original);
                     resolve()
                 });
         });
@@ -129,7 +134,7 @@ function getDirId(dirs, level) {
 }
 
 function prepareAlbums(filesInfo) {
-    const albums = filesInfo.reduce((alb, fileInfo) => {
+    const albums = filesInfo.reduce((alb, fileInfo, index) => {
 
         fileInfo.dir.forEach((name, level) => {
 
@@ -137,12 +142,19 @@ function prepareAlbums(filesInfo) {
             const idPrev = getDirId(fileInfo.dir, level);
             const findDirIndex = lodash.findIndex(alb, (albumItem) => albumItem.id === id);
 
+            const parentDirs = fileInfo.dir.slice(0, level + 1);
+
             if (findDirIndex < 0) {
                 alb.push({
-                    // id,
+                    id,
                     level,
                     name,
-                    id,
+                    breadcrumbs: parentDirs.map((dirName, index) => {
+                        return {
+                            id: getDirId(parentDirs, index + 1),
+                            name: dirName,
+                        };
+                    }),
                     albums: [],
                     photos: [],
                 })
@@ -152,16 +164,20 @@ function prepareAlbums(filesInfo) {
                     const findDirInIndex = lodash.findIndex(alb[findDirPrevIndex].albums, (albumItem) => albumItem.id === id);
                     if (findDirInIndex < 0) {
                         alb[findDirPrevIndex].albums.push({
-                            // id: alb[findDirIndex].id,
                             id: getDirId(fileInfo.dir, level + 1),
                             name: alb[findDirIndex].name,
                             level: alb[findDirIndex].level,
-                            photos: [],
-                            url: {
-                                original: '',
-                                preview: ''
-                            },
-                            count: 0
+                            photos: [{
+                                id: index,
+                                url: {
+                                    original: fileInfo.path.original,
+                                    preview: fileInfo.path.preview,
+                                },
+                                name: alb[findDirIndex].name,
+                                isCover: false
+                            }],
+                            // FIXME count
+                            count: 5
                         })
                     }
                 }
@@ -194,7 +210,7 @@ function prepareAlbums(filesInfo) {
                 const coverPhoto = albums[findAlbumIndex].photos.filter((photo) => photo.isCover === true);
 
                 if (coverPhoto.length > 0) {
-                    innerAlbum.photos.push( {...coverPhoto[0]});
+                    innerAlbum.photos.push({...coverPhoto[0]});
                     innerAlbum.url = {
                         original: coverPhoto[0].url.original,
                         preview: coverPhoto[0].url.preview,
@@ -210,7 +226,8 @@ function prepareAlbums(filesInfo) {
 
                 }
 
-                innerAlbum.count = albums[findAlbumIndex].photos.length;
+                // FIXME count
+                innerAlbum.count = albums[findAlbumIndex].photos.length ? albums[findAlbumIndex].photos.length : 4;
 
                 return innerAlbum;
             })
@@ -234,7 +251,7 @@ function createMockAlbumFile(albums) {
 
         fs.writeFile(path.join(mockRestAlbumDir, album.id + ".json"), getResponse(album), (err) => {
             if (err) throw err;
-            console.log('The file has been saved!');
+            // console.log('The file has been saved!');
         });
 
     })
@@ -253,8 +270,8 @@ recursive(rootDir, IGNORE_FILES, function (err, files) {
 
     createMockAlbumFile(albums);
 
-     createDirectories(filesInfo);
-     copyImages(filesInfo);
+    createDirectories(filesInfo);
+    copyImages(filesInfo);
 });
 
 

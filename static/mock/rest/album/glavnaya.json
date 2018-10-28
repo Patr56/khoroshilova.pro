@@ -1,0 +1,68 @@
+{
+  "success": true,
+  "body": {
+    "id": "glavnaya",
+    "level": 0,
+    "name": "Главная",
+    "breadcrumbs": [
+      {
+        "id": "glavnaya",
+        "name": "Главная"
+      }
+    ],
+    "albums": [
+      {
+        "id": "glavnaya-lokaciya",
+        "name": "Локация",
+        "level": 1,
+        "photos": [
+          {
+            "id": 13,
+            "url": {
+              "original": "images/original/da125-katya/10.jpg",
+              "preview": "images/preview/da125-katya/10.jpg"
+            },
+            "name": "Локация",
+            "isCover": false
+          }
+        ],
+        "count": 4
+      },
+      {
+        "id": "glavnaya-reportazh",
+        "name": "Репортаж",
+        "level": 1,
+        "photos": [
+          {
+            "id": 26,
+            "url": {
+              "original": "images/original/c38cd-120/10.JPG",
+              "preview": "images/preview/c38cd-120/10.JPG"
+            },
+            "name": "Репортаж",
+            "isCover": false
+          }
+        ],
+        "count": 4
+      },
+      {
+        "id": "glavnaya-studiinaya",
+        "name": "Студийная",
+        "level": 1,
+        "photos": [
+          {
+            "id": 117,
+            "url": {
+              "original": "images/original/bcf32-dasha/10.jpg",
+              "preview": "images/preview/bcf32-dasha/10.jpg"
+            },
+            "name": "Студийная",
+            "isCover": false
+          }
+        ],
+        "count": 4
+      }
+    ],
+    "photos": []
+  }
+}

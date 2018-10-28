@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "body": {
+    "id": "glavnaya-lokaciya",
+    "level": 1,
+    "name": "Локация",
+    "breadcrumbs": [
+      {
+        "id": "glavnaya",
+        "name": "Главная"
+      },
+      {
+        "id": "glavnaya-lokaciya",
+        "name": "Локация"
+      }
+    ],
+    "albums": [
+      {
+        "id": "glavnaya-lokaciya-orsk",
+        "name": "Орск",
+        "level": 2,
+        "photos": [
+          {
+            "id": 13,
+            "url": {
+              "original": "images/original/da125-katya/10.jpg",
+              "preview": "images/preview/da125-katya/10.jpg"
+            },
+            "name": "Орск",
+            "isCover": false
+          }
+        ],
+        "count": 4
+      }
+    ],
+    "photos": []
+  }
+}
