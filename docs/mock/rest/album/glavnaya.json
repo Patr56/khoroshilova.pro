@@ -12,55 +12,55 @@
     ],
     "albums": [
       {
-        "id": "glavnaya-lokaciya",
-        "name": "Локация",
-        "level": 1,
-        "photos": [
-          {
-            "id": 13,
-            "url": {
-              "original": "images/original/da125-katya/10.jpg",
-              "preview": "images/preview/da125-katya/10.jpg"
-            },
-            "name": "Локация",
-            "isCover": false
-          }
-        ],
-        "count": 4
-      },
-      {
         "id": "glavnaya-reportazh",
         "name": "Репортаж",
         "level": 1,
         "photos": [
           {
-            "id": 26,
+            "id": 100,
             "url": {
-              "original": "images/original/c38cd-120/10.JPG",
-              "preview": "images/preview/c38cd-120/10.JPG"
+              "original": "images\\original\\c38cd-120\\oblozhka.JPG",
+              "preview": "images\\preview\\c38cd-120\\oblozhka.JPG"
             },
             "name": "Репортаж",
-            "isCover": false
+            "isCover": true
           }
         ],
-        "count": 4
+        "count": 1
       },
       {
-        "id": "glavnaya-studiinaya",
-        "name": "Студийная",
+        "id": "glavnaya-lokaciya",
+        "name": "Локация",
         "level": 1,
         "photos": [
           {
-            "id": 117,
+            "id": 115,
             "url": {
-              "original": "images/original/bcf32-dasha/10.jpg",
-              "preview": "images/preview/bcf32-dasha/10.jpg"
+              "original": "images\\original\\da125-katya\\oblozhka.jpg",
+              "preview": "images\\preview\\da125-katya\\oblozhka.jpg"
             },
-            "name": "Студийная",
-            "isCover": false
+            "name": "Локация",
+            "isCover": true
           }
         ],
-        "count": 4
+        "count": 1
+      },
+      {
+        "id": "glavnaya-studiynaya",
+        "name": "Студийная",
+        "level": 1,
+        "photos": [
+          {
+            "id": 118,
+            "url": {
+              "original": "images\\original\\920b3-sasha\\oblozhka.jpg",
+              "preview": "images\\preview\\920b3-sasha\\oblozhka.jpg"
+            },
+            "name": "Студийная",
+            "isCover": true
+          }
+        ],
+        "count": 1
       }
     ],
     "photos": []

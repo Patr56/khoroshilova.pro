@@ -1,0 +1,227 @@
+{
+  "success": true,
+  "body": {
+    "id": "glavnaya-studiynaya-devushki-kseniya",
+    "level": 3,
+    "name": "Ксения",
+    "breadcrumbs": [
+      {
+        "id": "glavnaya",
+        "name": "Главная"
+      },
+      {
+        "id": "glavnaya-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki",
+        "name": "Девушки"
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-kseniya",
+        "name": "Ксения"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 139,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\1.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\1.jpg"
+        },
+        "name": "1.jpg",
+        "isCover": false
+      },
+      {
+        "id": 140,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\10.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\10.jpg"
+        },
+        "name": "10.jpg",
+        "isCover": false
+      },
+      {
+        "id": 141,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\11.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\11.jpg"
+        },
+        "name": "11.jpg",
+        "isCover": false
+      },
+      {
+        "id": 142,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\12.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\12.jpg"
+        },
+        "name": "12.jpg",
+        "isCover": false
+      },
+      {
+        "id": 143,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\14.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\14.jpg"
+        },
+        "name": "14.jpg",
+        "isCover": false
+      },
+      {
+        "id": 144,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\13.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\13.jpg"
+        },
+        "name": "13.jpg",
+        "isCover": false
+      },
+      {
+        "id": 145,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\15.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\15.jpg"
+        },
+        "name": "15.jpg",
+        "isCover": false
+      },
+      {
+        "id": 146,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\17.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\17.jpg"
+        },
+        "name": "17.jpg",
+        "isCover": false
+      },
+      {
+        "id": 147,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\16.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\16.jpg"
+        },
+        "name": "16.jpg",
+        "isCover": false
+      },
+      {
+        "id": 148,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\19.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\19.jpg"
+        },
+        "name": "19.jpg",
+        "isCover": false
+      },
+      {
+        "id": 149,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\18.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\18.jpg"
+        },
+        "name": "18.jpg",
+        "isCover": false
+      },
+      {
+        "id": 150,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\2.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\2.jpg"
+        },
+        "name": "2.jpg",
+        "isCover": false
+      },
+      {
+        "id": 151,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\21.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\21.jpg"
+        },
+        "name": "21.jpg",
+        "isCover": false
+      },
+      {
+        "id": 152,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\20.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\20.jpg"
+        },
+        "name": "20.jpg",
+        "isCover": false
+      },
+      {
+        "id": 153,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\4.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\4.jpg"
+        },
+        "name": "4.jpg",
+        "isCover": false
+      },
+      {
+        "id": 154,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\3.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\3.jpg"
+        },
+        "name": "3.jpg",
+        "isCover": false
+      },
+      {
+        "id": 155,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\7.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\7.jpg"
+        },
+        "name": "7.jpg",
+        "isCover": false
+      },
+      {
+        "id": 156,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\8.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\8.jpg"
+        },
+        "name": "8.jpg",
+        "isCover": false
+      },
+      {
+        "id": 157,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\6.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\6.jpg"
+        },
+        "name": "6.jpg",
+        "isCover": false
+      },
+      {
+        "id": 158,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\9.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\9.jpg"
+        },
+        "name": "9.jpg",
+        "isCover": false
+      },
+      {
+        "id": 159,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
+        },
+        "name": "oblozhka.jpg",
+        "isCover": true
+      },
+      {
+        "id": 160,
+        "url": {
+          "original": "images\\original\\af8df-kseniya\\5.jpg",
+          "preview": "images\\preview\\af8df-kseniya\\5.jpg"
+        },
+        "name": "5.jpg",
+        "isCover": false
+      }
+    ]
+  }
+}

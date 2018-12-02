@@ -25,29 +25,16 @@
         "level": 3,
         "photos": [
           {
-            "id": 13,
+            "id": 115,
             "url": {
-              "original": "images/original/da125-katya/10.jpg",
-              "preview": "images/preview/da125-katya/10.jpg"
+              "original": "images\\original\\da125-katya\\oblozhka.jpg",
+              "preview": "images\\preview\\da125-katya\\oblozhka.jpg"
             },
             "name": "Катя",
-            "isCover": false
-          },
-          {
-            "id": 12,
-            "url": {
-              "original": "images/original/da125-katya/1.jpg",
-              "preview": "images/preview/da125-katya/1.jpg"
-            },
-            "name": "1.jpg",
-            "isCover": false
+            "isCover": true
           }
         ],
-        "count": 13,
-        "url": {
-          "original": "images/original/da125-katya/1.jpg",
-          "preview": "images/preview/da125-katya/1.jpg"
-        }
+        "count": 1
       }
     ],
     "photos": []

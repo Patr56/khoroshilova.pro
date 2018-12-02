@@ -21,16 +21,16 @@
         "level": 2,
         "photos": [
           {
-            "id": 13,
+            "id": 115,
             "url": {
-              "original": "images/original/da125-katya/10.jpg",
-              "preview": "images/preview/da125-katya/10.jpg"
+              "original": "images\\original\\da125-katya\\oblozhka.jpg",
+              "preview": "images\\preview\\da125-katya\\oblozhka.jpg"
             },
             "name": "Орск",
-            "isCover": false
+            "isCover": true
           }
         ],
-        "count": 4
+        "count": 1
       }
     ],
     "photos": []

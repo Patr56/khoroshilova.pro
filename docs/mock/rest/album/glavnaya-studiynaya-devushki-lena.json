@@ -1,0 +1,92 @@
+{
+  "success": true,
+  "body": {
+    "id": "glavnaya-studiynaya-devushki-lena",
+    "level": 3,
+    "name": "Лена",
+    "breadcrumbs": [
+      {
+        "id": "glavnaya",
+        "name": "Главная"
+      },
+      {
+        "id": "glavnaya-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki",
+        "name": "Девушки"
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-lena",
+        "name": "Лена"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 132,
+        "url": {
+          "original": "images\\original\\af8df-lena\\1.jpg",
+          "preview": "images\\preview\\af8df-lena\\1.jpg"
+        },
+        "name": "1.jpg",
+        "isCover": false
+      },
+      {
+        "id": 133,
+        "url": {
+          "original": "images\\original\\af8df-lena\\3.jpg",
+          "preview": "images\\preview\\af8df-lena\\3.jpg"
+        },
+        "name": "3.jpg",
+        "isCover": false
+      },
+      {
+        "id": 134,
+        "url": {
+          "original": "images\\original\\af8df-lena\\2.jpg",
+          "preview": "images\\preview\\af8df-lena\\2.jpg"
+        },
+        "name": "2.jpg",
+        "isCover": false
+      },
+      {
+        "id": 135,
+        "url": {
+          "original": "images\\original\\af8df-lena\\4.jpg",
+          "preview": "images\\preview\\af8df-lena\\4.jpg"
+        },
+        "name": "4.jpg",
+        "isCover": false
+      },
+      {
+        "id": 136,
+        "url": {
+          "original": "images\\original\\af8df-lena\\5.jpg",
+          "preview": "images\\preview\\af8df-lena\\5.jpg"
+        },
+        "name": "5.jpg",
+        "isCover": false
+      },
+      {
+        "id": 137,
+        "url": {
+          "original": "images\\original\\af8df-lena\\oblozhka.jpg",
+          "preview": "images\\preview\\af8df-lena\\oblozhka.jpg"
+        },
+        "name": "oblozhka.jpg",
+        "isCover": true
+      },
+      {
+        "id": 138,
+        "url": {
+          "original": "images\\original\\af8df-lena\\6.jpg",
+          "preview": "images\\preview\\af8df-lena\\6.jpg"
+        },
+        "name": "6.jpg",
+        "isCover": false
+      }
+    ]
+  }
+}

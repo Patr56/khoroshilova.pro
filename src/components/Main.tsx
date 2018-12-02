@@ -58,14 +58,19 @@ export class Main extends React.Component<IProps, {}> {
 
     render() {
         const {isOpen, photos, viewPhoto: {index}} = this.props;
+
+        const imagesForGallery = photos.map(photo => ({
+            src: photo.url.original,
+            thumbnail: encodeURIComponent(photo.url.preview),
+        }));
+
         return (
             <main className="main">
                 <Lightbox
-
                     enableKeyboardInput
                     backdropClosesModal
                     currentImage={index}
-                    images={photos.map(photo => ({src: photo.url.original, thumbnail: photo.url.preview}))}
+                    images={imagesForGallery}
                     isOpen={isOpen}
                     imageCountSeparator=" из "
                     showThumbnails

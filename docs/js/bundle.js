@@ -44760,7 +44760,7 @@ var Logo = /** @class */ (function (_super) {
             React.createElement(react_router_dom_1.Link, { className: "link logo_image", to: "/", title: "\u0422\u0430\u0442\u044C\u044F\u043D\u0430 \u0425\u043E\u0440\u043E\u0448\u0438\u043B\u043E\u0432\u0430" }),
             React.createElement("div", { className: "logo_info" },
                 React.createElement("h1", { className: "logo_title" }, "\u0422\u0430\u0442\u044C\u044F\u043D\u0430 \u0425\u043E\u0440\u043E\u0448\u0438\u043B\u043E\u0432\u0430"),
-                React.createElement("h2", { className: "logo_subtitle" }, "\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444"))));
+                React.createElement("h2", { className: "logo_subtitle" }, "\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444-\u043F\u043E\u0440\u0442\u0440\u0435\u0442\u0438\u0441\u0442"))));
     };
     return Logo;
 }(React.Component));
@@ -44826,8 +44826,12 @@ var Main = /** @class */ (function (_super) {
     }
     Main.prototype.render = function () {
         var _a = this.props, isOpen = _a.isOpen, photos = _a.photos, index = _a.viewPhoto.index;
+        var imagesForGallery = photos.map(function (photo) { return ({
+            src: photo.url.original,
+            thumbnail: encodeURIComponent(photo.url.preview),
+        }); });
         return (React.createElement("main", { className: "main" },
-            React.createElement(react_images_1.default, { enableKeyboardInput: true, backdropClosesModal: true, currentImage: index, images: photos.map(function (photo) { return ({ src: photo.url.original, thumbnail: photo.url.preview }); }), isOpen: isOpen, imageCountSeparator: " \u0438\u0437 ", showThumbnails: true, onClickPrev: this.handlePrev, onClickNext: this.handleNext, onClickThumbnail: this.handleClickThumbnail, onClose: this.handleClose }),
+            React.createElement(react_images_1.default, { enableKeyboardInput: true, backdropClosesModal: true, currentImage: index, images: imagesForGallery, isOpen: isOpen, imageCountSeparator: " \u0438\u0437 ", showThumbnails: true, onClickPrev: this.handlePrev, onClickNext: this.handleNext, onClickThumbnail: this.handleClickThumbnail, onClose: this.handleClose }),
             React.createElement(react_router_1.Switch, null,
                 React.createElement(react_router_1.Route, { path: "/", component: Home_1.default, exact: true }),
                 React.createElement(react_router_1.Route, { path: "/blog", component: Blog_1.Blog }),
