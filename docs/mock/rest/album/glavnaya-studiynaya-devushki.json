@@ -4,6 +4,7 @@
     "id": "glavnaya-studiynaya-devushki",
     "level": 2,
     "name": "Девушки",
+    "date": "2018-10-22T12:18:27.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -25,7 +26,7 @@
         "level": 3,
         "photos": [
           {
-            "id": 130,
+            "id": 127,
             "url": {
               "original": "images\\original\\af8df-dasha\\oblozhka.jpg",
               "preview": "images\\preview\\af8df-dasha\\oblozhka.jpg"
@@ -34,41 +35,7 @@
             "isCover": true
           }
         ],
-        "count": 1
-      },
-      {
-        "id": "glavnaya-studiynaya-devushki-lena",
-        "name": "Лена",
-        "level": 3,
-        "photos": [
-          {
-            "id": 137,
-            "url": {
-              "original": "images\\original\\af8df-lena\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-lena\\oblozhka.jpg"
-            },
-            "name": "Лена",
-            "isCover": true
-          }
-        ],
-        "count": 1
-      },
-      {
-        "id": "glavnaya-studiynaya-devushki-kseniya",
-        "name": "Ксения",
-        "level": 3,
-        "photos": [
-          {
-            "id": 159,
-            "url": {
-              "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
-            },
-            "name": "Ксения",
-            "isCover": true
-          }
-        ],
-        "count": 1
+        "count": 12
       },
       {
         "id": "glavnaya-studiynaya-devushki-kristina",
@@ -76,7 +43,7 @@
         "level": 3,
         "photos": [
           {
-            "id": 165,
+            "id": 132,
             "url": {
               "original": "images\\original\\af8df-kristina\\oblozhka.jpg",
               "preview": "images\\preview\\af8df-kristina\\oblozhka.jpg"
@@ -85,7 +52,41 @@
             "isCover": true
           }
         ],
-        "count": 1
+        "count": 6
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-kseniya",
+        "name": "Ксения",
+        "level": 3,
+        "photos": [
+          {
+            "id": 154,
+            "url": {
+              "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
+            },
+            "name": "Ксения",
+            "isCover": true
+          }
+        ],
+        "count": 22
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-lena",
+        "name": "Лена",
+        "level": 3,
+        "photos": [
+          {
+            "id": 162,
+            "url": {
+              "original": "images\\original\\af8df-lena\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-lena\\oblozhka.jpg"
+            },
+            "name": "Лена",
+            "isCover": true
+          }
+        ],
+        "count": 7
       }
     ],
     "photos": []

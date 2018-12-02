@@ -4,6 +4,7 @@
     "id": "glavnaya-studiynaya-parni",
     "level": 2,
     "name": "Парни",
+    "date": "2018-10-03T14:47:35.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -25,7 +26,7 @@
         "level": 3,
         "photos": [
           {
-            "id": 118,
+            "id": 166,
             "url": {
               "original": "images\\original\\920b3-sasha\\oblozhka.jpg",
               "preview": "images\\preview\\920b3-sasha\\oblozhka.jpg"
@@ -34,7 +35,7 @@
             "isCover": true
           }
         ],
-        "count": 1
+        "count": 4
       }
     ],
     "photos": []

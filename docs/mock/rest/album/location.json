@@ -4,6 +4,7 @@
     "id": "location",
     "level": 0,
     "name": "location",
+    "date": "2018-10-15T17:28:24.000Z",
     "breadcrumbs": [
       {
         "id": "location",
@@ -15,15 +16,6 @@
       {
         "id": 0,
         "url": {
-          "original": "images\\original\\d41d8-location\\11.jpg",
-          "preview": "images\\preview\\d41d8-location\\11.jpg"
-        },
-        "name": "11.jpg",
-        "isCover": false
-      },
-      {
-        "id": 1,
-        "url": {
           "original": "images\\original\\d41d8-location\\10.jpg",
           "preview": "images\\preview\\d41d8-location\\10.jpg"
         },
@@ -31,22 +23,31 @@
         "isCover": false
       },
       {
-        "id": 2,
+        "id": 1,
         "url": {
-          "original": "images\\original\\d41d8-location\\12.jpg",
-          "preview": "images\\preview\\d41d8-location\\12.jpg"
+          "original": "images\\original\\d41d8-location\\11.jpg",
+          "preview": "images\\preview\\d41d8-location\\11.jpg"
         },
-        "name": "12.jpg",
+        "name": "11.jpg",
         "isCover": false
       },
       {
-        "id": 3,
+        "id": 2,
         "url": {
           "original": "images\\original\\d41d8-location\\oblozhka.jpg",
           "preview": "images\\preview\\d41d8-location\\oblozhka.jpg"
         },
         "name": "oblozhka.jpg",
         "isCover": true
+      },
+      {
+        "id": 3,
+        "url": {
+          "original": "images\\original\\d41d8-location\\12.jpg",
+          "preview": "images\\preview\\d41d8-location\\12.jpg"
+        },
+        "name": "12.jpg",
+        "isCover": false
       }
     ]
   }

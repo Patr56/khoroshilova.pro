@@ -4,6 +4,7 @@
     "id": "glavnaya-studiynaya-devushki-lena",
     "level": 3,
     "name": "Лена",
+    "date": "2018-10-25T12:21:00.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -25,7 +26,7 @@
     "albums": [],
     "photos": [
       {
-        "id": 132,
+        "id": 156,
         "url": {
           "original": "images\\original\\af8df-lena\\1.jpg",
           "preview": "images\\preview\\af8df-lena\\1.jpg"
@@ -34,16 +35,7 @@
         "isCover": false
       },
       {
-        "id": 133,
-        "url": {
-          "original": "images\\original\\af8df-lena\\3.jpg",
-          "preview": "images\\preview\\af8df-lena\\3.jpg"
-        },
-        "name": "3.jpg",
-        "isCover": false
-      },
-      {
-        "id": 134,
+        "id": 157,
         "url": {
           "original": "images\\original\\af8df-lena\\2.jpg",
           "preview": "images\\preview\\af8df-lena\\2.jpg"
@@ -52,7 +44,16 @@
         "isCover": false
       },
       {
-        "id": 135,
+        "id": 158,
+        "url": {
+          "original": "images\\original\\af8df-lena\\3.jpg",
+          "preview": "images\\preview\\af8df-lena\\3.jpg"
+        },
+        "name": "3.jpg",
+        "isCover": false
+      },
+      {
+        "id": 159,
         "url": {
           "original": "images\\original\\af8df-lena\\4.jpg",
           "preview": "images\\preview\\af8df-lena\\4.jpg"
@@ -61,7 +62,16 @@
         "isCover": false
       },
       {
-        "id": 136,
+        "id": 160,
+        "url": {
+          "original": "images\\original\\af8df-lena\\6.jpg",
+          "preview": "images\\preview\\af8df-lena\\6.jpg"
+        },
+        "name": "6.jpg",
+        "isCover": false
+      },
+      {
+        "id": 161,
         "url": {
           "original": "images\\original\\af8df-lena\\5.jpg",
           "preview": "images\\preview\\af8df-lena\\5.jpg"
@@ -70,22 +80,13 @@
         "isCover": false
       },
       {
-        "id": 137,
+        "id": 162,
         "url": {
           "original": "images\\original\\af8df-lena\\oblozhka.jpg",
           "preview": "images\\preview\\af8df-lena\\oblozhka.jpg"
         },
         "name": "oblozhka.jpg",
         "isCover": true
-      },
-      {
-        "id": 138,
-        "url": {
-          "original": "images\\original\\af8df-lena\\6.jpg",
-          "preview": "images\\preview\\af8df-lena\\6.jpg"
-        },
-        "name": "6.jpg",
-        "isCover": false
       }
     ]
   }

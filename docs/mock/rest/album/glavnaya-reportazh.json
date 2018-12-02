@@ -4,6 +4,7 @@
     "id": "glavnaya-reportazh",
     "level": 1,
     "name": "Репортаж",
+    "date": "2018-10-21T10:22:44.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -21,7 +22,7 @@
         "level": 2,
         "photos": [
           {
-            "id": 100,
+            "id": 115,
             "url": {
               "original": "images\\original\\c38cd-120\\oblozhka.JPG",
               "preview": "images\\preview\\c38cd-120\\oblozhka.JPG"
@@ -30,7 +31,7 @@
             "isCover": true
           }
         ],
-        "count": 1
+        "count": 91
       }
     ],
     "photos": []

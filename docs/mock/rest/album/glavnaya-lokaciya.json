@@ -4,6 +4,7 @@
     "id": "glavnaya-lokaciya",
     "level": 1,
     "name": "Локация",
+    "date": "2018-10-06T15:49:46.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -21,7 +22,7 @@
         "level": 2,
         "photos": [
           {
-            "id": 115,
+            "id": 24,
             "url": {
               "original": "images\\original\\da125-katya\\oblozhka.jpg",
               "preview": "images\\preview\\da125-katya\\oblozhka.jpg"
@@ -30,7 +31,7 @@
             "isCover": true
           }
         ],
-        "count": 1
+        "count": 13
       }
     ],
     "photos": []

@@ -3,7 +3,7 @@ import * as React from "react";
 import Lightbox from "react-images";
 import {Route, Switch, withRouter, RouteComponentProps} from "react-router";
 
-import Home from "./pages/home/Home";
+import {Home} from "./pages/home/Home";
 import {Blog} from "./pages/blog/Blog";
 import Portfolio from "./pages/portfolio/Portfolio";
 import {Price} from "./pages/price/Price";

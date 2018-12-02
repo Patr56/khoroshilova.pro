@@ -44833,7 +44833,7 @@ var Main = /** @class */ (function (_super) {
         return (React.createElement("main", { className: "main" },
             React.createElement(react_images_1.default, { enableKeyboardInput: true, backdropClosesModal: true, currentImage: index, images: imagesForGallery, isOpen: isOpen, imageCountSeparator: " \u0438\u0437 ", showThumbnails: true, onClickPrev: this.handlePrev, onClickNext: this.handleNext, onClickThumbnail: this.handleClickThumbnail, onClose: this.handleClose }),
             React.createElement(react_router_1.Switch, null,
-                React.createElement(react_router_1.Route, { path: "/", component: Home_1.default, exact: true }),
+                React.createElement(react_router_1.Route, { path: "/", component: Home_1.Home, exact: true }),
                 React.createElement(react_router_1.Route, { path: "/blog", component: Blog_1.Blog }),
                 React.createElement(react_router_1.Route, { path: "/portfolio/:id", component: Portfolio_1.default }),
                 React.createElement(react_router_1.Route, { path: "/price", component: Price_1.Price }),
@@ -45217,10 +45217,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "react");
-var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var Breadcrumbs_1 = __webpack_require__(/*! ../../Breadcrumbs */ "./src/components/Breadcrumbs.tsx");
 var AlbumList_1 = __webpack_require__(/*! ../../AlbumList */ "./src/components/AlbumList.tsx");
-var Actions_1 = __webpack_require__(/*! ../../../Actions */ "./src/Actions.ts");
 var breadcrumbs = [
     {
         id: "/",
@@ -45235,24 +45233,11 @@ var Home = /** @class */ (function (_super) {
     Home.prototype.render = function () {
         return (React.createElement("div", null,
             React.createElement(Breadcrumbs_1.Breadcrumbs, { breadcrumbs: breadcrumbs }),
-            React.createElement(AlbumList_1.default, { id: "glavnaya-studiinaya" })));
+            React.createElement(AlbumList_1.default, { id: "last" })));
     };
     return Home;
 }(React.Component));
 exports.Home = Home;
-var mapStateToProps = function (store) {
-    return {
-        lastAlbums: store.reducerLastAlbums.lastAlbums,
-    };
-};
-var mapDispatchToProps = function (dispatch) {
-    return {
-        loadLastAlbums: function () {
-            dispatch(Actions_1.getLastAlbums());
-        }
-    };
-};
-exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Home);
 
 
 /***/ }),
