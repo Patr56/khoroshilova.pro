@@ -44572,7 +44572,7 @@ var Breadcrumbs = /** @class */ (function (_super) {
         var lastIndex = breadcrumbs.length - 1;
         return (React.createElement("div", { className: "breadcrumbs" },
             React.createElement("h2", null, breadcrumbs.map(function (breadcrumb, index) { return (React.createElement(React.Fragment, { key: breadcrumb.id },
-                React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: breadcrumb.id }, breadcrumb.name),
+                React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: breadcrumb.id, isActive: function () { return index === lastIndex; } }, breadcrumb.name),
                 index < lastIndex && React.createElement("span", { className: "divider" }))); }))));
     };
     return Breadcrumbs;
@@ -44827,7 +44827,7 @@ var Main = /** @class */ (function (_super) {
     Main.prototype.render = function () {
         var _a = this.props, isOpen = _a.isOpen, photos = _a.photos, index = _a.viewPhoto.index;
         return (React.createElement("main", { className: "main" },
-            React.createElement(react_images_1.default, { currentImage: index, images: photos.map(function (photo) { return ({ src: photo.url.original, thumbnail: photo.url.preview }); }), isOpen: isOpen, imageCountSeparator: " \u0438\u0437 ", showThumbnails: true, onClickPrev: this.handlePrev, onClickNext: this.handleNext, onClickThumbnail: this.handleClickThumbnail, onClose: this.handleClose }),
+            React.createElement(react_images_1.default, { enableKeyboardInput: true, backdropClosesModal: true, currentImage: index, images: photos.map(function (photo) { return ({ src: photo.url.original, thumbnail: photo.url.preview }); }), isOpen: isOpen, imageCountSeparator: " \u0438\u0437 ", showThumbnails: true, onClickPrev: this.handlePrev, onClickNext: this.handleNext, onClickThumbnail: this.handleClickThumbnail, onClose: this.handleClose }),
             React.createElement(react_router_1.Switch, null,
                 React.createElement(react_router_1.Route, { path: "/", component: Home_1.default, exact: true }),
                 React.createElement(react_router_1.Route, { path: "/blog", component: Blog_1.Blog }),

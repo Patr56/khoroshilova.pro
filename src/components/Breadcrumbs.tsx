@@ -24,7 +24,7 @@ export class Breadcrumbs extends React.Component<IProps, {}> {
                 <h2>
                     {breadcrumbs.map((breadcrumb, index) => (
                         <React.Fragment key={breadcrumb.id}>
-                            <NavLink className="link" activeClassName="link__active" to={breadcrumb.id}>{breadcrumb.name}</NavLink>
+                            <NavLink className="link" activeClassName="link__active" to={breadcrumb.id} isActive={() => index === lastIndex}>{breadcrumb.name}</NavLink>
                             {index < lastIndex && <span className="divider" />}
                         </React.Fragment>
                     ))}
