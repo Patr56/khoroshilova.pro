@@ -1,0 +1,83 @@
+{
+  "success": true,
+  "body": {
+    "id": "glavnaya-studiynaya-devushki-kristina",
+    "level": 3,
+    "name": "Кристина",
+    "breadcrumbs": [
+      {
+        "id": "glavnaya",
+        "name": "Главная"
+      },
+      {
+        "id": "glavnaya-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki",
+        "name": "Девушки"
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-kristina",
+        "name": "Кристина"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 161,
+        "url": {
+          "original": "images\\original\\af8df-kristina\\1.jpg",
+          "preview": "images\\preview\\af8df-kristina\\1.jpg"
+        },
+        "name": "1.jpg",
+        "isCover": false
+      },
+      {
+        "id": 162,
+        "url": {
+          "original": "images\\original\\af8df-kristina\\2.jpg",
+          "preview": "images\\preview\\af8df-kristina\\2.jpg"
+        },
+        "name": "2.jpg",
+        "isCover": false
+      },
+      {
+        "id": 163,
+        "url": {
+          "original": "images\\original\\af8df-kristina\\4.jpg",
+          "preview": "images\\preview\\af8df-kristina\\4.jpg"
+        },
+        "name": "4.jpg",
+        "isCover": false
+      },
+      {
+        "id": 164,
+        "url": {
+          "original": "images\\original\\af8df-kristina\\3.jpg",
+          "preview": "images\\preview\\af8df-kristina\\3.jpg"
+        },
+        "name": "3.jpg",
+        "isCover": false
+      },
+      {
+        "id": 165,
+        "url": {
+          "original": "images\\original\\af8df-kristina\\oblozhka.jpg",
+          "preview": "images\\preview\\af8df-kristina\\oblozhka.jpg"
+        },
+        "name": "oblozhka.jpg",
+        "isCover": true
+      },
+      {
+        "id": 166,
+        "url": {
+          "original": "images\\original\\af8df-kristina\\5.jpg",
+          "preview": "images\\preview\\af8df-kristina\\5.jpg"
+        },
+        "name": "5.jpg",
+        "isCover": false
+      }
+    ]
+  }
+}

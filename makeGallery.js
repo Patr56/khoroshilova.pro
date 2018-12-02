@@ -21,9 +21,9 @@ const options = {x: 0, y: 0, fontSize: 72, anchor: 'top', attributes: attributes
 const watermarkLogo = textToSVG.getSVG('khoroshilova.pro', options);
 
 // For Win
-// const rootDir = path.join("E:", "photo", "for_site");
+const rootDir = path.join("E:", "photo", "for_site");
 // For Mac
-const rootDir = path.join("/", "Users", "pavel", "for_site");
+// const rootDir = path.join("/", "Users", "pavel", "for_site");
 const staticDir = path.join(__dirname, "static");
 const imagesDir = path.join(staticDir, "images");
 const mockRestDir = path.join(staticDir, "mock", "rest");
@@ -51,6 +51,8 @@ function prepareFileInfo(originalPath, index) {
 
     const directoryName = `${hashDir}-${slugify(dir[dir.length - 1])}`;
 
+    const isCover = fileName.startsWith('oblozhka');
+
     return {
         id: index,
         originalPath: originalPath,
@@ -59,6 +61,7 @@ function prepareFileInfo(originalPath, index) {
         dir: dir,
         originalFileName,
         fileName,
+        isCover,
         path: {
             preview: path.join("images", PREVIEW, directoryName, fileName),
             original: path.join("images", ORIGINAL, directoryName, fileName),
@@ -100,10 +103,7 @@ function copyImages(filesInfo) {
                     position: sharp.position.top
                 })
                 .toFile(path.join(staticDir, fileInfo.path.preview))
-                .then(() => {
-                    // console.log('done pre', fileInfo.path.preview);
-                    resolve()
-                });
+                .then(() => resolve());
         });
 
 
@@ -113,10 +113,7 @@ function copyImages(filesInfo) {
                 .resize(960)
                 .overlayWith(new Buffer(watermarkLogo), {gravity: sharp.gravity.southeast})
                 .toFile(path.join(staticDir, fileInfo.path.original))
-                .then(() => {
-                    // console.log('done ori', fileInfo.path.original);
-                    resolve()
-                });
+                .then(() => resolve());
         });
 
         promiseArray.push(pre, ori)
@@ -174,10 +171,8 @@ function prepareAlbums(filesInfo) {
                                     preview: fileInfo.path.preview,
                                 },
                                 name: alb[findDirIndex].name,
-                                isCover: false
+                                isCover: fileInfo.isCover
                             }],
-                            // FIXME count
-                            count: 5
                         })
                     }
                 }
@@ -195,39 +190,35 @@ function prepareAlbums(filesInfo) {
                     preview: fileInfo.path.preview,
                 },
                 name: fileInfo.fileName,
-                isCover: false
+                isCover: fileInfo.isCover
             })
         }
 
         return alb;
     }, []);
 
-    const albumsAddAlbumInfo = albums.map((album) => {
+    return albums.map((album) => {
 
         if (album.albums.length > 0) {
             album.albums = album.albums.map((innerAlbum) => {
-                const findAlbumIndex = lodash.findIndex(albums, (albumItem) => albumItem.id === innerAlbum.id);
-                const coverPhoto = albums[findAlbumIndex].photos.filter((photo) => photo.isCover === true);
 
-                if (coverPhoto.length > 0) {
-                    innerAlbum.photos.push({...coverPhoto[0]});
-                    innerAlbum.url = {
-                        original: coverPhoto[0].url.original,
-                        preview: coverPhoto[0].url.preview,
+                // Рекурсивно ищем обложку для альбома.
+                function findCoverPhotoForAlbum (innerAlb) {
+                    const albumIndex = lodash.findIndex(albums, (albumItem) => albumItem.id === innerAlb.id);
+                    const coverPhoto = albums[albumIndex].photos.filter((photo) => photo.isCover === true);
+                    if (coverPhoto.length > 0) {
+                        return {...coverPhoto[0]};
+                    } else {
+                        return findCoverPhotoForAlbum(albums[albumIndex].albums[0]);
                     }
-                } else {
-                    if (albums[findAlbumIndex].photos.length > 0) {
-                        innerAlbum.photos.push({...albums[findAlbumIndex].photos[0]});
-                        innerAlbum.url = {
-                            original: albums[findAlbumIndex].photos[0].url.original,
-                            preview: albums[findAlbumIndex].photos[0].url.preview,
-                        }
-                    }
-
                 }
 
-                // FIXME count
-                innerAlbum.count = albums[findAlbumIndex].photos.length ? albums[findAlbumIndex].photos.length : 4;
+                innerAlbum.count = innerAlbum.photos.length;
+
+                innerAlbum.photos = [{
+                    ...findCoverPhotoForAlbum(innerAlbum),
+                    name: innerAlbum.name,
+                }];
 
                 return innerAlbum;
             })
@@ -235,8 +226,6 @@ function prepareAlbums(filesInfo) {
 
         return album;
     });
-
-    return albumsAddAlbumInfo;
 }
 
 function getResponse(body) {

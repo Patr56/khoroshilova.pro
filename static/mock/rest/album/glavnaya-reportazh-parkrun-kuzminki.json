@@ -25,29 +25,16 @@
         "level": 3,
         "photos": [
           {
-            "id": 26,
+            "id": 100,
             "url": {
-              "original": "images/original/c38cd-120/10.JPG",
-              "preview": "images/preview/c38cd-120/10.JPG"
+              "original": "images\\original\\c38cd-120\\oblozhka.JPG",
+              "preview": "images\\preview\\c38cd-120\\oblozhka.JPG"
             },
             "name": "120",
-            "isCover": false
-          },
-          {
-            "id": 25,
-            "url": {
-              "original": "images/original/c38cd-120/1.JPG",
-              "preview": "images/preview/c38cd-120/1.JPG"
-            },
-            "name": "1.JPG",
-            "isCover": false
+            "isCover": true
           }
         ],
-        "count": 91,
-        "url": {
-          "original": "images/original/c38cd-120/1.JPG",
-          "preview": "images/preview/c38cd-120/1.JPG"
-        }
+        "count": 1
       }
     ],
     "photos": []

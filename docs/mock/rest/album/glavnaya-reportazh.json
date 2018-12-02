@@ -21,16 +21,16 @@
         "level": 2,
         "photos": [
           {
-            "id": 26,
+            "id": 100,
             "url": {
-              "original": "images/original/c38cd-120/10.JPG",
-              "preview": "images/preview/c38cd-120/10.JPG"
+              "original": "images\\original\\c38cd-120\\oblozhka.JPG",
+              "preview": "images\\preview\\c38cd-120\\oblozhka.JPG"
             },
             "name": "Parkrun Кузминки",
-            "isCover": false
+            "isCover": true
           }
         ],
-        "count": 4
+        "count": 1
       }
     ],
     "photos": []

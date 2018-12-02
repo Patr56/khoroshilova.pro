@@ -13,40 +13,40 @@
     "albums": [],
     "photos": [
       {
-        "id": 8,
+        "id": 4,
         "url": {
-          "original": "images/original/d41d8-simple/3.jpg",
-          "preview": "images/preview/d41d8-simple/3.jpg"
+          "original": "images\\original\\d41d8-simple\\3.jpg",
+          "preview": "images\\preview\\d41d8-simple\\3.jpg"
         },
         "name": "3.jpg",
         "isCover": false
       },
       {
-        "id": 9,
+        "id": 5,
         "url": {
-          "original": "images/original/d41d8-simple/4.jpg",
-          "preview": "images/preview/d41d8-simple/4.jpg"
-        },
-        "name": "4.jpg",
-        "isCover": false
-      },
-      {
-        "id": 10,
-        "url": {
-          "original": "images/original/d41d8-simple/5.jpg",
-          "preview": "images/preview/d41d8-simple/5.jpg"
+          "original": "images\\original\\d41d8-simple\\5.jpg",
+          "preview": "images\\preview\\d41d8-simple\\5.jpg"
         },
         "name": "5.jpg",
         "isCover": false
       },
       {
-        "id": 11,
+        "id": 6,
         "url": {
-          "original": "images/original/d41d8-simple/oblozhka.jpg",
-          "preview": "images/preview/d41d8-simple/oblozhka.jpg"
+          "original": "images\\original\\d41d8-simple\\4.jpg",
+          "preview": "images\\preview\\d41d8-simple\\4.jpg"
+        },
+        "name": "4.jpg",
+        "isCover": false
+      },
+      {
+        "id": 7,
+        "url": {
+          "original": "images\\original\\d41d8-simple\\oblozhka.jpg",
+          "preview": "images\\preview\\d41d8-simple\\oblozhka.jpg"
         },
         "name": "oblozhka.jpg",
-        "isCover": false
+        "isCover": true
       }
     ]
   }
