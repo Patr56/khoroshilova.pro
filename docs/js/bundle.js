@@ -44828,7 +44828,7 @@ var Main = /** @class */ (function (_super) {
         var _a = this.props, isOpen = _a.isOpen, photos = _a.photos, index = _a.viewPhoto.index;
         var imagesForGallery = photos.map(function (photo) { return ({
             src: photo.url.original,
-            thumbnail: encodeURIComponent(photo.url.preview),
+            thumbnail: photo.url.preview.replace(/\\/g, '/'),
         }); });
         return (React.createElement("main", { className: "main" },
             React.createElement(react_images_1.default, { enableKeyboardInput: true, backdropClosesModal: true, currentImage: index, images: imagesForGallery, isOpen: isOpen, imageCountSeparator: " \u0438\u0437 ", showThumbnails: true, onClickPrev: this.handlePrev, onClickNext: this.handleNext, onClickThumbnail: this.handleClickThumbnail, onClose: this.handleClose }),

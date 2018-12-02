@@ -61,7 +61,7 @@ export class Main extends React.Component<IProps, {}> {
 
         const imagesForGallery = photos.map(photo => ({
             src: photo.url.original,
-            thumbnail: encodeURIComponent(photo.url.preview),
+            thumbnail: photo.url.preview.replace(/\\/g, '/'),
         }));
 
         return (
