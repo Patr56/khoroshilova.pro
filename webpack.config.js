@@ -60,6 +60,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(DOCS),
         new CopyWebpackPlugin([
+            { from: 'CNAME'},
             { from: 'static'},
             { from: 'node_modules/react/umd/react.development.js', to: 'js/react.development.js' },
             { from: 'node_modules/react-dom/umd/react-dom.development.js', to: 'js/react-dom.development.js' }
