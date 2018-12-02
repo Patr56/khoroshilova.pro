@@ -38,6 +38,8 @@ const ORIGINAL = "original";
 const PREVIEW = "preview";
 
 function prepareFileInfo(originalPath, index) {
+    const stats = fs.statSync(originalPath);
+
     const dir = originalPath.replace(rootDir, "").split(path.sep);
 
     dir.shift();
@@ -62,6 +64,7 @@ function prepareFileInfo(originalPath, index) {
         originalFileName,
         fileName,
         isCover,
+        date: stats.mtime,
         path: {
             preview: path.join("images", PREVIEW, directoryName, fileName),
             original: path.join("images", ORIGINAL, directoryName, fileName),
@@ -146,6 +149,7 @@ function prepareAlbums(filesInfo) {
                     id,
                     level,
                     name,
+                    date: fileInfo.date,
                     breadcrumbs: parentDirs.map((dirName, index) => {
                         return {
                             id: getDirId(parentDirs, index + 1),
@@ -207,16 +211,21 @@ function prepareAlbums(filesInfo) {
                     const albumIndex = lodash.findIndex(albums, (albumItem) => albumItem.id === innerAlb.id);
                     const coverPhoto = albums[albumIndex].photos.filter((photo) => photo.isCover === true);
                     if (coverPhoto.length > 0) {
-                        return {...coverPhoto[0]};
+                        return {
+                            count: albums[albumIndex].photos.length,
+                            coverPhoto: {...coverPhoto[0]}
+                        };
                     } else {
                         return findCoverPhotoForAlbum(albums[albumIndex].albums[0]);
                     }
                 }
 
-                innerAlbum.count = innerAlbum.photos.length;
+                const infoAboutCover = findCoverPhotoForAlbum(innerAlbum);
+
+                innerAlbum.count = infoAboutCover.count;
 
                 innerAlbum.photos = [{
-                    ...findCoverPhotoForAlbum(innerAlbum),
+                    ...infoAboutCover.coverPhoto,
                     name: innerAlbum.name,
                 }];
 
@@ -235,15 +244,39 @@ function getResponse(body) {
     }, null, 2)
 }
 
+const lastAlbums = {
+    id: "last",
+    level: 0,
+    name: "last",
+    albums: [],
+    photos: []
+};
+
 function createMockAlbumFile(albums) {
     albums.forEach((album) => {
 
         fs.writeFile(path.join(mockRestAlbumDir, album.id + ".json"), getResponse(album), (err) => {
             if (err) throw err;
-            // console.log('The file has been saved!');
         });
 
-    })
+    });
+
+    const last = albums.filter((a) => a.photos.length > 0 && a.level > 0)
+        .sort((a1, a2) => new Date(a2.date).getTime() - new Date(a1.date).getTime()).slice(0, 4)
+        .reduce((all, alb) => {
+            delete alb.breadcrumbs;
+            alb.count = alb.photos.length;
+            alb.photos = alb.photos.filter((a) => a.isCover);
+            alb.photos[0].name = alb.name;
+            all.albums = all.albums.concat(alb);
+            return all;
+        }, lastAlbums);
+
+    fs.writeFile(path.join(mockRestAlbumDir, "last.json"), getResponse(last), (err) => {
+        if (err) throw err;
+        // console.log('The file has been saved!');
+    });
+
 }
 
 recursive(rootDir, IGNORE_FILES, function (err, files) {

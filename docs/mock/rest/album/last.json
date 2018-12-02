@@ -1,0 +1,87 @@
+{
+  "success": true,
+  "body": {
+    "id": "last",
+    "level": 0,
+    "name": "last",
+    "albums": [
+      {
+        "id": "glavnaya-studiynaya-devushki-lena",
+        "level": 3,
+        "name": "Лена",
+        "date": "2018-10-25T12:21:00.000Z",
+        "albums": [],
+        "photos": [
+          {
+            "id": 162,
+            "url": {
+              "original": "images\\original\\af8df-lena\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-lena\\oblozhka.jpg"
+            },
+            "name": "Лена",
+            "isCover": true
+          }
+        ],
+        "count": 7
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-kseniya",
+        "level": 3,
+        "name": "Ксения",
+        "date": "2018-10-25T10:31:21.000Z",
+        "albums": [],
+        "photos": [
+          {
+            "id": 154,
+            "url": {
+              "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
+            },
+            "name": "Ксения",
+            "isCover": true
+          }
+        ],
+        "count": 22
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-dasha",
+        "level": 3,
+        "name": "Даша",
+        "date": "2018-10-22T12:18:27.000Z",
+        "albums": [],
+        "photos": [
+          {
+            "id": 127,
+            "url": {
+              "original": "images\\original\\af8df-dasha\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-dasha\\oblozhka.jpg"
+            },
+            "name": "Даша",
+            "isCover": true
+          }
+        ],
+        "count": 12
+      },
+      {
+        "id": "glavnaya-reportazh-parkrun-kuzminki-120",
+        "level": 3,
+        "name": "120",
+        "date": "2018-10-21T10:22:44.000Z",
+        "albums": [],
+        "photos": [
+          {
+            "id": 115,
+            "url": {
+              "original": "images\\original\\c38cd-120\\oblozhka.JPG",
+              "preview": "images\\preview\\c38cd-120\\oblozhka.JPG"
+            },
+            "name": "120",
+            "isCover": true
+          }
+        ],
+        "count": 91
+      }
+    ],
+    "photos": []
+  }
+}

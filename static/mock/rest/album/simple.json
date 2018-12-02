@@ -4,6 +4,7 @@
     "id": "simple",
     "level": 0,
     "name": "simple",
+    "date": "2018-10-03T19:15:55.000Z",
     "breadcrumbs": [
       {
         "id": "simple",
@@ -24,6 +25,15 @@
       {
         "id": 5,
         "url": {
+          "original": "images\\original\\d41d8-simple\\oblozhka.jpg",
+          "preview": "images\\preview\\d41d8-simple\\oblozhka.jpg"
+        },
+        "name": "oblozhka.jpg",
+        "isCover": true
+      },
+      {
+        "id": 6,
+        "url": {
           "original": "images\\original\\d41d8-simple\\5.jpg",
           "preview": "images\\preview\\d41d8-simple\\5.jpg"
         },
@@ -31,22 +41,13 @@
         "isCover": false
       },
       {
-        "id": 6,
+        "id": 7,
         "url": {
           "original": "images\\original\\d41d8-simple\\4.jpg",
           "preview": "images\\preview\\d41d8-simple\\4.jpg"
         },
         "name": "4.jpg",
         "isCover": false
-      },
-      {
-        "id": 7,
-        "url": {
-          "original": "images\\original\\d41d8-simple\\oblozhka.jpg",
-          "preview": "images\\preview\\d41d8-simple\\oblozhka.jpg"
-        },
-        "name": "oblozhka.jpg",
-        "isCover": true
       }
     ]
   }

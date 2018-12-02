@@ -4,6 +4,7 @@
     "id": "glavnaya-studiynaya",
     "level": 1,
     "name": "Студийная",
+    "date": "2018-10-22T12:18:27.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -16,29 +17,12 @@
     ],
     "albums": [
       {
-        "id": "glavnaya-studiynaya-parni",
-        "name": "Парни",
-        "level": 2,
-        "photos": [
-          {
-            "id": 118,
-            "url": {
-              "original": "images\\original\\920b3-sasha\\oblozhka.jpg",
-              "preview": "images\\preview\\920b3-sasha\\oblozhka.jpg"
-            },
-            "name": "Парни",
-            "isCover": true
-          }
-        ],
-        "count": 1
-      },
-      {
         "id": "glavnaya-studiynaya-devushki",
         "name": "Девушки",
         "level": 2,
         "photos": [
           {
-            "id": 130,
+            "id": 127,
             "url": {
               "original": "images\\original\\af8df-dasha\\oblozhka.jpg",
               "preview": "images\\preview\\af8df-dasha\\oblozhka.jpg"
@@ -47,7 +31,24 @@
             "isCover": true
           }
         ],
-        "count": 1
+        "count": 12
+      },
+      {
+        "id": "glavnaya-studiynaya-parni",
+        "name": "Парни",
+        "level": 2,
+        "photos": [
+          {
+            "id": 166,
+            "url": {
+              "original": "images\\original\\920b3-sasha\\oblozhka.jpg",
+              "preview": "images\\preview\\920b3-sasha\\oblozhka.jpg"
+            },
+            "name": "Парни",
+            "isCover": true
+          }
+        ],
+        "count": 4
       }
     ],
     "photos": []

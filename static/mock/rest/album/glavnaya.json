@@ -4,6 +4,7 @@
     "id": "glavnaya",
     "level": 0,
     "name": "Главная",
+    "date": "2018-10-06T15:49:46.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -12,29 +13,12 @@
     ],
     "albums": [
       {
-        "id": "glavnaya-reportazh",
-        "name": "Репортаж",
-        "level": 1,
-        "photos": [
-          {
-            "id": 100,
-            "url": {
-              "original": "images\\original\\c38cd-120\\oblozhka.JPG",
-              "preview": "images\\preview\\c38cd-120\\oblozhka.JPG"
-            },
-            "name": "Репортаж",
-            "isCover": true
-          }
-        ],
-        "count": 1
-      },
-      {
         "id": "glavnaya-lokaciya",
         "name": "Локация",
         "level": 1,
         "photos": [
           {
-            "id": 115,
+            "id": 24,
             "url": {
               "original": "images\\original\\da125-katya\\oblozhka.jpg",
               "preview": "images\\preview\\da125-katya\\oblozhka.jpg"
@@ -43,7 +27,24 @@
             "isCover": true
           }
         ],
-        "count": 1
+        "count": 13
+      },
+      {
+        "id": "glavnaya-reportazh",
+        "name": "Репортаж",
+        "level": 1,
+        "photos": [
+          {
+            "id": 115,
+            "url": {
+              "original": "images\\original\\c38cd-120\\oblozhka.JPG",
+              "preview": "images\\preview\\c38cd-120\\oblozhka.JPG"
+            },
+            "name": "Репортаж",
+            "isCover": true
+          }
+        ],
+        "count": 91
       },
       {
         "id": "glavnaya-studiynaya",
@@ -51,16 +52,16 @@
         "level": 1,
         "photos": [
           {
-            "id": 118,
+            "id": 127,
             "url": {
-              "original": "images\\original\\920b3-sasha\\oblozhka.jpg",
-              "preview": "images\\preview\\920b3-sasha\\oblozhka.jpg"
+              "original": "images\\original\\af8df-dasha\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-dasha\\oblozhka.jpg"
             },
             "name": "Студийная",
             "isCover": true
           }
         ],
-        "count": 1
+        "count": 12
       }
     ],
     "photos": []
