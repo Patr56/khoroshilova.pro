@@ -48,7 +48,8 @@ function prepareFileInfo(originalPath, index) {
     dir.shift();
 
     const originalFileName = dir.pop().split(".");
-    const fileName = `${slugify(originalFileName[0])}.${originalFileName[1]}`;
+    const namePhoto = originalFileName[0];
+    const fileName = `${slugify(namePhoto)}.${originalFileName[1]}`;
     const parentDirs = dir.slice(0, -1);
 
     const pathForHash = parentDirs.join("-");
@@ -65,6 +66,7 @@ function prepareFileInfo(originalPath, index) {
         directoryName,
         dir: dir,
         originalFileName,
+        namePhoto,
         fileName,
         isCover,
         date: stats.mtime,
@@ -106,8 +108,10 @@ function copyImages(filesInfo) {
                     width: 200,
                     height: 168,
                     fit: sharp.fit.cover,
-                    position: sharp.position.top
+                    position: sharp.position.top,
+                    withoutEnlargement: true
                 })
+                .withMetadata()
                 .toFile(path.join(staticDir, fileInfo.path.preview))
                 .then(() => resolve());
         });
@@ -115,8 +119,8 @@ function copyImages(filesInfo) {
 
         const ori = new Promise((resolve) => {
             sharp(fileInfo.originalPath)
+                .resize({width:960})
                 .withMetadata()
-                .resize(960)
                 .overlayWith(new Buffer(watermarkLogo), {gravity: sharp.gravity.southeast})
                 .toFile(path.join(staticDir, fileInfo.path.original))
                 .then(() => resolve());
@@ -196,7 +200,7 @@ function prepareAlbums(filesInfo) {
                     original: fileInfo.path.original,
                     preview: fileInfo.path.preview,
                 },
-                name: fileInfo.fileName,
+                name: fileInfo.namePhoto,
                 isCover: fileInfo.isCover
             })
         }

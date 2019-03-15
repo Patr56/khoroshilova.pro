@@ -7,6 +7,7 @@ import {MAX_PHOTO_IN_ALBUM_PREVIEW} from "../Config";
 import "./styles/album.css";
 
 interface IProps {
+    showName?: boolean;
     photos: IPhoto[];
     count?: number;
     onClick: () => void;
@@ -27,7 +28,7 @@ export class Album extends React.Component<IProps, {}> {
     };
 
     render() {
-        const {photos, count} = this.props;
+        const {photos, count, showName} = this.props;
 
         const photosForPreview = photos
             .filter((_, index) => index < MAX_PHOTO_IN_ALBUM_PREVIEW)
@@ -41,17 +42,17 @@ export class Album extends React.Component<IProps, {}> {
                 <div className="album_pin" style={this.getStyle()}/>
                 <div className="album_pages">
                     {photosForPreview && photosForPreview.map((photo, index) => (
-                        <div key={photo.id} className={`album_page ${index === 0 ?"album_page__transform-init" : ""}`} style={this.getStyle()}>
+                        <div key={photo.id} className={`album_page ${index === 0 ? "album_page__transform-init" : ""}`} style={this.getStyle()}>
                             {index === 0 && (
-                                <div className={"album_cover" + (count > 0 ? "" : " album_cover__photo")}>
+                                <div className="album_cover">
                                     <img className="album_photo" src={photo.url.preview} alt=""/>
                                 </div>
                             )}
-                            {index === 0 && count > 0?  <div className="album_label" title={photo.name}>{photo.name}</div> : <div className="album_label"/>}
+                            {((index === 0 && count > 0) || showName) && <div className="album_label" title={photo.name}>{photo.name}</div>}
                         </div>
                     ))}
-                    {count && emptyPages.map((_, index) => (
-                        <div key={index} className="album_page" style={this.getStyle()}>
+                    {count > 0 && emptyPages.map((_, index) => (
+                        <div key={index} className="album_page album_page__blank" style={this.getStyle()}>
                             <div className="album_label"/>
                         </div>
                     ))}

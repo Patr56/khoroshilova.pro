@@ -4,7 +4,7 @@
     "id": "glavnaya-studiynaya-devushki-dasha",
     "level": 3,
     "name": "Даша",
-    "date": "2018-10-22T12:18:48.000Z",
+    "date": "2018-10-22T12:18:27.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -26,57 +26,57 @@
     "albums": [],
     "photos": [
       {
-        "id": 33,
-        "url": {
-          "original": "images\\original\\af8df-dasha\\11.jpg",
-          "preview": "images\\preview\\af8df-dasha\\11.jpg"
-        },
-        "name": "11.jpg",
-        "isCover": false
-      },
-      {
-        "id": 34,
+        "id": 36,
         "url": {
           "original": "images\\original\\af8df-dasha\\1.jpg",
           "preview": "images\\preview\\af8df-dasha\\1.jpg"
         },
-        "name": "1.jpg",
-        "isCover": false
-      },
-      {
-        "id": 35,
-        "url": {
-          "original": "images\\original\\af8df-dasha\\2.jpg",
-          "preview": "images\\preview\\af8df-dasha\\2.jpg"
-        },
-        "name": "2.jpg",
-        "isCover": false
-      },
-      {
-        "id": 36,
-        "url": {
-          "original": "images\\original\\af8df-dasha\\7.jpg",
-          "preview": "images\\preview\\af8df-dasha\\7.jpg"
-        },
-        "name": "7.jpg",
+        "name": "1",
         "isCover": false
       },
       {
         "id": 37,
         "url": {
-          "original": "images\\original\\af8df-dasha\\9.jpg",
-          "preview": "images\\preview\\af8df-dasha\\9.jpg"
+          "original": "images\\original\\af8df-dasha\\11.jpg",
+          "preview": "images\\preview\\af8df-dasha\\11.jpg"
         },
-        "name": "9.jpg",
+        "name": "11",
         "isCover": false
       },
       {
         "id": 38,
         "url": {
+          "original": "images\\original\\af8df-dasha\\2.jpg",
+          "preview": "images\\preview\\af8df-dasha\\2.jpg"
+        },
+        "name": "2",
+        "isCover": false
+      },
+      {
+        "id": 39,
+        "url": {
+          "original": "images\\original\\af8df-dasha\\7.jpg",
+          "preview": "images\\preview\\af8df-dasha\\7.jpg"
+        },
+        "name": "7",
+        "isCover": false
+      },
+      {
+        "id": 40,
+        "url": {
+          "original": "images\\original\\af8df-dasha\\9.jpg",
+          "preview": "images\\preview\\af8df-dasha\\9.jpg"
+        },
+        "name": "9",
+        "isCover": false
+      },
+      {
+        "id": 41,
+        "url": {
           "original": "images\\original\\af8df-dasha\\oblozhka.jpg",
           "preview": "images\\preview\\af8df-dasha\\oblozhka.jpg"
         },
-        "name": "oblozhka.jpg",
+        "name": "обложка",
         "isCover": true
       }
     ]

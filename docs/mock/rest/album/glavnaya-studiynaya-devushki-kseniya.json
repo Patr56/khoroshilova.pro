@@ -26,30 +26,30 @@
     "albums": [],
     "photos": [
       {
-        "id": 30,
+        "id": 42,
         "url": {
           "original": "images\\original\\af8df-kseniya\\1.jpg",
           "preview": "images\\preview\\af8df-kseniya\\1.jpg"
         },
-        "name": "1.jpg",
+        "name": "1",
         "isCover": false
       },
       {
-        "id": 31,
+        "id": 43,
         "url": {
           "original": "images\\original\\af8df-kseniya\\2.jpg",
           "preview": "images\\preview\\af8df-kseniya\\2.jpg"
         },
-        "name": "2.jpg",
+        "name": "2",
         "isCover": false
       },
       {
-        "id": 32,
+        "id": 44,
         "url": {
           "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
           "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
         },
-        "name": "oblozhka.jpg",
+        "name": "обложка",
         "isCover": true
       }
     ]

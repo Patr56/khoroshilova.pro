@@ -25,11 +25,12 @@ interface IStoreProps {
 }
 
 interface IOwnProps extends IPath {
+    showName?: boolean;
     onClickAlbum?: (albumId: string) => void;
     onClickPhoto?: (albumId: string, photoId: string, index: number) => void;
 }
 
-interface IProps extends IOwnProps, IStoreProps, IActionProps, RouteComponentProps<IPath> {
+export interface IProps extends IOwnProps, IStoreProps, IActionProps, RouteComponentProps<IPath> {
 
 }
 
@@ -60,7 +61,7 @@ export class AlbumList extends React.Component<IProps, {}> {
     };
 
     render() {
-        const {album: {status, data: {albums, photos, id}, error}} = this.props;
+        const {album: {status, data: {albums, photos, id}, error}, showName} = this.props;
         let albumLength = albums && albums.length || 0;
 
         return (
@@ -76,6 +77,7 @@ export class AlbumList extends React.Component<IProps, {}> {
                         {index % ALBUM_IN_LINE === 0 && (<div className={`clothesline clothesline__left-${this.getRandomBird()} clothesline__right-${this.getRandomBird()}`}/>)}
                         <Link to={`/portfolio/${album.id}`}>
                             <Album
+                                showName={showName}
                                 photos={album.photos}
                                 count={album.count}
                                 onClick={this.handleClickAlbum(album.id)}
@@ -89,6 +91,7 @@ export class AlbumList extends React.Component<IProps, {}> {
                             <div className={`clothesline clothesline__left-${this.getRandomBird()} clothesline__right-${this.getRandomBird()}`}/>
                         )}
                         <Album
+                            showName={showName}
                             photos={[photo]}
                             count={0}
                             onClick={this.handleClickPhoto(id, photo.id, index)}

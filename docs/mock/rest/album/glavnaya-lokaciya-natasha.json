@@ -22,58 +22,58 @@
     "albums": [],
     "photos": [
       {
-        "id": 13,
+        "id": 19,
         "url": {
           "original": "images\\original\\6e4b6-natasha\\1.jpg",
           "preview": "images\\preview\\6e4b6-natasha\\1.jpg"
         },
-        "name": "1.jpg",
+        "name": "1",
         "isCover": false
       },
       {
-        "id": 14,
-        "url": {
-          "original": "images\\original\\6e4b6-natasha\\3.jpg",
-          "preview": "images\\preview\\6e4b6-natasha\\3.jpg"
-        },
-        "name": "3.jpg",
-        "isCover": false
-      },
-      {
-        "id": 15,
-        "url": {
-          "original": "images\\original\\6e4b6-natasha\\4.jpg",
-          "preview": "images\\preview\\6e4b6-natasha\\4.jpg"
-        },
-        "name": "4.jpg",
-        "isCover": false
-      },
-      {
-        "id": 16,
+        "id": 20,
         "url": {
           "original": "images\\original\\6e4b6-natasha\\2.jpg",
           "preview": "images\\preview\\6e4b6-natasha\\2.jpg"
         },
-        "name": "2.jpg",
+        "name": "2",
         "isCover": false
       },
       {
-        "id": 17,
+        "id": 21,
         "url": {
-          "original": "images\\original\\6e4b6-natasha\\oblozhka.jpg",
-          "preview": "images\\preview\\6e4b6-natasha\\oblozhka.jpg"
+          "original": "images\\original\\6e4b6-natasha\\3.jpg",
+          "preview": "images\\preview\\6e4b6-natasha\\3.jpg"
         },
-        "name": "oblozhka.jpg",
-        "isCover": true
+        "name": "3",
+        "isCover": false
       },
       {
-        "id": 18,
+        "id": 22,
+        "url": {
+          "original": "images\\original\\6e4b6-natasha\\4.jpg",
+          "preview": "images\\preview\\6e4b6-natasha\\4.jpg"
+        },
+        "name": "4",
+        "isCover": false
+      },
+      {
+        "id": 23,
         "url": {
           "original": "images\\original\\6e4b6-natasha\\5.jpg",
           "preview": "images\\preview\\6e4b6-natasha\\5.jpg"
         },
-        "name": "5.jpg",
+        "name": "5",
         "isCover": false
+      },
+      {
+        "id": 24,
+        "url": {
+          "original": "images\\original\\6e4b6-natasha\\oblozhka.jpg",
+          "preview": "images\\preview\\6e4b6-natasha\\oblozhka.jpg"
+        },
+        "name": "обложка",
+        "isCover": true
       }
     ]
   }

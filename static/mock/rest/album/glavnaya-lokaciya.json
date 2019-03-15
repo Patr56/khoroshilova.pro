@@ -4,7 +4,7 @@
     "id": "glavnaya-lokaciya",
     "level": 1,
     "name": "Локация",
-    "date": "2018-10-15T17:28:24.000Z",
+    "date": "2018-10-06T15:49:46.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -22,7 +22,7 @@
         "level": 2,
         "photos": [
           {
-            "id": 12,
+            "id": 18,
             "url": {
               "original": "images\\original\\6e4b6-katya\\oblozhka.jpg",
               "preview": "images\\preview\\6e4b6-katya\\oblozhka.jpg"
@@ -39,7 +39,7 @@
         "level": 2,
         "photos": [
           {
-            "id": 17,
+            "id": 24,
             "url": {
               "original": "images\\original\\6e4b6-natasha\\oblozhka.jpg",
               "preview": "images\\preview\\6e4b6-natasha\\oblozhka.jpg"

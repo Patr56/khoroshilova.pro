@@ -6,10 +6,10 @@ import 'moment/locale/ru';
 import * as shortcodes from "remark-shortcodes";
 
 import {IArticle, IPath} from "../Models";
-import AlbumList from "./AlbumList";
+import AlbumList, {IProps as IPropsAlbumList} from "./AlbumList";
 
-const ShortcodeRenderer = (props: IPropsShortcode<IPath>) => {
-    return <AlbumList id={props.attributes.id}/>
+const ShortcodeRenderer = (props: IPropsShortcode<IPropsAlbumList>) => {
+    return <AlbumList id={props.attributes.id} showName={props.attributes.showName}/>
 }
 
 interface IProps {

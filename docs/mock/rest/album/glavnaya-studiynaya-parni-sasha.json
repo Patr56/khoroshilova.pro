@@ -26,40 +26,40 @@
     "albums": [],
     "photos": [
       {
-        "id": 61,
+        "id": 67,
         "url": {
           "original": "images\\original\\920b3-sasha\\1.jpg",
           "preview": "images\\preview\\920b3-sasha\\1.jpg"
         },
-        "name": "1.jpg",
+        "name": "1",
         "isCover": false
       },
       {
-        "id": 62,
-        "url": {
-          "original": "images\\original\\920b3-sasha\\2.jpg",
-          "preview": "images\\preview\\920b3-sasha\\2.jpg"
-        },
-        "name": "2.jpg",
-        "isCover": false
-      },
-      {
-        "id": 63,
-        "url": {
-          "original": "images\\original\\920b3-sasha\\3.jpg",
-          "preview": "images\\preview\\920b3-sasha\\3.jpg"
-        },
-        "name": "3.jpg",
-        "isCover": false
-      },
-      {
-        "id": 64,
+        "id": 68,
         "url": {
           "original": "images\\original\\920b3-sasha\\oblozhka.jpg",
           "preview": "images\\preview\\920b3-sasha\\oblozhka.jpg"
         },
-        "name": "oblozhka.jpg",
+        "name": "обложка",
         "isCover": true
+      },
+      {
+        "id": 69,
+        "url": {
+          "original": "images\\original\\920b3-sasha\\2.jpg",
+          "preview": "images\\preview\\920b3-sasha\\2.jpg"
+        },
+        "name": "2",
+        "isCover": false
+      },
+      {
+        "id": 70,
+        "url": {
+          "original": "images\\original\\920b3-sasha\\3.jpg",
+          "preview": "images\\preview\\920b3-sasha\\3.jpg"
+        },
+        "name": "3",
+        "isCover": false
       }
     ]
   }

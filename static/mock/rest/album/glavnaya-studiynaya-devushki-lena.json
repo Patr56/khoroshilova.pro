@@ -26,48 +26,48 @@
     "albums": [],
     "photos": [
       {
-        "id": 44,
+        "id": 45,
         "url": {
           "original": "images\\original\\af8df-lena\\2.jpg",
           "preview": "images\\preview\\af8df-lena\\2.jpg"
         },
-        "name": "2.jpg",
-        "isCover": false
-      },
-      {
-        "id": 45,
-        "url": {
-          "original": "images\\original\\af8df-lena\\1.jpg",
-          "preview": "images\\preview\\af8df-lena\\1.jpg"
-        },
-        "name": "1.jpg",
+        "name": "2",
         "isCover": false
       },
       {
         "id": 46,
         "url": {
-          "original": "images\\original\\af8df-lena\\4.jpg",
-          "preview": "images\\preview\\af8df-lena\\4.jpg"
+          "original": "images\\original\\af8df-lena\\1.jpg",
+          "preview": "images\\preview\\af8df-lena\\1.jpg"
         },
-        "name": "4.jpg",
+        "name": "1",
         "isCover": false
       },
       {
         "id": 47,
         "url": {
-          "original": "images\\original\\af8df-lena\\5.jpg",
-          "preview": "images\\preview\\af8df-lena\\5.jpg"
+          "original": "images\\original\\af8df-lena\\4.jpg",
+          "preview": "images\\preview\\af8df-lena\\4.jpg"
         },
-        "name": "5.jpg",
+        "name": "4",
         "isCover": false
       },
       {
         "id": 48,
         "url": {
+          "original": "images\\original\\af8df-lena\\5.jpg",
+          "preview": "images\\preview\\af8df-lena\\5.jpg"
+        },
+        "name": "5",
+        "isCover": false
+      },
+      {
+        "id": 49,
+        "url": {
           "original": "images\\original\\af8df-lena\\oblozhka.jpg",
           "preview": "images\\preview\\af8df-lena\\oblozhka.jpg"
         },
-        "name": "oblozhka.jpg",
+        "name": "обложка",
         "isCover": true
       }
     ]

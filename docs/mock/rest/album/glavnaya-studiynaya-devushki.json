@@ -26,7 +26,7 @@
         "level": 3,
         "photos": [
           {
-            "id": 29,
+            "id": 35,
             "url": {
               "original": "images\\original\\af8df-darya\\oblozhka.jpg",
               "preview": "images\\preview\\af8df-darya\\oblozhka.jpg"
@@ -38,29 +38,12 @@
         "count": 11
       },
       {
-        "id": "glavnaya-studiynaya-devushki-kseniya",
-        "name": "Ксения",
-        "level": 3,
-        "photos": [
-          {
-            "id": 32,
-            "url": {
-              "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
-            },
-            "name": "Ксения",
-            "isCover": true
-          }
-        ],
-        "count": 3
-      },
-      {
         "id": "glavnaya-studiynaya-devushki-dasha",
         "name": "Даша",
         "level": 3,
         "photos": [
           {
-            "id": 38,
+            "id": 41,
             "url": {
               "original": "images\\original\\af8df-dasha\\oblozhka.jpg",
               "preview": "images\\preview\\af8df-dasha\\oblozhka.jpg"
@@ -72,21 +55,21 @@
         "count": 6
       },
       {
-        "id": "glavnaya-studiynaya-devushki-olya",
-        "name": "Оля",
+        "id": "glavnaya-studiynaya-devushki-kseniya",
+        "name": "Ксения",
         "level": 3,
         "photos": [
           {
-            "id": 41,
+            "id": 44,
             "url": {
-              "original": "images\\original\\af8df-olya\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-olya\\oblozhka.jpg"
+              "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
             },
-            "name": "Оля",
+            "name": "Ксения",
             "isCover": true
           }
         ],
-        "count": 5
+        "count": 3
       },
       {
         "id": "glavnaya-studiynaya-devushki-lena",
@@ -94,7 +77,7 @@
         "level": 3,
         "photos": [
           {
-            "id": 48,
+            "id": 49,
             "url": {
               "original": "images\\original\\af8df-lena\\oblozhka.jpg",
               "preview": "images\\preview\\af8df-lena\\oblozhka.jpg"
@@ -111,7 +94,7 @@
         "level": 3,
         "photos": [
           {
-            "id": 56,
+            "id": 57,
             "url": {
               "original": "images\\original\\af8df-olga\\oblozhka.jpg",
               "preview": "images\\preview\\af8df-olga\\oblozhka.jpg"
@@ -121,6 +104,23 @@
           }
         ],
         "count": 8
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-olya",
+        "name": "Оля",
+        "level": 3,
+        "photos": [
+          {
+            "id": 62,
+            "url": {
+              "original": "images\\original\\af8df-olya\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-olya\\oblozhka.jpg"
+            },
+            "name": "Оля",
+            "isCover": true
+          }
+        ],
+        "count": 5
       }
     ],
     "photos": []

@@ -26,39 +26,39 @@
     "albums": [],
     "photos": [
       {
-        "id": 57,
+        "id": 63,
         "url": {
           "original": "images\\original\\920b3-pavel\\1.JPG",
           "preview": "images\\preview\\920b3-pavel\\1.JPG"
         },
-        "name": "1.JPG",
+        "name": "1",
         "isCover": false
       },
       {
-        "id": 58,
+        "id": 64,
         "url": {
           "original": "images\\original\\920b3-pavel\\2.jpg",
           "preview": "images\\preview\\920b3-pavel\\2.jpg"
         },
-        "name": "2.jpg",
+        "name": "2",
         "isCover": false
       },
       {
-        "id": 59,
+        "id": 65,
         "url": {
           "original": "images\\original\\920b3-pavel\\3.JPG",
           "preview": "images\\preview\\920b3-pavel\\3.JPG"
         },
-        "name": "3.JPG",
+        "name": "3",
         "isCover": false
       },
       {
-        "id": 60,
+        "id": 66,
         "url": {
           "original": "images\\original\\920b3-pavel\\oblozhka.JPG",
           "preview": "images\\preview\\920b3-pavel\\oblozhka.JPG"
         },
-        "name": "oblozhka.JPG",
+        "name": "обложка",
         "isCover": true
       }
     ]
