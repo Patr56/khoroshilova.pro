@@ -6,33 +6,52 @@
     "name": "last",
     "albums": [
       {
-        "id": "glavnaya-studiynaya-devushki-lena",
+        "id": "glavnaya-studiynaya-devushki-olya",
         "level": 3,
-        "name": "Лена",
-        "date": "2018-10-25T12:21:00.000Z",
+        "name": "Оля",
+        "date": "2019-02-20T12:38:27.226Z",
         "albums": [],
         "photos": [
           {
-            "id": 162,
+            "id": 41,
             "url": {
-              "original": "images\\original\\af8df-lena\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-lena\\oblozhka.jpg"
+              "original": "images\\original\\af8df-olya\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-olya\\oblozhka.jpg"
             },
-            "name": "Лена",
+            "name": "Оля",
             "isCover": true
           }
         ],
-        "count": 7
+        "count": 5
+      },
+      {
+        "id": "glavnaya-lokaciya-natasha",
+        "level": 2,
+        "name": "Наташа",
+        "date": "2019-01-09T19:13:40.573Z",
+        "albums": [],
+        "photos": [
+          {
+            "id": 17,
+            "url": {
+              "original": "images\\original\\6e4b6-natasha\\oblozhka.jpg",
+              "preview": "images\\preview\\6e4b6-natasha\\oblozhka.jpg"
+            },
+            "name": "Наташа",
+            "isCover": true
+          }
+        ],
+        "count": 6
       },
       {
         "id": "glavnaya-studiynaya-devushki-kseniya",
         "level": 3,
         "name": "Ксения",
-        "date": "2018-10-25T10:31:21.000Z",
+        "date": "2018-12-12T18:03:06.105Z",
         "albums": [],
         "photos": [
           {
-            "id": 154,
+            "id": 32,
             "url": {
               "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
               "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
@@ -41,45 +60,26 @@
             "isCover": true
           }
         ],
-        "count": 22
+        "count": 3
       },
       {
-        "id": "glavnaya-studiynaya-devushki-dasha",
+        "id": "glavnaya-studiynaya-devushki-olga",
         "level": 3,
-        "name": "Даша",
-        "date": "2018-10-22T12:18:27.000Z",
+        "name": "Ольга",
+        "date": "2018-12-10T16:01:35.020Z",
         "albums": [],
         "photos": [
           {
-            "id": 127,
+            "id": 56,
             "url": {
-              "original": "images\\original\\af8df-dasha\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-dasha\\oblozhka.jpg"
+              "original": "images\\original\\af8df-olga\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-olga\\oblozhka.jpg"
             },
-            "name": "Даша",
+            "name": "Ольга",
             "isCover": true
           }
         ],
-        "count": 12
-      },
-      {
-        "id": "glavnaya-reportazh-parkrun-kuzminki-120",
-        "level": 3,
-        "name": "120",
-        "date": "2018-10-21T10:22:44.000Z",
-        "albums": [],
-        "photos": [
-          {
-            "id": 115,
-            "url": {
-              "original": "images\\original\\c38cd-120\\oblozhka.JPG",
-              "preview": "images\\preview\\c38cd-120\\oblozhka.JPG"
-            },
-            "name": "120",
-            "isCover": true
-          }
-        ],
-        "count": 91
+        "count": 8
       }
     ],
     "photos": []

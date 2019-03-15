@@ -1,0 +1,80 @@
+{
+  "success": true,
+  "body": {
+    "id": "glavnaya-lokaciya-natasha",
+    "level": 2,
+    "name": "Наташа",
+    "date": "2019-01-09T19:13:40.573Z",
+    "breadcrumbs": [
+      {
+        "id": "glavnaya",
+        "name": "Главная"
+      },
+      {
+        "id": "glavnaya-lokaciya",
+        "name": "Локация"
+      },
+      {
+        "id": "glavnaya-lokaciya-natasha",
+        "name": "Наташа"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 13,
+        "url": {
+          "original": "images\\original\\6e4b6-natasha\\1.jpg",
+          "preview": "images\\preview\\6e4b6-natasha\\1.jpg"
+        },
+        "name": "1.jpg",
+        "isCover": false
+      },
+      {
+        "id": 14,
+        "url": {
+          "original": "images\\original\\6e4b6-natasha\\3.jpg",
+          "preview": "images\\preview\\6e4b6-natasha\\3.jpg"
+        },
+        "name": "3.jpg",
+        "isCover": false
+      },
+      {
+        "id": 15,
+        "url": {
+          "original": "images\\original\\6e4b6-natasha\\4.jpg",
+          "preview": "images\\preview\\6e4b6-natasha\\4.jpg"
+        },
+        "name": "4.jpg",
+        "isCover": false
+      },
+      {
+        "id": 16,
+        "url": {
+          "original": "images\\original\\6e4b6-natasha\\2.jpg",
+          "preview": "images\\preview\\6e4b6-natasha\\2.jpg"
+        },
+        "name": "2.jpg",
+        "isCover": false
+      },
+      {
+        "id": 17,
+        "url": {
+          "original": "images\\original\\6e4b6-natasha\\oblozhka.jpg",
+          "preview": "images\\preview\\6e4b6-natasha\\oblozhka.jpg"
+        },
+        "name": "oblozhka.jpg",
+        "isCover": true
+      },
+      {
+        "id": 18,
+        "url": {
+          "original": "images\\original\\6e4b6-natasha\\5.jpg",
+          "preview": "images\\preview\\6e4b6-natasha\\5.jpg"
+        },
+        "name": "5.jpg",
+        "isCover": false
+      }
+    ]
+  }
+}
