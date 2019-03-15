@@ -26,12 +26,15 @@ const rootDir = path.join("E:", "photo", "for_site");
 // const rootDir = path.join("/", "Users", "pavel", "for_site");
 const staticDir = path.join(__dirname, "static");
 const imagesDir = path.join(staticDir, "images");
+const mockDir = path.join(staticDir, "mock");
 const mockRestDir = path.join(staticDir, "mock", "rest");
 const mockRestAlbumDir = path.join(mockRestDir, "album");
 
 rimraf.sync(imagesDir);
 rimraf.sync(mockRestAlbumDir);
 mkdirp.sync(imagesDir);
+mkdirp.sync(mockDir);
+mkdirp.sync(mockRestDir);
 mkdirp.sync(mockRestAlbumDir);
 
 const ORIGINAL = "original";

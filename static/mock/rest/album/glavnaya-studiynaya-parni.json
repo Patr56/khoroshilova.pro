@@ -4,7 +4,7 @@
     "id": "glavnaya-studiynaya-parni",
     "level": 2,
     "name": "Парни",
-    "date": "2018-10-03T14:47:35.000Z",
+    "date": "2018-11-07T17:22:50.238Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -21,12 +21,29 @@
     ],
     "albums": [
       {
+        "id": "glavnaya-studiynaya-parni-pavel",
+        "name": "Павел",
+        "level": 3,
+        "photos": [
+          {
+            "id": 60,
+            "url": {
+              "original": "images\\original\\920b3-pavel\\oblozhka.JPG",
+              "preview": "images\\preview\\920b3-pavel\\oblozhka.JPG"
+            },
+            "name": "Павел",
+            "isCover": true
+          }
+        ],
+        "count": 4
+      },
+      {
         "id": "glavnaya-studiynaya-parni-sasha",
         "name": "Саша",
         "level": 3,
         "photos": [
           {
-            "id": 166,
+            "id": 64,
             "url": {
               "original": "images\\original\\920b3-sasha\\oblozhka.jpg",
               "preview": "images\\preview\\920b3-sasha\\oblozhka.jpg"

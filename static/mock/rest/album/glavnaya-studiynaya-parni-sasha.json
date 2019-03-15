@@ -26,7 +26,7 @@
     "albums": [],
     "photos": [
       {
-        "id": 163,
+        "id": 61,
         "url": {
           "original": "images\\original\\920b3-sasha\\1.jpg",
           "preview": "images\\preview\\920b3-sasha\\1.jpg"
@@ -35,7 +35,7 @@
         "isCover": false
       },
       {
-        "id": 164,
+        "id": 62,
         "url": {
           "original": "images\\original\\920b3-sasha\\2.jpg",
           "preview": "images\\preview\\920b3-sasha\\2.jpg"
@@ -44,7 +44,7 @@
         "isCover": false
       },
       {
-        "id": 165,
+        "id": 63,
         "url": {
           "original": "images\\original\\920b3-sasha\\3.jpg",
           "preview": "images\\preview\\920b3-sasha\\3.jpg"
@@ -53,7 +53,7 @@
         "isCover": false
       },
       {
-        "id": 166,
+        "id": 64,
         "url": {
           "original": "images\\original\\920b3-sasha\\oblozhka.jpg",
           "preview": "images\\preview\\920b3-sasha\\oblozhka.jpg"

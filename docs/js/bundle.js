@@ -44619,7 +44619,7 @@ var Container = /** @class */ (function (_super) {
         return (React.createElement("div", { className: "container" },
             React.createElement(Header_1.default, null),
             React.createElement(Main_1.default, null),
-            React.createElement(Footer_1.Footer, null)));
+            React.createElement(Footer_1.default, null)));
     };
     return Container;
 }(React.Component));
@@ -44652,6 +44652,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "react");
+var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/es/index.js");
 var Navigation_1 = __webpack_require__(/*! ./Navigation */ "./src/components/Navigation.tsx");
 var Config_1 = __webpack_require__(/*! ../Config */ "./src/Config.ts");
 __webpack_require__(/*! ./styles/footer.css */ "./src/components/styles/footer.css");
@@ -44661,8 +44662,9 @@ var Footer = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Footer.prototype.render = function () {
+        var showNavigation = this.props.location.pathname !== "/";
         return (React.createElement("footer", { className: "footer" },
-            React.createElement(Navigation_1.Navigation, null),
+            React.createElement(Navigation_1.Navigation, { show: showNavigation }),
             React.createElement("div", { className: "social" },
                 React.createElement("a", { className: "link social_link social_link__instagram", href: Config_1.SOCIAL_LINK__INSTAGRAM, title: "Instagram" }),
                 React.createElement("a", { className: "link social_link social_link__vk", href: Config_1.SOCIAL_LINK__VK, title: "VK" })),
@@ -44673,6 +44675,7 @@ var Footer = /** @class */ (function (_super) {
     return Footer;
 }(React.Component));
 exports.Footer = Footer;
+exports.default = react_router_1.withRouter(Footer);
 
 
 /***/ }),
@@ -44711,10 +44714,10 @@ var Header = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Header.prototype.render = function () {
-        var isHome = this.props.location.pathname === "/";
+        var showNavigation = this.props.location.pathname !== "/";
         return (React.createElement("header", { className: "header" },
             React.createElement(Logo_1.Logo, null),
-            React.createElement(Navigation_1.Navigation, { showIcon: isHome })));
+            React.createElement(Navigation_1.Navigation, { show: showNavigation })));
     };
     return Header;
 }(React.Component));
@@ -44908,25 +44911,20 @@ var Navigation = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Navigation.prototype.render = function () {
-        var showIcon = this.props.showIcon;
+        var show = this.props.show;
+        if (!show) {
+            return React.createElement("div", null);
+        }
         return (React.createElement("nav", { className: "nav" },
             React.createElement("ul", { className: "navigation" },
                 React.createElement("li", { className: "navigation_link" },
-                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/portfolio/glavnaya", title: "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E" },
-                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__portfolio" }),
-                        "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E")),
+                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/portfolio/glavnaya", title: "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E" }, "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E")),
                 React.createElement("li", { className: "navigation_link" },
-                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/price", title: "\u0426\u0435\u043D\u044B" },
-                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__price" }),
-                        "\u0426\u0435\u043D\u044B")),
+                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/price", title: "\u0426\u0435\u043D\u044B" }, "\u0426\u0435\u043D\u044B")),
                 React.createElement("li", { className: "navigation_link" },
-                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/blog", title: "\u0411\u043B\u043E\u0433" },
-                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__blog" }),
-                        "\u0411\u043B\u043E\u0433")),
+                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/blog", title: "\u0411\u043B\u043E\u0433" }, "\u0411\u043B\u043E\u0433")),
                 React.createElement("li", { className: "navigation_link" },
-                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/contacts", title: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B" },
-                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__contacts" }),
-                        "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B")))));
+                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/contacts", title: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B" }, "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B")))));
     };
     return Navigation;
 }(React.Component));
@@ -45217,28 +45215,49 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "react");
-var Breadcrumbs_1 = __webpack_require__(/*! ../../Breadcrumbs */ "./src/components/Breadcrumbs.tsx");
-var AlbumList_1 = __webpack_require__(/*! ../../AlbumList */ "./src/components/AlbumList.tsx");
-var breadcrumbs = [
-    {
-        id: "/",
-        name: "Новые работы"
-    }
-];
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+__webpack_require__(/*! ./styles/home.css */ "./src/components/pages/home/styles/home.css");
 var Home = /** @class */ (function (_super) {
     __extends(Home, _super);
     function Home() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Home.prototype.render = function () {
-        return (React.createElement("div", null,
-            React.createElement(Breadcrumbs_1.Breadcrumbs, { breadcrumbs: breadcrumbs }),
-            React.createElement(AlbumList_1.default, { id: "last" })));
+        return (React.createElement("div", { className: "page page_home" },
+            React.createElement("nav", { className: "nav" },
+                React.createElement("ul", { className: "navigation" },
+                    React.createElement("li", { className: "navigation_link" },
+                        React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/portfolio/glavnaya", title: "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E" },
+                            React.createElement("div", { className: "navigation_icon navigation_icon__portfolio" }),
+                            "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E")),
+                    React.createElement("li", { className: "navigation_link" },
+                        React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/price", title: "\u0426\u0435\u043D\u044B" },
+                            React.createElement("div", { className: "navigation_icon navigation_icon__price" }),
+                            "\u0426\u0435\u043D\u044B")),
+                    React.createElement("li", { className: "navigation_link" },
+                        React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/blog", title: "\u0411\u043B\u043E\u0433" },
+                            React.createElement("div", { className: "navigation_icon navigation_icon__blog" }),
+                            "\u0411\u043B\u043E\u0433")),
+                    React.createElement("li", { className: "navigation_link" },
+                        React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/contacts", title: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B" },
+                            React.createElement("div", { className: "navigation_icon navigation_icon__contacts" }),
+                            "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B"))))));
     };
     return Home;
 }(React.Component));
 exports.Home = Home;
 
+
+/***/ }),
+
+/***/ "./src/components/pages/home/styles/home.css":
+/*!***************************************************!*\
+  !*** ./src/components/pages/home/styles/home.css ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 

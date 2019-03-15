@@ -4,7 +4,7 @@
     "id": "glavnaya",
     "level": 0,
     "name": "Главная",
-    "date": "2018-10-06T15:49:46.000Z",
+    "date": "2018-10-15T17:28:24.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -18,10 +18,10 @@
         "level": 1,
         "photos": [
           {
-            "id": 24,
+            "id": 12,
             "url": {
-              "original": "images\\original\\da125-katya\\oblozhka.jpg",
-              "preview": "images\\preview\\da125-katya\\oblozhka.jpg"
+              "original": "images\\original\\6e4b6-katya\\oblozhka.jpg",
+              "preview": "images\\preview\\6e4b6-katya\\oblozhka.jpg"
             },
             "name": "Локация",
             "isCover": true
@@ -30,38 +30,21 @@
         "count": 13
       },
       {
-        "id": "glavnaya-reportazh",
-        "name": "Репортаж",
-        "level": 1,
-        "photos": [
-          {
-            "id": 115,
-            "url": {
-              "original": "images\\original\\c38cd-120\\oblozhka.JPG",
-              "preview": "images\\preview\\c38cd-120\\oblozhka.JPG"
-            },
-            "name": "Репортаж",
-            "isCover": true
-          }
-        ],
-        "count": 91
-      },
-      {
         "id": "glavnaya-studiynaya",
         "name": "Студийная",
         "level": 1,
         "photos": [
           {
-            "id": 127,
+            "id": 29,
             "url": {
-              "original": "images\\original\\af8df-dasha\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-dasha\\oblozhka.jpg"
+              "original": "images\\original\\af8df-darya\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-darya\\oblozhka.jpg"
             },
             "name": "Студийная",
             "isCover": true
           }
         ],
-        "count": 12
+        "count": 11
       }
     ],
     "photos": []

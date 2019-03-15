@@ -4,7 +4,7 @@
     "id": "glavnaya-lokaciya",
     "level": 1,
     "name": "Локация",
-    "date": "2018-10-06T15:49:46.000Z",
+    "date": "2018-10-15T17:28:24.000Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -17,21 +17,38 @@
     ],
     "albums": [
       {
-        "id": "glavnaya-lokaciya-orsk",
-        "name": "Орск",
+        "id": "glavnaya-lokaciya-katya",
+        "name": "Катя",
         "level": 2,
         "photos": [
           {
-            "id": 24,
+            "id": 12,
             "url": {
-              "original": "images\\original\\da125-katya\\oblozhka.jpg",
-              "preview": "images\\preview\\da125-katya\\oblozhka.jpg"
+              "original": "images\\original\\6e4b6-katya\\oblozhka.jpg",
+              "preview": "images\\preview\\6e4b6-katya\\oblozhka.jpg"
             },
-            "name": "Орск",
+            "name": "Катя",
             "isCover": true
           }
         ],
         "count": 13
+      },
+      {
+        "id": "glavnaya-lokaciya-natasha",
+        "name": "Наташа",
+        "level": 2,
+        "photos": [
+          {
+            "id": 17,
+            "url": {
+              "original": "images\\original\\6e4b6-natasha\\oblozhka.jpg",
+              "preview": "images\\preview\\6e4b6-natasha\\oblozhka.jpg"
+            },
+            "name": "Наташа",
+            "isCover": true
+          }
+        ],
+        "count": 6
       }
     ],
     "photos": []

@@ -1,98 +1,15 @@
-
-.album_pages {
-    position: relative;
-    top: -37px;
-}
-
-.album_label {
-    position: relative;
-    padding: 0 10px;
-    z-index: 3;
-    color: black;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.album {
-    display: inline-block;
+.breadcrumbs {
     text-align: center;
-    width: 200px;
-    height: 200px;
-    padding: 0 15px;
 }
 
-.album_page {
-    position: absolute;
-    border: 2px solid black;
-    width: 204px;
-    height: 172px;
-    background-color: white;
-}
-
-.album_cover {
-    width: 200px;
-    height: 133px;
-    border: 2px solid white;
-    overflow: hidden;
+.divider {
     display: inline-block;
-}
-
-.album_cover__photo {
-    height: 168px;
-}
-
-.album_photo {
-    width: 200px;
-}
-
-.album_page__transform-init {
-    z-index: 1;
-}
-
-.album_page__transform-1 {
-    transform: rotate(1deg);
-}
-
-.album_page__transform-2 {
-    transform: rotate(-1deg);
-}
-.album_page__transform-3 {
-    transform: rotate(2deg);
-}
-.album_page__transform-4 {
-    transform: rotate(-2deg);
-}
-.album_page__transform-5 {
-    transform: rotate(3deg);
-}
-
-.album_pin {
-    position: relative;
-    top: -23px;
-    z-index: 2;
-    display: inline-block;
+    vertical-align: middle;
+    padding: 0 0 2px 0;
     width: 20px;
-    height: 28px;
-    background-image: url(/images/51e0213a25570f1c30bafe2f11f99348-pin.svg);
+    height: 20px;
     background-repeat: no-repeat;
-    background-size: 20px;
-}
-
-.album_pin__transform-1 {
-    transform: rotate(10deg);
-}
-
-.album_pin__transform-2 {
-    transform: rotate(-10deg);
-}
-
-.album_pin__transform-3 {
-    transform: rotate(5deg);
-}
-
-.album_pin__transform-4 {
-    transform: rotate(-5deg);
+    background-image: url(/images/d582a50822119d6fd2a3edcb9690e4b9-divide-mathematical-sign.svg);
 }html {
     width: 100%;
     height: 100%;
@@ -251,29 +168,101 @@ h1, h2, h3 {
 }.header {
     padding: 40px 0 0 0;
     text-align: center;
-}.breadcrumbs {
-    text-align: center;
+}
+.album_pages {
+    position: relative;
+    top: -37px;
 }
 
-.divider {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 0 0 2px 0;
-    width: 20px;
-    height: 20px;
-    background-repeat: no-repeat;
-    background-image: url(/images/d582a50822119d6fd2a3edcb9690e4b9-divide-mathematical-sign.svg);
-}.shadow {
-    position: fixed;
-    z-index: 0;
-    float: left;
-    width: 100%;
-    height: 100%;
+.album_label {
+    position: relative;
+    padding: 0 10px;
+    z-index: 3;
+    color: black;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 
-    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-    background-position: 50% 50%;
-    background-size: 400% 400%;
-    box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+.album {
+    display: inline-block;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    padding: 0 15px;
+}
+
+.album_page {
+    position: absolute;
+    border: 2px solid black;
+    width: 204px;
+    height: 172px;
+    background-color: white;
+}
+
+.album_cover {
+    width: 200px;
+    height: 133px;
+    border: 2px solid white;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.album_cover__photo {
+    height: 168px;
+}
+
+.album_photo {
+    width: 200px;
+}
+
+.album_page__transform-init {
+    z-index: 1;
+}
+
+.album_page__transform-1 {
+    transform: rotate(1deg);
+}
+
+.album_page__transform-2 {
+    transform: rotate(-1deg);
+}
+.album_page__transform-3 {
+    transform: rotate(2deg);
+}
+.album_page__transform-4 {
+    transform: rotate(-2deg);
+}
+.album_page__transform-5 {
+    transform: rotate(3deg);
+}
+
+.album_pin {
+    position: relative;
+    top: -23px;
+    z-index: 2;
+    display: inline-block;
+    width: 20px;
+    height: 28px;
+    background-image: url(/images/51e0213a25570f1c30bafe2f11f99348-pin.svg);
+    background-repeat: no-repeat;
+    background-size: 20px;
+}
+
+.album_pin__transform-1 {
+    transform: rotate(10deg);
+}
+
+.album_pin__transform-2 {
+    transform: rotate(-10deg);
+}
+
+.album_pin__transform-3 {
+    transform: rotate(5deg);
+}
+
+.album_pin__transform-4 {
+    transform: rotate(-5deg);
 }.album-list {
     text-align: center;
 }
@@ -369,6 +358,17 @@ h1, h2, h3 {
     width: 30px;
     height: 30px;
     margin: -14px -30px 0 0;
+}.shadow {
+    position: fixed;
+    z-index: 0;
+    float: left;
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-position: 50% 50%;
+    background-size: 400% 400%;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
 }.footer {
     text-align: center;
     padding: 30px 0;
@@ -396,6 +396,8 @@ h1, h2, h3 {
     min-height: 100%;
     margin: 0 auto;
     padding: 0 30px;
+}.page_home {
+    padding: 20% 0;
 }.contacts {
     text-align: center;
     padding: 40px 0;

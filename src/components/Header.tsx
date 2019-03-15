@@ -13,12 +13,12 @@ interface IProps extends RouteComponentProps {
 export class Header extends React.Component<IProps, {}> {
     render() {
 
-        const isHome = this.props.location.pathname === "/";
+        const showNavigation = this.props.location.pathname !== "/";
 
         return (
             <header className="header">
                 <Logo/>
-                <Navigation showIcon={isHome}/>
+                <Navigation show={showNavigation}/>
             </header>
         );
     }
