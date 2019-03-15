@@ -1,15 +1,22 @@
 import * as React from "react";
+import {RouteComponentProps, withRouter} from "react-router";
 
 import {Navigation} from "./Navigation";
 import {SOCIAL_LINK__INSTAGRAM, SOCIAL_LINK__VK} from "../Config";
 
 import "./styles/footer.css";
 
-export class Footer extends React.Component<{}, {}> {
+interface IProps extends RouteComponentProps {
+
+}
+
+export class Footer extends React.Component<IProps, {}> {
     render() {
+        const showNavigation = this.props.location.pathname !== "/";
+
         return (
             <footer className="footer">
-                <Navigation/>
+                <Navigation show={showNavigation}/>
 
                 <div className="social">
                     <a className="link social_link social_link__instagram" href={SOCIAL_LINK__INSTAGRAM} title="Instagram" />
@@ -21,3 +28,5 @@ export class Footer extends React.Component<{}, {}> {
         );
     }
 }
+
+export default withRouter(Footer)

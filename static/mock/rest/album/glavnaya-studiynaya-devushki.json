@@ -4,7 +4,7 @@
     "id": "glavnaya-studiynaya-devushki",
     "level": 2,
     "name": "Девушки",
-    "date": "2018-10-22T12:18:27.000Z",
+    "date": "2018-11-22T17:01:44.231Z",
     "breadcrumbs": [
       {
         "id": "glavnaya",
@@ -21,38 +21,21 @@
     ],
     "albums": [
       {
-        "id": "glavnaya-studiynaya-devushki-dasha",
-        "name": "Даша",
+        "id": "glavnaya-studiynaya-devushki-darya",
+        "name": "Дарья",
         "level": 3,
         "photos": [
           {
-            "id": 127,
+            "id": 29,
             "url": {
-              "original": "images\\original\\af8df-dasha\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-dasha\\oblozhka.jpg"
+              "original": "images\\original\\af8df-darya\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-darya\\oblozhka.jpg"
             },
-            "name": "Даша",
+            "name": "Дарья",
             "isCover": true
           }
         ],
-        "count": 12
-      },
-      {
-        "id": "glavnaya-studiynaya-devushki-kristina",
-        "name": "Кристина",
-        "level": 3,
-        "photos": [
-          {
-            "id": 132,
-            "url": {
-              "original": "images\\original\\af8df-kristina\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-kristina\\oblozhka.jpg"
-            },
-            "name": "Кристина",
-            "isCover": true
-          }
-        ],
-        "count": 6
+        "count": 11
       },
       {
         "id": "glavnaya-studiynaya-devushki-kseniya",
@@ -60,7 +43,7 @@
         "level": 3,
         "photos": [
           {
-            "id": 154,
+            "id": 32,
             "url": {
               "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
               "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
@@ -69,7 +52,41 @@
             "isCover": true
           }
         ],
-        "count": 22
+        "count": 3
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-dasha",
+        "name": "Даша",
+        "level": 3,
+        "photos": [
+          {
+            "id": 38,
+            "url": {
+              "original": "images\\original\\af8df-dasha\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-dasha\\oblozhka.jpg"
+            },
+            "name": "Даша",
+            "isCover": true
+          }
+        ],
+        "count": 6
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-olya",
+        "name": "Оля",
+        "level": 3,
+        "photos": [
+          {
+            "id": 41,
+            "url": {
+              "original": "images\\original\\af8df-olya\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-olya\\oblozhka.jpg"
+            },
+            "name": "Оля",
+            "isCover": true
+          }
+        ],
+        "count": 5
       },
       {
         "id": "glavnaya-studiynaya-devushki-lena",
@@ -77,7 +94,7 @@
         "level": 3,
         "photos": [
           {
-            "id": 162,
+            "id": 48,
             "url": {
               "original": "images\\original\\af8df-lena\\oblozhka.jpg",
               "preview": "images\\preview\\af8df-lena\\oblozhka.jpg"
@@ -86,7 +103,24 @@
             "isCover": true
           }
         ],
-        "count": 7
+        "count": 5
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-olga",
+        "name": "Ольга",
+        "level": 3,
+        "photos": [
+          {
+            "id": 56,
+            "url": {
+              "original": "images\\original\\af8df-olga\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-olga\\oblozhka.jpg"
+            },
+            "name": "Ольга",
+            "isCover": true
+          }
+        ],
+        "count": 8
       }
     ],
     "photos": []
