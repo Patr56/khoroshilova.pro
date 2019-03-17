@@ -12,7 +12,7 @@
   "scripts": {
     "start:dev": "webpack-dev-server --hot --inline",
     "start:mock": "node server.js",
-    "build": "webpack && npm run size",
+    "build": "webpack --env.production && npm run size",
     "size": "size-limit",
     "make:gallery": "node makeGallery.js",
     "test": "echo \"Error: no test specified\" && exit 1"
