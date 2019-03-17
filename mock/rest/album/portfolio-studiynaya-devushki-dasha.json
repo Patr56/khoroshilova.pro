@@ -1,0 +1,84 @@
+{
+  "success": true,
+  "body": {
+    "id": "portfolio-studiynaya-devushki-dasha",
+    "level": 3,
+    "name": "Даша",
+    "date": "2018-10-22T12:18:27.000Z",
+    "breadcrumbs": [
+      {
+        "id": "portfolio",
+        "name": "Портфолио"
+      },
+      {
+        "id": "portfolio-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "portfolio-studiynaya-devushki",
+        "name": "Девушки"
+      },
+      {
+        "id": "portfolio-studiynaya-devushki-dasha",
+        "name": "Даша"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 115,
+        "url": {
+          "original": "images\\original\\49234-dasha\\1.jpg",
+          "preview": "images\\preview\\49234-dasha\\1.jpg"
+        },
+        "name": "1",
+        "isCover": false
+      },
+      {
+        "id": 116,
+        "url": {
+          "original": "images\\original\\49234-dasha\\11.jpg",
+          "preview": "images\\preview\\49234-dasha\\11.jpg"
+        },
+        "name": "11",
+        "isCover": false
+      },
+      {
+        "id": 117,
+        "url": {
+          "original": "images\\original\\49234-dasha\\2.jpg",
+          "preview": "images\\preview\\49234-dasha\\2.jpg"
+        },
+        "name": "2",
+        "isCover": false
+      },
+      {
+        "id": 118,
+        "url": {
+          "original": "images\\original\\49234-dasha\\7.jpg",
+          "preview": "images\\preview\\49234-dasha\\7.jpg"
+        },
+        "name": "7",
+        "isCover": false
+      },
+      {
+        "id": 119,
+        "url": {
+          "original": "images\\original\\49234-dasha\\9.jpg",
+          "preview": "images\\preview\\49234-dasha\\9.jpg"
+        },
+        "name": "9",
+        "isCover": false
+      },
+      {
+        "id": 120,
+        "url": {
+          "original": "images\\original\\49234-dasha\\oblozhka.jpg",
+          "preview": "images\\preview\\49234-dasha\\oblozhka.jpg"
+        },
+        "name": "обложка",
+        "isCover": true
+      }
+    ]
+  }
+}

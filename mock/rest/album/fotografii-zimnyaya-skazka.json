@@ -1,0 +1,238 @@
+{
+  "success": true,
+  "body": {
+    "id": "fotografii-zimnyaya-skazka",
+    "level": 1,
+    "name": "Зимняя сказка",
+    "date": "2019-01-15T12:09:56.267Z",
+    "breadcrumbs": [
+      {
+        "id": "fotografii",
+        "name": "Фотографии"
+      },
+      {
+        "id": "fotografii-zimnyaya-skazka",
+        "name": "Зимняя сказка"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 24,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\1.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\1.jpg"
+        },
+        "name": "1",
+        "isCover": false
+      },
+      {
+        "id": 25,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0003.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0003.jpg"
+        },
+        "name": "_DSC0003",
+        "isCover": false
+      },
+      {
+        "id": 26,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0004.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0004.jpg"
+        },
+        "name": "_DSC0004",
+        "isCover": false
+      },
+      {
+        "id": 27,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0005.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0005.jpg"
+        },
+        "name": "_DSC0005",
+        "isCover": false
+      },
+      {
+        "id": 28,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0006.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0006.jpg"
+        },
+        "name": "_DSC0006",
+        "isCover": false
+      },
+      {
+        "id": 29,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0007.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0007.jpg"
+        },
+        "name": "_DSC0007",
+        "isCover": false
+      },
+      {
+        "id": 30,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0009.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0009.jpg"
+        },
+        "name": "_DSC0009",
+        "isCover": false
+      },
+      {
+        "id": 31,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0017.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0017.jpg"
+        },
+        "name": "_DSC0017",
+        "isCover": false
+      },
+      {
+        "id": 32,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0019.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0019.jpg"
+        },
+        "name": "_DSC0019",
+        "isCover": false
+      },
+      {
+        "id": 33,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0020.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0020.jpg"
+        },
+        "name": "_DSC0020",
+        "isCover": false
+      },
+      {
+        "id": 34,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0025.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0025.jpg"
+        },
+        "name": "_DSC0025",
+        "isCover": false
+      },
+      {
+        "id": 35,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0028.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0028.jpg"
+        },
+        "name": "_DSC0028",
+        "isCover": false
+      },
+      {
+        "id": 36,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0034.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0034.jpg"
+        },
+        "name": "_DSC0034",
+        "isCover": false
+      },
+      {
+        "id": 37,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0045.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0045.jpg"
+        },
+        "name": "_DSC0045",
+        "isCover": false
+      },
+      {
+        "id": 38,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0050.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0050.jpg"
+        },
+        "name": "_DSC0050",
+        "isCover": false
+      },
+      {
+        "id": 39,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0136.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0136.jpg"
+        },
+        "name": "_DSC0136",
+        "isCover": false
+      },
+      {
+        "id": 40,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0140.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0140.jpg"
+        },
+        "name": "_DSC0140",
+        "isCover": false
+      },
+      {
+        "id": 41,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0147.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0147.jpg"
+        },
+        "name": "_DSC0147",
+        "isCover": false
+      },
+      {
+        "id": 42,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0155.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0155.jpg"
+        },
+        "name": "_DSC0155",
+        "isCover": false
+      },
+      {
+        "id": 43,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0148.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0148.jpg"
+        },
+        "name": "_DSC0148",
+        "isCover": false
+      },
+      {
+        "id": 44,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0158.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0158.jpg"
+        },
+        "name": "_DSC0158",
+        "isCover": false
+      },
+      {
+        "id": 45,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0178.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0178.jpg"
+        },
+        "name": "_DSC0178",
+        "isCover": false
+      },
+      {
+        "id": 46,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0181.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0181.jpg"
+        },
+        "name": "_DSC0181",
+        "isCover": false
+      },
+      {
+        "id": 47,
+        "url": {
+          "original": "images\\original\\2acc8-zimnyaya-skazka\\dsc0207.jpg",
+          "preview": "images\\preview\\2acc8-zimnyaya-skazka\\dsc0207.jpg"
+        },
+        "name": "_DSC0207",
+        "isCover": false
+      }
+    ]
+  }
+}

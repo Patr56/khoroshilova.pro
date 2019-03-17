@@ -1,0 +1,60 @@
+{
+  "success": true,
+  "body": {
+    "id": "portfolio-studiynaya-parni",
+    "level": 2,
+    "name": "Парни",
+    "date": "2018-11-07T17:22:50.238Z",
+    "breadcrumbs": [
+      {
+        "id": "portfolio",
+        "name": "Портфолио"
+      },
+      {
+        "id": "portfolio-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "portfolio-studiynaya-parni",
+        "name": "Парни"
+      }
+    ],
+    "albums": [
+      {
+        "id": "portfolio-studiynaya-parni-pavel",
+        "name": "Павел",
+        "level": 3,
+        "photos": [
+          {
+            "id": 145,
+            "url": {
+              "original": "images\\original\\92b69-pavel\\oblozhka.JPG",
+              "preview": "images\\preview\\92b69-pavel\\oblozhka.JPG"
+            },
+            "name": "Павел",
+            "isCover": true
+          }
+        ],
+        "count": 4
+      },
+      {
+        "id": "portfolio-studiynaya-parni-sasha",
+        "name": "Саша",
+        "level": 3,
+        "photos": [
+          {
+            "id": 149,
+            "url": {
+              "original": "images\\original\\92b69-sasha\\oblozhka.jpg",
+              "preview": "images\\preview\\92b69-sasha\\oblozhka.jpg"
+            },
+            "name": "Саша",
+            "isCover": true
+          }
+        ],
+        "count": 4
+      }
+    ],
+    "photos": []
+  }
+}

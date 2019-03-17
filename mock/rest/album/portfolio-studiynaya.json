@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "body": {
+    "id": "portfolio-studiynaya",
+    "level": 1,
+    "name": "Студийная",
+    "date": "2018-11-22T17:01:44.231Z",
+    "breadcrumbs": [
+      {
+        "id": "portfolio",
+        "name": "Портфолио"
+      },
+      {
+        "id": "portfolio-studiynaya",
+        "name": "Студийная"
+      }
+    ],
+    "albums": [
+      {
+        "id": "portfolio-studiynaya-devushki",
+        "name": "Девушки",
+        "level": 2,
+        "photos": [
+          {
+            "id": 114,
+            "url": {
+              "original": "images\\original\\49234-darya\\oblozhka.jpg",
+              "preview": "images\\preview\\49234-darya\\oblozhka.jpg"
+            },
+            "name": "Девушки",
+            "isCover": true
+          }
+        ],
+        "count": 11
+      },
+      {
+        "id": "portfolio-studiynaya-parni",
+        "name": "Парни",
+        "level": 2,
+        "photos": [
+          {
+            "id": 145,
+            "url": {
+              "original": "images\\original\\92b69-pavel\\oblozhka.JPG",
+              "preview": "images\\preview\\92b69-pavel\\oblozhka.JPG"
+            },
+            "name": "Парни",
+            "isCover": true
+          }
+        ],
+        "count": 4
+      }
+    ],
+    "photos": []
+  }
+}

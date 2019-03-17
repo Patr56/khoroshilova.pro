@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "body": {
+    "id": "portfolio",
+    "level": 0,
+    "name": "Портфолио",
+    "date": "2018-10-06T15:49:46.000Z",
+    "breadcrumbs": [
+      {
+        "id": "portfolio",
+        "name": "Портфолио"
+      }
+    ],
+    "albums": [
+      {
+        "id": "portfolio-lokaciya",
+        "name": "Локация",
+        "level": 1,
+        "photos": [
+          {
+            "id": 97,
+            "url": {
+              "original": "images\\original\\0ed99-katya\\oblozhka.jpg",
+              "preview": "images\\preview\\0ed99-katya\\oblozhka.jpg"
+            },
+            "name": "Локация",
+            "isCover": true
+          }
+        ],
+        "count": 13
+      },
+      {
+        "id": "portfolio-studiynaya",
+        "name": "Студийная",
+        "level": 1,
+        "photos": [
+          {
+            "id": 114,
+            "url": {
+              "original": "images\\original\\49234-darya\\oblozhka.jpg",
+              "preview": "images\\preview\\49234-darya\\oblozhka.jpg"
+            },
+            "name": "Студийная",
+            "isCover": true
+          }
+        ],
+        "count": 11
+      }
+    ],
+    "photos": []
+  }
+}

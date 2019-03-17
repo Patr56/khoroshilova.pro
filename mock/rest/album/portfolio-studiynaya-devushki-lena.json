@@ -1,0 +1,75 @@
+{
+  "success": true,
+  "body": {
+    "id": "portfolio-studiynaya-devushki-lena",
+    "level": 3,
+    "name": "Лена",
+    "date": "2018-10-25T12:21:00.000Z",
+    "breadcrumbs": [
+      {
+        "id": "portfolio",
+        "name": "Портфолио"
+      },
+      {
+        "id": "portfolio-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "portfolio-studiynaya-devushki",
+        "name": "Девушки"
+      },
+      {
+        "id": "portfolio-studiynaya-devushki-lena",
+        "name": "Лена"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 124,
+        "url": {
+          "original": "images\\original\\49234-lena\\1.jpg",
+          "preview": "images\\preview\\49234-lena\\1.jpg"
+        },
+        "name": "1",
+        "isCover": false
+      },
+      {
+        "id": 125,
+        "url": {
+          "original": "images\\original\\49234-lena\\2.jpg",
+          "preview": "images\\preview\\49234-lena\\2.jpg"
+        },
+        "name": "2",
+        "isCover": false
+      },
+      {
+        "id": 126,
+        "url": {
+          "original": "images\\original\\49234-lena\\4.jpg",
+          "preview": "images\\preview\\49234-lena\\4.jpg"
+        },
+        "name": "4",
+        "isCover": false
+      },
+      {
+        "id": 127,
+        "url": {
+          "original": "images\\original\\49234-lena\\5.jpg",
+          "preview": "images\\preview\\49234-lena\\5.jpg"
+        },
+        "name": "5",
+        "isCover": false
+      },
+      {
+        "id": 128,
+        "url": {
+          "original": "images\\original\\49234-lena\\oblozhka.jpg",
+          "preview": "images\\preview\\49234-lena\\oblozhka.jpg"
+        },
+        "name": "обложка",
+        "isCover": true
+      }
+    ]
+  }
+}

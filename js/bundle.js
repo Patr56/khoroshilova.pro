@@ -43989,6 +43989,8 @@ exports.galleryOpen = function () { return ({
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var _a;
+var Enums_1 = __webpack_require__(/*! ./Enums */ "./src/Enums.ts");
 // Заглушка для моков.
 exports.REST_ACTIVE = false;
 // Максимальное количество фотографиий в превью.
@@ -43998,6 +44000,14 @@ exports.ALBUM_IN_LINE = 4;
 // Количество альбомов в линию.
 exports.SOCIAL_LINK__INSTAGRAM = "https://instagram.com/simka001";
 exports.SOCIAL_LINK__VK = "https://vk.com/public171631266";
+// Доступные страницы.
+exports.AVAILABLE_PAGES = (_a = {},
+    _a[Enums_1.EPages.BLOG] = false,
+    _a[Enums_1.EPages.PHOTO] = true,
+    _a[Enums_1.EPages.PRICE] = true,
+    _a[Enums_1.EPages.PORTFOLIO] = true,
+    _a[Enums_1.EPages.CONTACTS] = true,
+    _a);
 
 
 /***/ }),
@@ -44029,6 +44039,14 @@ var EActions;
     EActions["GALLERY_NEXT_PHOTO"] = "GALLERY_NEXT_PHOTO";
     EActions["GALLERY_PREV_PHOTO"] = "GALLERY_PREV_PHOTO";
 })(EActions = exports.EActions || (exports.EActions = {}));
+var EPages;
+(function (EPages) {
+    EPages[EPages["PORTFOLIO"] = 0] = "PORTFOLIO";
+    EPages[EPages["PHOTO"] = 1] = "PHOTO";
+    EPages[EPages["PRICE"] = 2] = "PRICE";
+    EPages[EPages["BLOG"] = 3] = "BLOG";
+    EPages[EPages["CONTACTS"] = 4] = "CONTACTS";
+})(EPages = exports.EPages || (exports.EPages = {}));
 
 
 /***/ }),
@@ -44158,11 +44176,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var Config_1 = __webpack_require__(/*! ./Config */ "./src/Config.ts");
 function getUrl(url) {
-    return Config_1.REST_ACTIVE ? url : "/mock" + url + ".json";
+    return Config_1.REST_ACTIVE ? url : "/mock/" + url + ".json";
 }
 function loadLastAlbums() {
     return axios_1.default.request({
-        url: getUrl('/rest/album/last'),
+        url: getUrl('rest/album/last'),
         method: 'get',
     }).then(function (result) {
         if (result.data.success === true) {
@@ -44176,7 +44194,7 @@ function loadLastAlbums() {
 exports.loadLastAlbums = loadLastAlbums;
 function loadAlbums(id) {
     return axios_1.default.request({
-        url: getUrl("/rest/album/" + (typeof id !== "undefined" ? id : "")),
+        url: getUrl("rest/album/" + (typeof id !== "undefined" ? id : "")),
         method: 'get',
     }).then(function (result) {
         if (result.data.success === true) {
@@ -44190,7 +44208,7 @@ function loadAlbums(id) {
 exports.loadAlbums = loadAlbums;
 function loadBlog(id) {
     return axios_1.default.request({
-        url: getUrl("/rest/blog/" + (typeof id !== "undefined" ? id : "")),
+        url: getUrl("rest/blog/" + (typeof id !== "undefined" ? id : "")),
         method: 'get',
     }).then(function (result) {
         if (result.data.success === true) {
@@ -44391,13 +44409,14 @@ var AlbumList = /** @class */ (function (_super) {
     AlbumList.prototype.render = function () {
         var _this = this;
         var _a = this.props, _b = _a.album, status = _b.status, _c = _b.data, albums = _c.albums, photos = _c.photos, id = _c.id, error = _b.error, showName = _a.showName;
+        var prefix = this.props.match.url.split('/').filter(function (u) { return u !== ""; })[0];
         var albumLength = albums && albums.length || 0;
         return (React.createElement("div", { className: "album-list" },
             status === Enums_1.EStatus.BEGIN && (React.createElement("div", { className: "album-list_loader" }, "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430")),
             status === Enums_1.EStatus.FAILURE && (React.createElement("div", { className: "album-list_failure" }, error)),
             albums && albums.map(function (album, index) { return (React.createElement(React.Fragment, { key: album.id },
                 index % Config_1.ALBUM_IN_LINE === 0 && (React.createElement("div", { className: "clothesline clothesline__left-" + _this.getRandomBird() + " clothesline__right-" + _this.getRandomBird() })),
-                React.createElement(react_router_dom_1.Link, { to: "/portfolio/" + album.id },
+                React.createElement(react_router_dom_1.Link, { to: "/" + prefix + "/" + album.id },
                     React.createElement(Album_1.Album, { showName: showName, photos: album.photos, count: album.count, onClick: _this.handleClickAlbum(album.id) })))); }),
             photos && id && photos.map(function (photo, index) { return (React.createElement(React.Fragment, { key: photo.id },
                 (albumLength + index) % Config_1.ALBUM_IN_LINE === 0 && (React.createElement("div", { className: "clothesline clothesline__left-" + _this.getRandomBird() + " clothesline__right-" + _this.getRandomBird() })),
@@ -44802,6 +44821,7 @@ var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/rea
 var Home_1 = __webpack_require__(/*! ./pages/home/Home */ "./src/components/pages/home/Home.tsx");
 var Blog_1 = __webpack_require__(/*! ./pages/blog/Blog */ "./src/components/pages/blog/Blog.tsx");
 var Portfolio_1 = __webpack_require__(/*! ./pages/portfolio/Portfolio */ "./src/components/pages/portfolio/Portfolio.tsx");
+var Photo_1 = __webpack_require__(/*! ./pages/photo/Photo */ "./src/components/pages/photo/Photo.tsx");
 var Price_1 = __webpack_require__(/*! ./pages/price/Price */ "./src/components/pages/price/Price.tsx");
 var Contacts_1 = __webpack_require__(/*! ./pages/contacts/Contacts */ "./src/components/pages/contacts/Contacts.tsx");
 var NoMatch_1 = __webpack_require__(/*! ./pages/404/NoMatch */ "./src/components/pages/404/NoMatch.tsx");
@@ -44838,6 +44858,7 @@ var Main = /** @class */ (function (_super) {
             React.createElement(react_router_1.Switch, null,
                 React.createElement(react_router_1.Route, { path: "/", component: Home_1.Home, exact: true }),
                 React.createElement(react_router_1.Route, { path: "/blog", component: Blog_1.Blog }),
+                React.createElement(react_router_1.Route, { path: "/photo/:id", component: Photo_1.default }),
                 React.createElement(react_router_1.Route, { path: "/portfolio/:id", component: Portfolio_1.default }),
                 React.createElement(react_router_1.Route, { path: "/price", component: Price_1.Price }),
                 React.createElement(react_router_1.Route, { path: "/contacts", component: Contacts_1.Contacts }),
@@ -44901,6 +44922,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "react");
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+var Config_1 = __webpack_require__(/*! ../Config */ "./src/Config.ts");
+var Enums_1 = __webpack_require__(/*! ../Enums */ "./src/Enums.ts");
 __webpack_require__(/*! ./styles/navigation.css */ "./src/components/styles/navigation.css");
 /**
  * Навигация по сайту.
@@ -44911,20 +44934,32 @@ var Navigation = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Navigation.prototype.render = function () {
-        var show = this.props.show;
+        var _a = this.props, show = _a.show, showIcon = _a.showIcon;
         if (!show) {
             return React.createElement("div", null);
         }
         return (React.createElement("nav", { className: "nav" },
             React.createElement("ul", { className: "navigation" },
-                React.createElement("li", { className: "navigation_link" },
-                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/portfolio/glavnaya", title: "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E" }, "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E")),
-                React.createElement("li", { className: "navigation_link" },
-                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/price", title: "\u0426\u0435\u043D\u044B" }, "\u0426\u0435\u043D\u044B")),
-                React.createElement("li", { className: "navigation_link" },
-                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/blog", title: "\u0411\u043B\u043E\u0433" }, "\u0411\u043B\u043E\u0433")),
-                React.createElement("li", { className: "navigation_link" },
-                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/contacts", title: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B" }, "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B")))));
+                Config_1.AVAILABLE_PAGES[Enums_1.EPages.PORTFOLIO] && React.createElement("li", { className: "navigation_link" },
+                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/portfolio/portfolio", title: "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E" },
+                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__suitcase" }),
+                        "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E")),
+                Config_1.AVAILABLE_PAGES[Enums_1.EPages.PHOTO] && React.createElement("li", { className: "navigation_link" },
+                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/photo/fotografii", title: "\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0438" },
+                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__portfolio" }),
+                        "\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0438")),
+                Config_1.AVAILABLE_PAGES[Enums_1.EPages.PRICE] && React.createElement("li", { className: "navigation_link" },
+                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/price", title: "\u0426\u0435\u043D\u044B" },
+                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__price" }),
+                        "\u0426\u0435\u043D\u044B")),
+                Config_1.AVAILABLE_PAGES[Enums_1.EPages.BLOG] && React.createElement("li", { className: "navigation_link" },
+                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/blog", title: "\u0411\u043B\u043E\u0433" },
+                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__blog" }),
+                        "\u0411\u043B\u043E\u0433")),
+                Config_1.AVAILABLE_PAGES[Enums_1.EPages.CONTACTS] && React.createElement("li", { className: "navigation_link" },
+                    React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/contacts", title: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B" },
+                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__contacts" }),
+                        "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B")))));
     };
     return Navigation;
 }(React.Component));
@@ -45215,7 +45250,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "react");
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+var Navigation_1 = __webpack_require__(/*! ../../Navigation */ "./src/components/Navigation.tsx");
 __webpack_require__(/*! ./styles/home.css */ "./src/components/pages/home/styles/home.css");
 var Home = /** @class */ (function (_super) {
     __extends(Home, _super);
@@ -45224,24 +45259,7 @@ var Home = /** @class */ (function (_super) {
     }
     Home.prototype.render = function () {
         return (React.createElement("div", { className: "page page_home" },
-            React.createElement("nav", { className: "nav" },
-                React.createElement("ul", { className: "navigation" },
-                    React.createElement("li", { className: "navigation_link" },
-                        React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/portfolio/glavnaya", title: "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E" },
-                            React.createElement("div", { className: "navigation_icon navigation_icon__portfolio" }),
-                            "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E")),
-                    React.createElement("li", { className: "navigation_link" },
-                        React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/price", title: "\u0426\u0435\u043D\u044B" },
-                            React.createElement("div", { className: "navigation_icon navigation_icon__price" }),
-                            "\u0426\u0435\u043D\u044B")),
-                    React.createElement("li", { className: "navigation_link" },
-                        React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/blog", title: "\u0411\u043B\u043E\u0433" },
-                            React.createElement("div", { className: "navigation_icon navigation_icon__blog" }),
-                            "\u0411\u043B\u043E\u0433")),
-                    React.createElement("li", { className: "navigation_link" },
-                        React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/contacts", title: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B" },
-                            React.createElement("div", { className: "navigation_icon navigation_icon__contacts" }),
-                            "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B"))))));
+            React.createElement(Navigation_1.Navigation, { show: true, showIcon: true })));
     };
     return Home;
 }(React.Component));
@@ -45258,6 +45276,60 @@ exports.Home = Home;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./src/components/pages/photo/Photo.tsx":
+/*!**********************************************!*\
+  !*** ./src/components/pages/photo/Photo.tsx ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "react");
+var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/es/index.js");
+var Breadcrumbs_1 = __webpack_require__(/*! ../../Breadcrumbs */ "./src/components/Breadcrumbs.tsx");
+var AlbumList_1 = __webpack_require__(/*! ../../AlbumList */ "./src/components/AlbumList.tsx");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var Photo = /** @class */ (function (_super) {
+    __extends(Photo, _super);
+    function Photo() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Photo.prototype.render = function () {
+        var _a = this.props, id = _a.match.params.id, breadcrumbs = _a.breadcrumbs;
+        return (React.createElement("div", null,
+            React.createElement(Breadcrumbs_1.Breadcrumbs, { breadcrumbs: breadcrumbs }),
+            React.createElement(AlbumList_1.default, { id: id })));
+    };
+    return Photo;
+}(React.Component));
+exports.Photo = Photo;
+var PhotoWithRoute = react_router_1.withRouter(Photo);
+var mapStateToProps = function (store, ownProps) {
+    var album = store.reducerGetAlbums.albums[ownProps.match.params.id];
+    return {
+        breadcrumbs: album ? album.data.breadcrumbs : [],
+    };
+};
+exports.default = react_redux_1.connect(mapStateToProps)(PhotoWithRoute);
+
 
 /***/ }),
 

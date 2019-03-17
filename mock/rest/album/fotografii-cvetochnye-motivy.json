@@ -1,0 +1,67 @@
+{
+  "success": true,
+  "body": {
+    "id": "fotografii-cvetochnye-motivy",
+    "level": 1,
+    "name": "Цветочные мотивы",
+    "date": "2018-05-30T12:34:47.187Z",
+    "breadcrumbs": [
+      {
+        "id": "fotografii",
+        "name": "Фотографии"
+      },
+      {
+        "id": "fotografii-cvetochnye-motivy",
+        "name": "Цветочные мотивы"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 76,
+        "url": {
+          "original": "images\\original\\2acc8-cvetochnye-motivy\\dsc-0100.jpg",
+          "preview": "images\\preview\\2acc8-cvetochnye-motivy\\dsc-0100.jpg"
+        },
+        "name": "DSC_0100",
+        "isCover": false
+      },
+      {
+        "id": 77,
+        "url": {
+          "original": "images\\original\\2acc8-cvetochnye-motivy\\dsc0011.jpg",
+          "preview": "images\\preview\\2acc8-cvetochnye-motivy\\dsc0011.jpg"
+        },
+        "name": "_DSC0011",
+        "isCover": false
+      },
+      {
+        "id": 78,
+        "url": {
+          "original": "images\\original\\2acc8-cvetochnye-motivy\\dsc0086.jpg",
+          "preview": "images\\preview\\2acc8-cvetochnye-motivy\\dsc0086.jpg"
+        },
+        "name": "_DSC0086",
+        "isCover": false
+      },
+      {
+        "id": 79,
+        "url": {
+          "original": "images\\original\\2acc8-cvetochnye-motivy\\dsc0348.JPG",
+          "preview": "images\\preview\\2acc8-cvetochnye-motivy\\dsc0348.JPG"
+        },
+        "name": "_DSC0348",
+        "isCover": false
+      },
+      {
+        "id": 80,
+        "url": {
+          "original": "images\\original\\2acc8-cvetochnye-motivy\\dsc-0096.jpg",
+          "preview": "images\\preview\\2acc8-cvetochnye-motivy\\dsc-0096.jpg"
+        },
+        "name": "DSC_0096",
+        "isCover": false
+      }
+    ]
+  }
+}
