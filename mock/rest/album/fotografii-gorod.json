@@ -18,7 +18,7 @@
     "albums": [],
     "photos": [
       {
-        "id": 9,
+        "id": 6,
         "url": {
           "original": "images\\original\\2acc8-gorod\\635da7f3-fff9-4f8c-aa95-2c357d5975b3.jfif",
           "preview": "images\\preview\\2acc8-gorod\\635da7f3-fff9-4f8c-aa95-2c357d5975b3.jfif"
@@ -27,7 +27,7 @@
         "isCover": false
       },
       {
-        "id": 10,
+        "id": 7,
         "url": {
           "original": "images\\original\\2acc8-gorod\\9d32568d-174b-4d80-9262-3509c5234936.jfif",
           "preview": "images\\preview\\2acc8-gorod\\9d32568d-174b-4d80-9262-3509c5234936.jfif"
@@ -36,7 +36,7 @@
         "isCover": false
       },
       {
-        "id": 11,
+        "id": 8,
         "url": {
           "original": "images\\original\\2acc8-gorod\\img-20190308-212537.jpg",
           "preview": "images\\preview\\2acc8-gorod\\img-20190308-212537.jpg"
@@ -45,7 +45,7 @@
         "isCover": false
       },
       {
-        "id": 12,
+        "id": 9,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0030.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0030.jpg"
@@ -54,7 +54,7 @@
         "isCover": false
       },
       {
-        "id": 13,
+        "id": 10,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0085.JPG",
           "preview": "images\\preview\\2acc8-gorod\\dsc0085.JPG"
@@ -63,7 +63,7 @@
         "isCover": false
       },
       {
-        "id": 14,
+        "id": 11,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0224.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0224.jpg"
@@ -72,7 +72,7 @@
         "isCover": false
       },
       {
-        "id": 15,
+        "id": 12,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0241.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0241.jpg"
@@ -81,7 +81,7 @@
         "isCover": false
       },
       {
-        "id": 16,
+        "id": 13,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0243.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0243.jpg"
@@ -90,7 +90,7 @@
         "isCover": false
       },
       {
-        "id": 17,
+        "id": 14,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0250.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0250.jpg"
@@ -99,7 +99,7 @@
         "isCover": false
       },
       {
-        "id": 18,
+        "id": 15,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0363.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0363.jpg"
@@ -108,7 +108,7 @@
         "isCover": false
       },
       {
-        "id": 19,
+        "id": 16,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0658.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0658.jpg"
@@ -117,7 +117,7 @@
         "isCover": false
       },
       {
-        "id": 20,
+        "id": 17,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0796.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0796.jpg"
@@ -126,7 +126,7 @@
         "isCover": false
       },
       {
-        "id": 21,
+        "id": 18,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0802.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0802.jpg"
@@ -135,7 +135,7 @@
         "isCover": false
       },
       {
-        "id": 22,
+        "id": 19,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0838.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0838.jpg"
@@ -144,7 +144,7 @@
         "isCover": false
       },
       {
-        "id": 23,
+        "id": 20,
         "url": {
           "original": "images\\original\\2acc8-gorod\\dsc0842.jpg",
           "preview": "images\\preview\\2acc8-gorod\\dsc0842.jpg"

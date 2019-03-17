@@ -13,7 +13,7 @@
         "albums": [],
         "photos": [
           {
-            "id": 9,
+            "id": 6,
             "url": {
               "original": "images\\original\\2acc8-gorod\\635da7f3-fff9-4f8c-aa95-2c357d5975b3.jfif",
               "preview": "images\\preview\\2acc8-gorod\\635da7f3-fff9-4f8c-aa95-2c357d5975b3.jfif"
@@ -32,7 +32,7 @@
         "albums": [],
         "photos": [
           {
-            "id": 81,
+            "id": 70,
             "url": {
               "original": "images\\original\\2acc8-raznoe\\5045d4af-67c0-40b6-a02a-c732d3dbde9a.jfif",
               "preview": "images\\preview\\2acc8-raznoe\\5045d4af-67c0-40b6-a02a-c732d3dbde9a.jfif"
@@ -51,7 +51,7 @@
         "albums": [],
         "photos": [
           {
-            "id": 70,
+            "id": 79,
             "url": {
               "original": "images\\original\\2acc8-cherno-belye\\741da3eb-cfc6-45c8-b710-54a8c4fb43dd.jfif",
               "preview": "images\\preview\\2acc8-cherno-belye\\741da3eb-cfc6-45c8-b710-54a8c4fb43dd.jfif"
