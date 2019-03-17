@@ -44848,13 +44848,18 @@ var Main = /** @class */ (function (_super) {
         return _this;
     }
     Main.prototype.render = function () {
-        var _a = this.props, isOpen = _a.isOpen, photos = _a.photos, index = _a.viewPhoto.index;
+        var _a;
+        var _b = this.props, isOpen = _b.isOpen, photos = _b.photos, index = _b.viewPhoto.index;
         var imagesForGallery = photos.map(function (photo) { return ({
             src: photo.url.original,
             thumbnail: photo.url.preview.replace(/\\/g, '/'),
         }); });
         return (React.createElement("main", { className: "main" },
-            React.createElement(react_images_1.default, { enableKeyboardInput: true, backdropClosesModal: true, currentImage: index, images: imagesForGallery, isOpen: isOpen, imageCountSeparator: " \u0438\u0437 ", showThumbnails: true, onClickPrev: this.handlePrev, onClickNext: this.handleNext, onClickThumbnail: this.handleClickThumbnail, onClose: this.handleClose }),
+            React.createElement(react_images_1.default, { enableKeyboardInput: true, backdropClosesModal: true, showThumbnails: true, imageCountSeparator: " \u0438\u0437 ", closeButtonTitle: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C (Esc)", currentImage: index, images: imagesForGallery, isOpen: isOpen, onClickPrev: this.handlePrev, onClickNext: this.handleNext, onClickThumbnail: this.handleClickThumbnail, onClose: this.handleClose, theme: {
+                    image: (_a = {},
+                        _a["user-select"] = "all",
+                        _a)
+                } }),
             React.createElement(react_router_1.Switch, null,
                 React.createElement(react_router_1.Route, { path: "/", component: Home_1.Home, exact: true }),
                 React.createElement(react_router_1.Route, { path: "/blog", component: Blog_1.Blog }),
