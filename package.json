@@ -6,7 +6,7 @@
   "size-limit": [
     {
       "limit": "200 KB",
-      "path": "docs/js/bundle.js"
+      "path": "build/js/bundle.js"
     }
   ],
   "scripts": {
@@ -17,7 +17,7 @@
     "make:gallery": "node makeGallery.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "patr56@yandex.ru",
   "license": "ISC",
   "dependencies": {
     "axios": "0.18.0",
