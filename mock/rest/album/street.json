@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "body": {
+    "id": "street",
+    "level": 0,
+    "name": "street",
+    "date": "2019-01-09T19:51:53.107Z",
+    "breadcrumbs": [
+      {
+        "id": "street",
+        "name": "street"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 2,
+        "url": {
+          "original": "images\\original\\d41d8-street\\1.jpg",
+          "preview": "images\\preview\\d41d8-street\\1.jpg"
+        },
+        "name": "1",
+        "isCover": false
+      },
+      {
+        "id": 3,
+        "url": {
+          "original": "images\\original\\d41d8-street\\2.jpg",
+          "preview": "images\\preview\\d41d8-street\\2.jpg"
+        },
+        "name": "2",
+        "isCover": false
+      },
+      {
+        "id": 4,
+        "url": {
+          "original": "images\\original\\d41d8-street\\oblozhka.JPG",
+          "preview": "images\\preview\\d41d8-street\\oblozhka.JPG"
+        },
+        "name": "обложка",
+        "isCover": true
+      }
+    ]
+  }
+}

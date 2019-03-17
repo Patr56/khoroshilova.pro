@@ -1,0 +1,87 @@
+{
+  "success": true,
+  "body": {
+    "id": "last",
+    "level": 0,
+    "name": "last",
+    "albums": [
+      {
+        "id": "glavnaya-studiynaya-devushki-olya",
+        "level": 3,
+        "name": "Оля",
+        "date": "2019-02-20T12:56:49.528Z",
+        "albums": [],
+        "photos": [
+          {
+            "id": 62,
+            "url": {
+              "original": "images\\original\\af8df-olya\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-olya\\oblozhka.jpg"
+            },
+            "name": "Оля",
+            "isCover": true
+          }
+        ],
+        "count": 5
+      },
+      {
+        "id": "glavnaya-lokaciya-natasha",
+        "level": 2,
+        "name": "Наташа",
+        "date": "2019-01-09T19:13:40.573Z",
+        "albums": [],
+        "photos": [
+          {
+            "id": 24,
+            "url": {
+              "original": "images\\original\\6e4b6-natasha\\oblozhka.jpg",
+              "preview": "images\\preview\\6e4b6-natasha\\oblozhka.jpg"
+            },
+            "name": "Наташа",
+            "isCover": true
+          }
+        ],
+        "count": 6
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-kseniya",
+        "level": 3,
+        "name": "Ксения",
+        "date": "2018-12-12T18:03:06.105Z",
+        "albums": [],
+        "photos": [
+          {
+            "id": 44,
+            "url": {
+              "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
+            },
+            "name": "Ксения",
+            "isCover": true
+          }
+        ],
+        "count": 3
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-olga",
+        "level": 3,
+        "name": "Ольга",
+        "date": "2018-12-10T16:01:35.192Z",
+        "albums": [],
+        "photos": [
+          {
+            "id": 57,
+            "url": {
+              "original": "images\\original\\af8df-olga\\oblozhka.jpg",
+              "preview": "images\\preview\\af8df-olga\\oblozhka.jpg"
+            },
+            "name": "Ольга",
+            "isCover": true
+          }
+        ],
+        "count": 8
+      }
+    ],
+    "photos": []
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "success": true,
+  "body": {
+    "id": "glavnaya-studiynaya-devushki-olga",
+    "level": 3,
+    "name": "Ольга",
+    "date": "2018-12-10T16:01:35.192Z",
+    "breadcrumbs": [
+      {
+        "id": "glavnaya",
+        "name": "Главная"
+      },
+      {
+        "id": "glavnaya-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki",
+        "name": "Девушки"
+      },
+      {
+        "id": "glavnaya-studiynaya-devushki-olga",
+        "name": "Ольга"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 50,
+        "url": {
+          "original": "images\\original\\af8df-olga\\2.jpg",
+          "preview": "images\\preview\\af8df-olga\\2.jpg"
+        },
+        "name": "2",
+        "isCover": false
+      },
+      {
+        "id": 51,
+        "url": {
+          "original": "images\\original\\af8df-olga\\1.jpg",
+          "preview": "images\\preview\\af8df-olga\\1.jpg"
+        },
+        "name": "1",
+        "isCover": false
+      },
+      {
+        "id": 52,
+        "url": {
+          "original": "images\\original\\af8df-olga\\3.jpg",
+          "preview": "images\\preview\\af8df-olga\\3.jpg"
+        },
+        "name": "3",
+        "isCover": false
+      },
+      {
+        "id": 53,
+        "url": {
+          "original": "images\\original\\af8df-olga\\4.jpg",
+          "preview": "images\\preview\\af8df-olga\\4.jpg"
+        },
+        "name": "4",
+        "isCover": false
+      },
+      {
+        "id": 54,
+        "url": {
+          "original": "images\\original\\af8df-olga\\7.jpg",
+          "preview": "images\\preview\\af8df-olga\\7.jpg"
+        },
+        "name": "7",
+        "isCover": false
+      },
+      {
+        "id": 55,
+        "url": {
+          "original": "images\\original\\af8df-olga\\6.jpg",
+          "preview": "images\\preview\\af8df-olga\\6.jpg"
+        },
+        "name": "6",
+        "isCover": false
+      },
+      {
+        "id": 56,
+        "url": {
+          "original": "images\\original\\af8df-olga\\5.jpg",
+          "preview": "images\\preview\\af8df-olga\\5.jpg"
+        },
+        "name": "5",
+        "isCover": false
+      },
+      {
+        "id": 57,
+        "url": {
+          "original": "images\\original\\af8df-olga\\oblozhka.jpg",
+          "preview": "images\\preview\\af8df-olga\\oblozhka.jpg"
+        },
+        "name": "обложка",
+        "isCover": true
+      }
+    ]
+  }
+}
