@@ -70,15 +70,21 @@ export class Main extends React.Component<IProps, {}> {
                 <Lightbox
                     enableKeyboardInput
                     backdropClosesModal
+                    showThumbnails
+                    imageCountSeparator=" из "
+                    closeButtonTitle="Закрыть (Esc)"
                     currentImage={index}
                     images={imagesForGallery}
                     isOpen={isOpen}
-                    imageCountSeparator=" из "
-                    showThumbnails
                     onClickPrev={this.handlePrev}
                     onClickNext={this.handleNext}
                     onClickThumbnail={this.handleClickThumbnail}
                     onClose={this.handleClose}
+                    theme={{
+                        image: {
+                            ["user-select"]: "all"
+                        }
+                    }}
                 />
                 <Switch>
                     <Route path="/" component={Home} exact/>
