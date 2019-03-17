@@ -44857,7 +44857,8 @@ var Main = /** @class */ (function (_super) {
         return (React.createElement("main", { className: "main" },
             React.createElement(react_images_1.default, { enableKeyboardInput: true, backdropClosesModal: true, showThumbnails: true, imageCountSeparator: " \u0438\u0437 ", closeButtonTitle: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C (Esc)", currentImage: index, images: imagesForGallery, isOpen: isOpen, onClickPrev: this.handlePrev, onClickNext: this.handleNext, onClickThumbnail: this.handleClickThumbnail, onClose: this.handleClose, theme: {
                     image: (_a = {},
-                        _a["user-select"] = "all",
+                        _a["user-select"] = "auto",
+                        _a["-webkit-touch-callout"] = "default",
                         _a)
                 } }),
             React.createElement(react_router_1.Switch, null,
