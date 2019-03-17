@@ -47,15 +47,6 @@
       {
         "id": 51,
         "url": {
-          "original": "images\\original\\2acc8-priroda\\52512e22-0afb-437c-975b-bb8522a02468.jfif",
-          "preview": "images\\preview\\2acc8-priroda\\52512e22-0afb-437c-975b-bb8522a02468.jfif"
-        },
-        "name": "52512e22-0afb-437c-975b-bb8522a02468",
-        "isCover": false
-      },
-      {
-        "id": 52,
-        "url": {
           "original": "images\\original\\2acc8-priroda\\457fcdc2-2538-4b4c-87ea-6097a6a5fec6.jfif",
           "preview": "images\\preview\\2acc8-priroda\\457fcdc2-2538-4b4c-87ea-6097a6a5fec6.jfif"
         },
@@ -63,7 +54,25 @@
         "isCover": false
       },
       {
+        "id": 52,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\4ca63ad9-7120-4ee6-bae3-221febb6c726.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\4ca63ad9-7120-4ee6-bae3-221febb6c726.jfif"
+        },
+        "name": "4ca63ad9-7120-4ee6-bae3-221febb6c726",
+        "isCover": false
+      },
+      {
         "id": 53,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\52512e22-0afb-437c-975b-bb8522a02468.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\52512e22-0afb-437c-975b-bb8522a02468.jfif"
+        },
+        "name": "52512e22-0afb-437c-975b-bb8522a02468",
+        "isCover": false
+      },
+      {
+        "id": 54,
         "url": {
           "original": "images\\original\\2acc8-priroda\\5afe74f9-40dd-4f07-959e-7ca706c6bfde.jfif",
           "preview": "images\\preview\\2acc8-priroda\\5afe74f9-40dd-4f07-959e-7ca706c6bfde.jfif"
@@ -72,21 +81,12 @@
         "isCover": false
       },
       {
-        "id": 54,
+        "id": 55,
         "url": {
           "original": "images\\original\\2acc8-priroda\\6d9422cc-426e-4dc0-870e-658864e54ad5.jfif",
           "preview": "images\\preview\\2acc8-priroda\\6d9422cc-426e-4dc0-870e-658864e54ad5.jfif"
         },
         "name": "6d9422cc-426e-4dc0-870e-658864e54ad5",
-        "isCover": false
-      },
-      {
-        "id": 55,
-        "url": {
-          "original": "images\\original\\2acc8-priroda\\4ca63ad9-7120-4ee6-bae3-221febb6c726.jfif",
-          "preview": "images\\preview\\2acc8-priroda\\4ca63ad9-7120-4ee6-bae3-221febb6c726.jfif"
-        },
-        "name": "4ca63ad9-7120-4ee6-bae3-221febb6c726",
         "isCover": false
       },
       {
@@ -119,6 +119,15 @@
       {
         "id": 59,
         "url": {
+          "original": "images\\original\\2acc8-priroda\\9fc14a1a-795d-41e0-892c-88575671dda0.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\9fc14a1a-795d-41e0-892c-88575671dda0.jfif"
+        },
+        "name": "9fc14a1a-795d-41e0-892c-88575671dda0",
+        "isCover": false
+      },
+      {
+        "id": 60,
+        "url": {
           "original": "images\\original\\2acc8-priroda\\a8dea44c-2bbe-42e3-8ef2-dee1ef31cd9e.jfif",
           "preview": "images\\preview\\2acc8-priroda\\a8dea44c-2bbe-42e3-8ef2-dee1ef31cd9e.jfif"
         },
@@ -126,7 +135,7 @@
         "isCover": false
       },
       {
-        "id": 60,
+        "id": 61,
         "url": {
           "original": "images\\original\\2acc8-priroda\\c575cc78-6940-4830-879b-f94566c7331b.jfif",
           "preview": "images\\preview\\2acc8-priroda\\c575cc78-6940-4830-879b-f94566c7331b.jfif"
@@ -135,7 +144,7 @@
         "isCover": false
       },
       {
-        "id": 61,
+        "id": 62,
         "url": {
           "original": "images\\original\\2acc8-priroda\\ce15dc64-a983-42fe-8044-d582da4da843.jfif",
           "preview": "images\\preview\\2acc8-priroda\\ce15dc64-a983-42fe-8044-d582da4da843.jfif"
@@ -144,16 +153,16 @@
         "isCover": false
       },
       {
-        "id": 62,
+        "id": 63,
         "url": {
-          "original": "images\\original\\2acc8-priroda\\9fc14a1a-795d-41e0-892c-88575671dda0.jfif",
-          "preview": "images\\preview\\2acc8-priroda\\9fc14a1a-795d-41e0-892c-88575671dda0.jfif"
+          "original": "images\\original\\2acc8-priroda\\d5a5ddfb-a50f-4932-91ce-d052a3e33c1e.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\d5a5ddfb-a50f-4932-91ce-d052a3e33c1e.jfif"
         },
-        "name": "9fc14a1a-795d-41e0-892c-88575671dda0",
+        "name": "d5a5ddfb-a50f-4932-91ce-d052a3e33c1e",
         "isCover": false
       },
       {
-        "id": 63,
+        "id": 64,
         "url": {
           "original": "images\\original\\2acc8-priroda\\f22b2e77-5be9-4889-8e9b-81c6edc12cb6.jfif",
           "preview": "images\\preview\\2acc8-priroda\\f22b2e77-5be9-4889-8e9b-81c6edc12cb6.jfif"
@@ -162,7 +171,7 @@
         "isCover": false
       },
       {
-        "id": 64,
+        "id": 65,
         "url": {
           "original": "images\\original\\2acc8-priroda\\f324d933-1086-4117-9e7e-4b903fbcd0ae.jfif",
           "preview": "images\\preview\\2acc8-priroda\\f324d933-1086-4117-9e7e-4b903fbcd0ae.jfif"
@@ -171,21 +180,12 @@
         "isCover": false
       },
       {
-        "id": 65,
+        "id": 66,
         "url": {
           "original": "images\\original\\2acc8-priroda\\dsc0107.jpg",
           "preview": "images\\preview\\2acc8-priroda\\dsc0107.jpg"
         },
         "name": "_DSC0107",
-        "isCover": false
-      },
-      {
-        "id": 66,
-        "url": {
-          "original": "images\\original\\2acc8-priroda\\d5a5ddfb-a50f-4932-91ce-d052a3e33c1e.jfif",
-          "preview": "images\\preview\\2acc8-priroda\\d5a5ddfb-a50f-4932-91ce-d052a3e33c1e.jfif"
-        },
-        "name": "d5a5ddfb-a50f-4932-91ce-d052a3e33c1e",
         "isCover": false
       },
       {

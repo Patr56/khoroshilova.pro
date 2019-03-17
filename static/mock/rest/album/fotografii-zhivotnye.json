@@ -18,7 +18,7 @@
     "albums": [],
     "photos": [
       {
-        "id": 6,
+        "id": 21,
         "url": {
           "original": "images\\original\\2acc8-zhivotnye\\24e40eb1-04b9-4814-9dd2-f1129bb72d43.jfif",
           "preview": "images\\preview\\2acc8-zhivotnye\\24e40eb1-04b9-4814-9dd2-f1129bb72d43.jfif"
@@ -27,7 +27,7 @@
         "isCover": false
       },
       {
-        "id": 7,
+        "id": 22,
         "url": {
           "original": "images\\original\\2acc8-zhivotnye\\9a9972c4-695a-4cbc-a56f-aa4d34c1c5de.jfif",
           "preview": "images\\preview\\2acc8-zhivotnye\\9a9972c4-695a-4cbc-a56f-aa4d34c1c5de.jfif"
@@ -36,7 +36,7 @@
         "isCover": false
       },
       {
-        "id": 8,
+        "id": 23,
         "url": {
           "original": "images\\original\\2acc8-zhivotnye\\dsc0080.JPG",
           "preview": "images\\preview\\2acc8-zhivotnye\\dsc0080.JPG"

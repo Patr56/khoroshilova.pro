@@ -18,7 +18,7 @@
     "albums": [],
     "photos": [
       {
-        "id": 81,
+        "id": 70,
         "url": {
           "original": "images\\original\\2acc8-raznoe\\5045d4af-67c0-40b6-a02a-c732d3dbde9a.jfif",
           "preview": "images\\preview\\2acc8-raznoe\\5045d4af-67c0-40b6-a02a-c732d3dbde9a.jfif"
@@ -27,7 +27,7 @@
         "isCover": false
       },
       {
-        "id": 82,
+        "id": 71,
         "url": {
           "original": "images\\original\\2acc8-raznoe\\608172d9-a866-45a3-ad68-709054dd9b6c.jfif",
           "preview": "images\\preview\\2acc8-raznoe\\608172d9-a866-45a3-ad68-709054dd9b6c.jfif"
@@ -36,21 +36,21 @@
         "isCover": false
       },
       {
-        "id": 83,
+        "id": 72,
+        "url": {
+          "original": "images\\original\\2acc8-raznoe\\dsc0364.jpg",
+          "preview": "images\\preview\\2acc8-raznoe\\dsc0364.jpg"
+        },
+        "name": "_DSC0364",
+        "isCover": false
+      },
+      {
+        "id": 73,
         "url": {
           "original": "images\\original\\2acc8-raznoe\\dsc0569.jpg",
           "preview": "images\\preview\\2acc8-raznoe\\dsc0569.jpg"
         },
         "name": "_DSC0569",
-        "isCover": false
-      },
-      {
-        "id": 84,
-        "url": {
-          "original": "images\\original\\2acc8-raznoe\\dsc0364.",
-          "preview": "images\\preview\\2acc8-raznoe\\dsc0364."
-        },
-        "name": "_DSC0364",
         "isCover": false
       }
     ]
