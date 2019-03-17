@@ -3,14 +3,14 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 
-var DOCS = 'docs';
+var BUILD_FOLDER = 'build';
 
 module.exports = {
     entry: "./src/index.tsx",
     output: {
         filename: "js/bundle.js",
         publicPath: "/",
-        path: path.join(__dirname, DOCS)
+        path: path.join(__dirname, BUILD_FOLDER)
     },
     mode: "development",
     // Enable sourcemaps for debugging webpack's output.
@@ -22,7 +22,7 @@ module.exports = {
     },
 
     devServer: {
-        contentBase: path.join(__dirname, DOCS),
+        contentBase: path.join(__dirname, BUILD_FOLDER),
         compress: true, // enable gzip compression
         hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
         inline: true,
@@ -62,7 +62,7 @@ module.exports = {
     },
 
     plugins: [
-        new CleanWebpackPlugin(DOCS),
+        new CleanWebpackPlugin(BUILD_FOLDER),
         new CopyWebpackPlugin([
             { from: 'CNAME'},
             { from: 'static'},
