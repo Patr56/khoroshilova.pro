@@ -82,7 +82,8 @@ export class Main extends React.Component<IProps, {}> {
                     onClose={this.handleClose}
                     theme={{
                         image: {
-                            ["user-select"]: "all"
+                            ["user-select"]: "auto",
+                            ["-webkit-touch-callout"]: "default",
                         }
                     }}
                 />
