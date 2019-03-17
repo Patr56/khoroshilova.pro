@@ -1,0 +1,137 @@
+{
+  "success": true,
+  "body": {
+    "id": "fotografii",
+    "level": 0,
+    "name": "Фотографии",
+    "date": "2019-03-16T09:35:41.692Z",
+    "breadcrumbs": [
+      {
+        "id": "fotografii",
+        "name": "Фотографии"
+      }
+    ],
+    "albums": [
+      {
+        "id": "fotografii-zhivotnye",
+        "name": "Животные",
+        "level": 1,
+        "photos": [
+          {
+            "id": 6,
+            "url": {
+              "original": "images\\original\\2acc8-zhivotnye\\24e40eb1-04b9-4814-9dd2-f1129bb72d43.jfif",
+              "preview": "images\\preview\\2acc8-zhivotnye\\24e40eb1-04b9-4814-9dd2-f1129bb72d43.jfif"
+            },
+            "name": "Животные",
+            "isCover": false
+          }
+        ],
+        "count": 3
+      },
+      {
+        "id": "fotografii-gorod",
+        "name": "Город",
+        "level": 1,
+        "photos": [
+          {
+            "id": 9,
+            "url": {
+              "original": "images\\original\\2acc8-gorod\\635da7f3-fff9-4f8c-aa95-2c357d5975b3.jfif",
+              "preview": "images\\preview\\2acc8-gorod\\635da7f3-fff9-4f8c-aa95-2c357d5975b3.jfif"
+            },
+            "name": "Город",
+            "isCover": false
+          }
+        ],
+        "count": 15
+      },
+      {
+        "id": "fotografii-zimnyaya-skazka",
+        "name": "Зимняя сказка",
+        "level": 1,
+        "photos": [
+          {
+            "id": 24,
+            "url": {
+              "original": "images\\original\\2acc8-zimnyaya-skazka\\1.jpg",
+              "preview": "images\\preview\\2acc8-zimnyaya-skazka\\1.jpg"
+            },
+            "name": "Зимняя сказка",
+            "isCover": false
+          }
+        ],
+        "count": 24
+      },
+      {
+        "id": "fotografii-priroda",
+        "name": "Природа",
+        "level": 1,
+        "photos": [
+          {
+            "id": 48,
+            "url": {
+              "original": "images\\original\\2acc8-priroda\\00e0196f-c497-4e88-83b9-34b858304d9f.jfif",
+              "preview": "images\\preview\\2acc8-priroda\\00e0196f-c497-4e88-83b9-34b858304d9f.jfif"
+            },
+            "name": "Природа",
+            "isCover": false
+          }
+        ],
+        "count": 22
+      },
+      {
+        "id": "fotografii-cherno-belye",
+        "name": "Черно-белые",
+        "level": 1,
+        "photos": [
+          {
+            "id": 70,
+            "url": {
+              "original": "images\\original\\2acc8-cherno-belye\\741da3eb-cfc6-45c8-b710-54a8c4fb43dd.jfif",
+              "preview": "images\\preview\\2acc8-cherno-belye\\741da3eb-cfc6-45c8-b710-54a8c4fb43dd.jfif"
+            },
+            "name": "Черно-белые",
+            "isCover": false
+          }
+        ],
+        "count": 6
+      },
+      {
+        "id": "fotografii-cvetochnye-motivy",
+        "name": "Цветочные мотивы",
+        "level": 1,
+        "photos": [
+          {
+            "id": 76,
+            "url": {
+              "original": "images\\original\\2acc8-cvetochnye-motivy\\dsc-0100.jpg",
+              "preview": "images\\preview\\2acc8-cvetochnye-motivy\\dsc-0100.jpg"
+            },
+            "name": "Цветочные мотивы",
+            "isCover": false
+          }
+        ],
+        "count": 5
+      },
+      {
+        "id": "fotografii-raznoe",
+        "name": "Разное",
+        "level": 1,
+        "photos": [
+          {
+            "id": 81,
+            "url": {
+              "original": "images\\original\\2acc8-raznoe\\5045d4af-67c0-40b6-a02a-c732d3dbde9a.jfif",
+              "preview": "images\\preview\\2acc8-raznoe\\5045d4af-67c0-40b6-a02a-c732d3dbde9a.jfif"
+            },
+            "name": "Разное",
+            "isCover": false
+          }
+        ],
+        "count": 4
+      }
+    ],
+    "photos": []
+  }
+}

@@ -62,6 +62,7 @@ export class AlbumList extends React.Component<IProps, {}> {
 
     render() {
         const {album: {status, data: {albums, photos, id}, error}, showName} = this.props;
+        const prefix = this.props.match.url.split('/').filter(u => u !== "")[0]
         let albumLength = albums && albums.length || 0;
 
         return (
@@ -75,7 +76,7 @@ export class AlbumList extends React.Component<IProps, {}> {
                 {albums && albums.map((album, index) => (
                     <React.Fragment key={album.id}>
                         {index % ALBUM_IN_LINE === 0 && (<div className={`clothesline clothesline__left-${this.getRandomBird()} clothesline__right-${this.getRandomBird()}`}/>)}
-                        <Link to={`/portfolio/${album.id}`}>
+                        <Link to={`/${prefix}/${album.id}`}>
                             <Album
                                 showName={showName}
                                 photos={album.photos}

@@ -14,3 +14,11 @@ export enum EActions {
     GALLERY_NEXT_PHOTO = 'GALLERY_NEXT_PHOTO',
     GALLERY_PREV_PHOTO = 'GALLERY_PREV_PHOTO',
 }
+
+export enum EPages {
+    PORTFOLIO,
+    PHOTO,
+    PRICE,
+    BLOG,
+    CONTACTS,
+}

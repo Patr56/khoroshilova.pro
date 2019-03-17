@@ -1,0 +1,220 @@
+{
+  "success": true,
+  "body": {
+    "id": "fotografii-priroda",
+    "level": 1,
+    "name": "Природа",
+    "date": "2019-03-16T09:35:45.685Z",
+    "breadcrumbs": [
+      {
+        "id": "fotografii",
+        "name": "Фотографии"
+      },
+      {
+        "id": "fotografii-priroda",
+        "name": "Природа"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 48,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\00e0196f-c497-4e88-83b9-34b858304d9f.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\00e0196f-c497-4e88-83b9-34b858304d9f.jfif"
+        },
+        "name": "00e0196f-c497-4e88-83b9-34b858304d9f",
+        "isCover": false
+      },
+      {
+        "id": 49,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\10f4f806-344c-4f8b-86a0-20cb03212868.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\10f4f806-344c-4f8b-86a0-20cb03212868.jfif"
+        },
+        "name": "10f4f806-344c-4f8b-86a0-20cb03212868",
+        "isCover": false
+      },
+      {
+        "id": 50,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\3b0f8810-25e3-4c4c-818d-3dfb8583342f.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\3b0f8810-25e3-4c4c-818d-3dfb8583342f.jfif"
+        },
+        "name": "3b0f8810-25e3-4c4c-818d-3dfb8583342f",
+        "isCover": false
+      },
+      {
+        "id": 51,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\52512e22-0afb-437c-975b-bb8522a02468.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\52512e22-0afb-437c-975b-bb8522a02468.jfif"
+        },
+        "name": "52512e22-0afb-437c-975b-bb8522a02468",
+        "isCover": false
+      },
+      {
+        "id": 52,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\457fcdc2-2538-4b4c-87ea-6097a6a5fec6.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\457fcdc2-2538-4b4c-87ea-6097a6a5fec6.jfif"
+        },
+        "name": "457fcdc2-2538-4b4c-87ea-6097a6a5fec6",
+        "isCover": false
+      },
+      {
+        "id": 53,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\5afe74f9-40dd-4f07-959e-7ca706c6bfde.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\5afe74f9-40dd-4f07-959e-7ca706c6bfde.jfif"
+        },
+        "name": "5afe74f9-40dd-4f07-959e-7ca706c6bfde",
+        "isCover": false
+      },
+      {
+        "id": 54,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\6d9422cc-426e-4dc0-870e-658864e54ad5.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\6d9422cc-426e-4dc0-870e-658864e54ad5.jfif"
+        },
+        "name": "6d9422cc-426e-4dc0-870e-658864e54ad5",
+        "isCover": false
+      },
+      {
+        "id": 55,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\4ca63ad9-7120-4ee6-bae3-221febb6c726.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\4ca63ad9-7120-4ee6-bae3-221febb6c726.jfif"
+        },
+        "name": "4ca63ad9-7120-4ee6-bae3-221febb6c726",
+        "isCover": false
+      },
+      {
+        "id": 56,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\75904a94-2ae8-4212-b489-6872bd05f54f.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\75904a94-2ae8-4212-b489-6872bd05f54f.jfif"
+        },
+        "name": "75904a94-2ae8-4212-b489-6872bd05f54f",
+        "isCover": false
+      },
+      {
+        "id": 57,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\76b9bd22-2bfe-4e67-a2e6-5b5ab74996f3.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\76b9bd22-2bfe-4e67-a2e6-5b5ab74996f3.jfif"
+        },
+        "name": "76b9bd22-2bfe-4e67-a2e6-5b5ab74996f3",
+        "isCover": false
+      },
+      {
+        "id": 58,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\8e141240-b30c-46df-a605-7431ba56577f.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\8e141240-b30c-46df-a605-7431ba56577f.jfif"
+        },
+        "name": "8e141240-b30c-46df-a605-7431ba56577f",
+        "isCover": false
+      },
+      {
+        "id": 59,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\a8dea44c-2bbe-42e3-8ef2-dee1ef31cd9e.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\a8dea44c-2bbe-42e3-8ef2-dee1ef31cd9e.jfif"
+        },
+        "name": "a8dea44c-2bbe-42e3-8ef2-dee1ef31cd9e",
+        "isCover": false
+      },
+      {
+        "id": 60,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\c575cc78-6940-4830-879b-f94566c7331b.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\c575cc78-6940-4830-879b-f94566c7331b.jfif"
+        },
+        "name": "c575cc78-6940-4830-879b-f94566c7331b",
+        "isCover": false
+      },
+      {
+        "id": 61,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\ce15dc64-a983-42fe-8044-d582da4da843.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\ce15dc64-a983-42fe-8044-d582da4da843.jfif"
+        },
+        "name": "ce15dc64-a983-42fe-8044-d582da4da843",
+        "isCover": false
+      },
+      {
+        "id": 62,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\9fc14a1a-795d-41e0-892c-88575671dda0.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\9fc14a1a-795d-41e0-892c-88575671dda0.jfif"
+        },
+        "name": "9fc14a1a-795d-41e0-892c-88575671dda0",
+        "isCover": false
+      },
+      {
+        "id": 63,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\f22b2e77-5be9-4889-8e9b-81c6edc12cb6.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\f22b2e77-5be9-4889-8e9b-81c6edc12cb6.jfif"
+        },
+        "name": "f22b2e77-5be9-4889-8e9b-81c6edc12cb6",
+        "isCover": false
+      },
+      {
+        "id": 64,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\f324d933-1086-4117-9e7e-4b903fbcd0ae.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\f324d933-1086-4117-9e7e-4b903fbcd0ae.jfif"
+        },
+        "name": "f324d933-1086-4117-9e7e-4b903fbcd0ae",
+        "isCover": false
+      },
+      {
+        "id": 65,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\dsc0107.jpg",
+          "preview": "images\\preview\\2acc8-priroda\\dsc0107.jpg"
+        },
+        "name": "_DSC0107",
+        "isCover": false
+      },
+      {
+        "id": 66,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\d5a5ddfb-a50f-4932-91ce-d052a3e33c1e.jfif",
+          "preview": "images\\preview\\2acc8-priroda\\d5a5ddfb-a50f-4932-91ce-d052a3e33c1e.jfif"
+        },
+        "name": "d5a5ddfb-a50f-4932-91ce-d052a3e33c1e",
+        "isCover": false
+      },
+      {
+        "id": 67,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\dsc0114.jpg",
+          "preview": "images\\preview\\2acc8-priroda\\dsc0114.jpg"
+        },
+        "name": "_DSC0114",
+        "isCover": false
+      },
+      {
+        "id": 68,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\dsc0169-2.jpg",
+          "preview": "images\\preview\\2acc8-priroda\\dsc0169-2.jpg"
+        },
+        "name": "_DSC0169-2",
+        "isCover": false
+      },
+      {
+        "id": 69,
+        "url": {
+          "original": "images\\original\\2acc8-priroda\\dsc0193.jpg",
+          "preview": "images\\preview\\2acc8-priroda\\dsc0193.jpg"
+        },
+        "name": "_DSC0193",
+        "isCover": false
+      }
+    ]
+  }
+}

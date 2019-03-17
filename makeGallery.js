@@ -121,7 +121,7 @@ function copyImages(filesInfo) {
             sharp(fileInfo.originalPath)
                 .resize({width:960})
                 .withMetadata()
-                .overlayWith(new Buffer(watermarkLogo), {gravity: sharp.gravity.southeast})
+                // .overlayWith(new Buffer(watermarkLogo), {gravity: sharp.gravity.southeast})
                 .toFile(path.join(staticDir, fileInfo.path.original))
                 .then(() => resolve());
         });
@@ -212,7 +212,6 @@ function prepareAlbums(filesInfo) {
 
         if (album.albums.length > 0) {
             album.albums = album.albums.map((innerAlbum) => {
-
                 // Рекурсивно ищем обложку для альбома.
                 function findCoverPhotoForAlbum (innerAlb) {
                     const albumIndex = lodash.findIndex(albums, (albumItem) => albumItem.id === innerAlb.id);
@@ -222,8 +221,13 @@ function prepareAlbums(filesInfo) {
                             count: albums[albumIndex].photos.length,
                             coverPhoto: {...coverPhoto[0]}
                         };
-                    } else {
+                    } else if (albums[albumIndex].albums.length > 0) {
                         return findCoverPhotoForAlbum(albums[albumIndex].albums[0]);
+                    } else {
+                        return {
+                            count: albums[albumIndex].photos.length,
+                            coverPhoto: {...albums[albumIndex].photos[0]}
+                        };
                     }
                 }
 
@@ -273,7 +277,8 @@ function createMockAlbumFile(albums) {
         .reduce((all, alb) => {
             delete alb.breadcrumbs;
             alb.count = alb.photos.length;
-            alb.photos = alb.photos.filter((a) => a.isCover);
+            const coverPhotos = alb.photos.filter((a) => a.isCover);
+            alb.photos = coverPhotos.length > 0 ? coverPhotos : [alb.photos[0]]
             alb.photos[0].name = alb.name;
             all.albums = all.albums.concat(alb);
             return all;

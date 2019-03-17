@@ -62,3 +62,14 @@
 .navigation_icon__contacts:hover {
     background-image: url("./images/speech.svg")
 }
+
+.navigation_icon__suitcase {
+    background-image: url("./images/suitcase-bw.svg")
+}
+.navigation_icon__suitcase-active {
+    background-image: url("./images/suitcase-active.svg")
+}
+.navigation_icon__suitcase:hover {
+    background-image: url("./images/suitcase.svg")
+}
+

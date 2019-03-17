@@ -1,0 +1,128 @@
+{
+  "success": true,
+  "body": {
+    "id": "portfolio-studiynaya-devushki",
+    "level": 2,
+    "name": "Девушки",
+    "date": "2018-11-22T17:01:44.231Z",
+    "breadcrumbs": [
+      {
+        "id": "portfolio",
+        "name": "Портфолио"
+      },
+      {
+        "id": "portfolio-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "portfolio-studiynaya-devushki",
+        "name": "Девушки"
+      }
+    ],
+    "albums": [
+      {
+        "id": "portfolio-studiynaya-devushki-darya",
+        "name": "Дарья",
+        "level": 3,
+        "photos": [
+          {
+            "id": 114,
+            "url": {
+              "original": "images\\original\\49234-darya\\oblozhka.jpg",
+              "preview": "images\\preview\\49234-darya\\oblozhka.jpg"
+            },
+            "name": "Дарья",
+            "isCover": true
+          }
+        ],
+        "count": 11
+      },
+      {
+        "id": "portfolio-studiynaya-devushki-dasha",
+        "name": "Даша",
+        "level": 3,
+        "photos": [
+          {
+            "id": 120,
+            "url": {
+              "original": "images\\original\\49234-dasha\\oblozhka.jpg",
+              "preview": "images\\preview\\49234-dasha\\oblozhka.jpg"
+            },
+            "name": "Даша",
+            "isCover": true
+          }
+        ],
+        "count": 6
+      },
+      {
+        "id": "portfolio-studiynaya-devushki-kseniya",
+        "name": "Ксения",
+        "level": 3,
+        "photos": [
+          {
+            "id": 123,
+            "url": {
+              "original": "images\\original\\49234-kseniya\\oblozhka.jpg",
+              "preview": "images\\preview\\49234-kseniya\\oblozhka.jpg"
+            },
+            "name": "Ксения",
+            "isCover": true
+          }
+        ],
+        "count": 3
+      },
+      {
+        "id": "portfolio-studiynaya-devushki-lena",
+        "name": "Лена",
+        "level": 3,
+        "photos": [
+          {
+            "id": 128,
+            "url": {
+              "original": "images\\original\\49234-lena\\oblozhka.jpg",
+              "preview": "images\\preview\\49234-lena\\oblozhka.jpg"
+            },
+            "name": "Лена",
+            "isCover": true
+          }
+        ],
+        "count": 5
+      },
+      {
+        "id": "portfolio-studiynaya-devushki-olga",
+        "name": "Ольга",
+        "level": 3,
+        "photos": [
+          {
+            "id": 136,
+            "url": {
+              "original": "images\\original\\49234-olga\\oblozhka.jpg",
+              "preview": "images\\preview\\49234-olga\\oblozhka.jpg"
+            },
+            "name": "Ольга",
+            "isCover": true
+          }
+        ],
+        "count": 8
+      },
+      {
+        "id": "portfolio-studiynaya-devushki-olya",
+        "name": "Оля",
+        "level": 3,
+        "photos": [
+          {
+            "id": 141,
+            "url": {
+              "original": "images\\original\\49234-olya\\oblozhka.jpg",
+              "preview": "images\\preview\\49234-olya\\oblozhka.jpg"
+            },
+            "name": "Оля",
+            "isCover": true
+          }
+        ],
+        "count": 5
+      }
+    ],
+    "photos": []
+  }
+}

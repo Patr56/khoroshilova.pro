@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "body": {
+    "id": "fotografii-cherno-belye",
+    "level": 1,
+    "name": "Черно-белые",
+    "date": "2019-03-16T09:36:12.887Z",
+    "breadcrumbs": [
+      {
+        "id": "fotografii",
+        "name": "Фотографии"
+      },
+      {
+        "id": "fotografii-cherno-belye",
+        "name": "Черно-белые"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 70,
+        "url": {
+          "original": "images\\original\\2acc8-cherno-belye\\741da3eb-cfc6-45c8-b710-54a8c4fb43dd.jfif",
+          "preview": "images\\preview\\2acc8-cherno-belye\\741da3eb-cfc6-45c8-b710-54a8c4fb43dd.jfif"
+        },
+        "name": "741da3eb-cfc6-45c8-b710-54a8c4fb43dd",
+        "isCover": false
+      },
+      {
+        "id": 71,
+        "url": {
+          "original": "images\\original\\2acc8-cherno-belye\\img-20190309-095729.jpg",
+          "preview": "images\\preview\\2acc8-cherno-belye\\img-20190309-095729.jpg"
+        },
+        "name": "IMG_20190309_095729",
+        "isCover": false
+      },
+      {
+        "id": 72,
+        "url": {
+          "original": "images\\original\\2acc8-cherno-belye\\dsc-0072.jpg",
+          "preview": "images\\preview\\2acc8-cherno-belye\\dsc-0072.jpg"
+        },
+        "name": "DSC_0072",
+        "isCover": false
+      },
+      {
+        "id": 73,
+        "url": {
+          "original": "images\\original\\2acc8-cherno-belye\\dsc0239.jpg",
+          "preview": "images\\preview\\2acc8-cherno-belye\\dsc0239.jpg"
+        },
+        "name": "_DSC0239",
+        "isCover": false
+      },
+      {
+        "id": 74,
+        "url": {
+          "original": "images\\original\\2acc8-cherno-belye\\dsc0412.jpg",
+          "preview": "images\\preview\\2acc8-cherno-belye\\dsc0412.jpg"
+        },
+        "name": "_DSC0412",
+        "isCover": false
+      },
+      {
+        "id": 75,
+        "url": {
+          "original": "images\\original\\2acc8-cherno-belye\\dsc0414.jpg",
+          "preview": "images\\preview\\2acc8-cherno-belye\\dsc0414.jpg"
+        },
+        "name": "_DSC0414",
+        "isCover": false
+      }
+    ]
+  }
+}

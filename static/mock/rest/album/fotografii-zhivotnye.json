@@ -1,0 +1,49 @@
+{
+  "success": true,
+  "body": {
+    "id": "fotografii-zhivotnye",
+    "level": 1,
+    "name": "Животные",
+    "date": "2019-03-16T09:35:41.692Z",
+    "breadcrumbs": [
+      {
+        "id": "fotografii",
+        "name": "Фотографии"
+      },
+      {
+        "id": "fotografii-zhivotnye",
+        "name": "Животные"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 6,
+        "url": {
+          "original": "images\\original\\2acc8-zhivotnye\\24e40eb1-04b9-4814-9dd2-f1129bb72d43.jfif",
+          "preview": "images\\preview\\2acc8-zhivotnye\\24e40eb1-04b9-4814-9dd2-f1129bb72d43.jfif"
+        },
+        "name": "24e40eb1-04b9-4814-9dd2-f1129bb72d43",
+        "isCover": false
+      },
+      {
+        "id": 7,
+        "url": {
+          "original": "images\\original\\2acc8-zhivotnye\\9a9972c4-695a-4cbc-a56f-aa4d34c1c5de.jfif",
+          "preview": "images\\preview\\2acc8-zhivotnye\\9a9972c4-695a-4cbc-a56f-aa4d34c1c5de.jfif"
+        },
+        "name": "9a9972c4-695a-4cbc-a56f-aa4d34c1c5de",
+        "isCover": false
+      },
+      {
+        "id": 8,
+        "url": {
+          "original": "images\\original\\2acc8-zhivotnye\\dsc0080.JPG",
+          "preview": "images\\preview\\2acc8-zhivotnye\\dsc0080.JPG"
+        },
+        "name": "_DSC0080",
+        "isCover": false
+      }
+    ]
+  }
+}

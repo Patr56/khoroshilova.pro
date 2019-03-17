@@ -1,0 +1,66 @@
+{
+  "success": true,
+  "body": {
+    "id": "portfolio-studiynaya-parni-pavel",
+    "level": 3,
+    "name": "Павел",
+    "date": "2018-11-07T17:22:50.238Z",
+    "breadcrumbs": [
+      {
+        "id": "portfolio",
+        "name": "Портфолио"
+      },
+      {
+        "id": "portfolio-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "portfolio-studiynaya-parni",
+        "name": "Парни"
+      },
+      {
+        "id": "portfolio-studiynaya-parni-pavel",
+        "name": "Павел"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 142,
+        "url": {
+          "original": "images\\original\\92b69-pavel\\1.JPG",
+          "preview": "images\\preview\\92b69-pavel\\1.JPG"
+        },
+        "name": "1",
+        "isCover": false
+      },
+      {
+        "id": 143,
+        "url": {
+          "original": "images\\original\\92b69-pavel\\2.jpg",
+          "preview": "images\\preview\\92b69-pavel\\2.jpg"
+        },
+        "name": "2",
+        "isCover": false
+      },
+      {
+        "id": 144,
+        "url": {
+          "original": "images\\original\\92b69-pavel\\3.JPG",
+          "preview": "images\\preview\\92b69-pavel\\3.JPG"
+        },
+        "name": "3",
+        "isCover": false
+      },
+      {
+        "id": 145,
+        "url": {
+          "original": "images\\original\\92b69-pavel\\oblozhka.JPG",
+          "preview": "images\\preview\\92b69-pavel\\oblozhka.JPG"
+        },
+        "name": "обложка",
+        "isCover": true
+      }
+    ]
+  }
+}

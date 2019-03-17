@@ -97,16 +97,6 @@ app.get('/rest/blog/', function (req, res) {
     res.send(result(generateRandomArticles(0)));
 });
 
-// app.get('/rest/album/', function (req, res) {
-//     var id = "root";
-//     res.send(result({
-//         id: id,
-//         name: randomWords({exactly: getRandomInt(1, 5), join: ' '}),
-//         albums: generateAlbum(0, getRandomInt(3, 20), 1, 50),
-//         photos: generatePhotos(id, getRandomInt(1, 50))
-//     }));
-// });
-
 app.use(express.static('./static/'));
 
 app.use('/', proxy('http://localhost:9000'));

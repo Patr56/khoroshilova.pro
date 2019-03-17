@@ -1,0 +1,80 @@
+{
+  "success": true,
+  "body": {
+    "id": "portfolio-lokaciya-natasha",
+    "level": 2,
+    "name": "Наташа",
+    "date": "2019-01-09T19:13:40.573Z",
+    "breadcrumbs": [
+      {
+        "id": "portfolio",
+        "name": "Портфолио"
+      },
+      {
+        "id": "portfolio-lokaciya",
+        "name": "Локация"
+      },
+      {
+        "id": "portfolio-lokaciya-natasha",
+        "name": "Наташа"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 98,
+        "url": {
+          "original": "images\\original\\0ed99-natasha\\1.jpg",
+          "preview": "images\\preview\\0ed99-natasha\\1.jpg"
+        },
+        "name": "1",
+        "isCover": false
+      },
+      {
+        "id": 99,
+        "url": {
+          "original": "images\\original\\0ed99-natasha\\2.jpg",
+          "preview": "images\\preview\\0ed99-natasha\\2.jpg"
+        },
+        "name": "2",
+        "isCover": false
+      },
+      {
+        "id": 100,
+        "url": {
+          "original": "images\\original\\0ed99-natasha\\3.jpg",
+          "preview": "images\\preview\\0ed99-natasha\\3.jpg"
+        },
+        "name": "3",
+        "isCover": false
+      },
+      {
+        "id": 101,
+        "url": {
+          "original": "images\\original\\0ed99-natasha\\4.jpg",
+          "preview": "images\\preview\\0ed99-natasha\\4.jpg"
+        },
+        "name": "4",
+        "isCover": false
+      },
+      {
+        "id": 102,
+        "url": {
+          "original": "images\\original\\0ed99-natasha\\5.jpg",
+          "preview": "images\\preview\\0ed99-natasha\\5.jpg"
+        },
+        "name": "5",
+        "isCover": false
+      },
+      {
+        "id": 103,
+        "url": {
+          "original": "images\\original\\0ed99-natasha\\oblozhka.jpg",
+          "preview": "images\\preview\\0ed99-natasha\\oblozhka.jpg"
+        },
+        "name": "обложка",
+        "isCover": true
+      }
+    ]
+  }
+}

@@ -6,6 +6,7 @@ import {Route, Switch, withRouter, RouteComponentProps} from "react-router";
 import {Home} from "./pages/home/Home";
 import {Blog} from "./pages/blog/Blog";
 import Portfolio from "./pages/portfolio/Portfolio";
+import Photo from "./pages/photo/Photo";
 import {Price} from "./pages/price/Price";
 import {Contacts} from "./pages/contacts/Contacts";
 import {NoMatch} from "./pages/404/NoMatch";
@@ -82,6 +83,7 @@ export class Main extends React.Component<IProps, {}> {
                 <Switch>
                     <Route path="/" component={Home} exact/>
                     <Route path="/blog" component={Blog} />
+                    <Route path="/photo/:id" component={Photo} />
                     <Route path="/portfolio/:id" component={Portfolio} />
                     <Route path="/price" component={Price} />
                     <Route path="/contacts" component={Contacts} />

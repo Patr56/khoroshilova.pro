@@ -6,80 +6,80 @@
     "name": "last",
     "albums": [
       {
-        "id": "glavnaya-studiynaya-devushki-olya",
-        "level": 3,
-        "name": "Оля",
-        "date": "2019-02-20T12:56:49.528Z",
+        "id": "fotografii-gorod",
+        "level": 1,
+        "name": "Город",
+        "date": "2019-03-16T10:15:37.682Z",
         "albums": [],
         "photos": [
           {
-            "id": 62,
+            "id": 9,
             "url": {
-              "original": "images\\original\\af8df-olya\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-olya\\oblozhka.jpg"
+              "original": "images\\original\\2acc8-gorod\\635da7f3-fff9-4f8c-aa95-2c357d5975b3.jfif",
+              "preview": "images\\preview\\2acc8-gorod\\635da7f3-fff9-4f8c-aa95-2c357d5975b3.jfif"
             },
-            "name": "Оля",
-            "isCover": true
+            "name": "Город",
+            "isCover": false
           }
         ],
-        "count": 5
+        "count": 15
       },
       {
-        "id": "glavnaya-lokaciya-natasha",
-        "level": 2,
-        "name": "Наташа",
-        "date": "2019-01-09T19:13:40.573Z",
+        "id": "fotografii-raznoe",
+        "level": 1,
+        "name": "Разное",
+        "date": "2019-03-16T10:15:11.178Z",
         "albums": [],
         "photos": [
           {
-            "id": 24,
+            "id": 81,
             "url": {
-              "original": "images\\original\\6e4b6-natasha\\oblozhka.jpg",
-              "preview": "images\\preview\\6e4b6-natasha\\oblozhka.jpg"
+              "original": "images\\original\\2acc8-raznoe\\5045d4af-67c0-40b6-a02a-c732d3dbde9a.jfif",
+              "preview": "images\\preview\\2acc8-raznoe\\5045d4af-67c0-40b6-a02a-c732d3dbde9a.jfif"
             },
-            "name": "Наташа",
-            "isCover": true
+            "name": "Разное",
+            "isCover": false
+          }
+        ],
+        "count": 4
+      },
+      {
+        "id": "fotografii-cherno-belye",
+        "level": 1,
+        "name": "Черно-белые",
+        "date": "2019-03-16T09:36:12.887Z",
+        "albums": [],
+        "photos": [
+          {
+            "id": 70,
+            "url": {
+              "original": "images\\original\\2acc8-cherno-belye\\741da3eb-cfc6-45c8-b710-54a8c4fb43dd.jfif",
+              "preview": "images\\preview\\2acc8-cherno-belye\\741da3eb-cfc6-45c8-b710-54a8c4fb43dd.jfif"
+            },
+            "name": "Черно-белые",
+            "isCover": false
           }
         ],
         "count": 6
       },
       {
-        "id": "glavnaya-studiynaya-devushki-kseniya",
-        "level": 3,
-        "name": "Ксения",
-        "date": "2018-12-12T18:03:06.105Z",
+        "id": "fotografii-priroda",
+        "level": 1,
+        "name": "Природа",
+        "date": "2019-03-16T09:35:45.685Z",
         "albums": [],
         "photos": [
           {
-            "id": 44,
+            "id": 48,
             "url": {
-              "original": "images\\original\\af8df-kseniya\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-kseniya\\oblozhka.jpg"
+              "original": "images\\original\\2acc8-priroda\\00e0196f-c497-4e88-83b9-34b858304d9f.jfif",
+              "preview": "images\\preview\\2acc8-priroda\\00e0196f-c497-4e88-83b9-34b858304d9f.jfif"
             },
-            "name": "Ксения",
-            "isCover": true
+            "name": "Природа",
+            "isCover": false
           }
         ],
-        "count": 3
-      },
-      {
-        "id": "glavnaya-studiynaya-devushki-olga",
-        "level": 3,
-        "name": "Ольга",
-        "date": "2018-12-10T16:01:35.192Z",
-        "albums": [],
-        "photos": [
-          {
-            "id": 57,
-            "url": {
-              "original": "images\\original\\af8df-olga\\oblozhka.jpg",
-              "preview": "images\\preview\\af8df-olga\\oblozhka.jpg"
-            },
-            "name": "Ольга",
-            "isCover": true
-          }
-        ],
-        "count": 8
+        "count": 22
       }
     ],
     "photos": []

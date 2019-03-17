@@ -14,7 +14,7 @@
     "albums": [],
     "photos": [
       {
-        "id": 2,
+        "id": 3,
         "url": {
           "original": "images\\original\\d41d8-street\\1.jpg",
           "preview": "images\\preview\\d41d8-street\\1.jpg"
@@ -23,7 +23,7 @@
         "isCover": false
       },
       {
-        "id": 3,
+        "id": 4,
         "url": {
           "original": "images\\original\\d41d8-street\\2.jpg",
           "preview": "images\\preview\\d41d8-street\\2.jpg"
@@ -32,7 +32,7 @@
         "isCover": false
       },
       {
-        "id": 4,
+        "id": 5,
         "url": {
           "original": "images\\original\\d41d8-street\\oblozhka.JPG",
           "preview": "images\\preview\\d41d8-street\\oblozhka.JPG"

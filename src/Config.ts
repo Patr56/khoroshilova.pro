@@ -1,3 +1,5 @@
+import {EPages} from "./Enums"
+
 // Заглушка для моков.
 export const REST_ACTIVE = false;
 
@@ -10,3 +12,12 @@ export const ALBUM_IN_LINE= 4;
 // Количество альбомов в линию.
 export const SOCIAL_LINK__INSTAGRAM = "https://instagram.com/simka001";
 export const SOCIAL_LINK__VK = "https://vk.com/public171631266";
+
+// Доступные страницы.
+export const AVAILABLE_PAGES = {
+    [EPages.BLOG] : false,
+    [EPages.PHOTO] : true,
+    [EPages.PRICE] : true,
+    [EPages.PORTFOLIO] : true,
+    [EPages.CONTACTS] : true,
+}

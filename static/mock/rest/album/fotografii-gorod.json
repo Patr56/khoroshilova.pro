@@ -1,0 +1,157 @@
+{
+  "success": true,
+  "body": {
+    "id": "fotografii-gorod",
+    "level": 1,
+    "name": "Город",
+    "date": "2019-03-16T10:15:37.682Z",
+    "breadcrumbs": [
+      {
+        "id": "fotografii",
+        "name": "Фотографии"
+      },
+      {
+        "id": "fotografii-gorod",
+        "name": "Город"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 9,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\635da7f3-fff9-4f8c-aa95-2c357d5975b3.jfif",
+          "preview": "images\\preview\\2acc8-gorod\\635da7f3-fff9-4f8c-aa95-2c357d5975b3.jfif"
+        },
+        "name": "635da7f3-fff9-4f8c-aa95-2c357d5975b3",
+        "isCover": false
+      },
+      {
+        "id": 10,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\9d32568d-174b-4d80-9262-3509c5234936.jfif",
+          "preview": "images\\preview\\2acc8-gorod\\9d32568d-174b-4d80-9262-3509c5234936.jfif"
+        },
+        "name": "9d32568d-174b-4d80-9262-3509c5234936",
+        "isCover": false
+      },
+      {
+        "id": 11,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\img-20190308-212537.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\img-20190308-212537.jpg"
+        },
+        "name": "IMG_20190308_212537",
+        "isCover": false
+      },
+      {
+        "id": 12,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0030.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0030.jpg"
+        },
+        "name": "_DSC0030",
+        "isCover": false
+      },
+      {
+        "id": 13,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0085.JPG",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0085.JPG"
+        },
+        "name": "_DSC0085",
+        "isCover": false
+      },
+      {
+        "id": 14,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0224.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0224.jpg"
+        },
+        "name": "_DSC0224",
+        "isCover": false
+      },
+      {
+        "id": 15,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0241.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0241.jpg"
+        },
+        "name": "_DSC0241",
+        "isCover": false
+      },
+      {
+        "id": 16,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0243.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0243.jpg"
+        },
+        "name": "_DSC0243",
+        "isCover": false
+      },
+      {
+        "id": 17,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0250.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0250.jpg"
+        },
+        "name": "_DSC0250",
+        "isCover": false
+      },
+      {
+        "id": 18,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0363.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0363.jpg"
+        },
+        "name": "_DSC0363",
+        "isCover": false
+      },
+      {
+        "id": 19,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0658.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0658.jpg"
+        },
+        "name": "_DSC0658",
+        "isCover": false
+      },
+      {
+        "id": 20,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0796.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0796.jpg"
+        },
+        "name": "_DSC0796",
+        "isCover": false
+      },
+      {
+        "id": 21,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0802.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0802.jpg"
+        },
+        "name": "_DSC0802",
+        "isCover": false
+      },
+      {
+        "id": 22,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0838.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0838.jpg"
+        },
+        "name": "_DSC0838",
+        "isCover": false
+      },
+      {
+        "id": 23,
+        "url": {
+          "original": "images\\original\\2acc8-gorod\\dsc0842.jpg",
+          "preview": "images\\preview\\2acc8-gorod\\dsc0842.jpg"
+        },
+        "name": "_DSC0842",
+        "isCover": false
+      }
+    ]
+  }
+}

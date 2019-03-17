@@ -1,0 +1,66 @@
+{
+  "success": true,
+  "body": {
+    "id": "portfolio-studiynaya-parni-sasha",
+    "level": 3,
+    "name": "Саша",
+    "date": "2018-10-03T14:47:35.000Z",
+    "breadcrumbs": [
+      {
+        "id": "portfolio",
+        "name": "Портфолио"
+      },
+      {
+        "id": "portfolio-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "portfolio-studiynaya-parni",
+        "name": "Парни"
+      },
+      {
+        "id": "portfolio-studiynaya-parni-sasha",
+        "name": "Саша"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 146,
+        "url": {
+          "original": "images\\original\\92b69-sasha\\1.jpg",
+          "preview": "images\\preview\\92b69-sasha\\1.jpg"
+        },
+        "name": "1",
+        "isCover": false
+      },
+      {
+        "id": 147,
+        "url": {
+          "original": "images\\original\\92b69-sasha\\2.jpg",
+          "preview": "images\\preview\\92b69-sasha\\2.jpg"
+        },
+        "name": "2",
+        "isCover": false
+      },
+      {
+        "id": 148,
+        "url": {
+          "original": "images\\original\\92b69-sasha\\3.jpg",
+          "preview": "images\\preview\\92b69-sasha\\3.jpg"
+        },
+        "name": "3",
+        "isCover": false
+      },
+      {
+        "id": 149,
+        "url": {
+          "original": "images\\original\\92b69-sasha\\oblozhka.jpg",
+          "preview": "images\\preview\\92b69-sasha\\oblozhka.jpg"
+        },
+        "name": "обложка",
+        "isCover": true
+      }
+    ]
+  }
+}

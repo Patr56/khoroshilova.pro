@@ -1,0 +1,57 @@
+{
+  "success": true,
+  "body": {
+    "id": "portfolio-studiynaya-devushki-kseniya",
+    "level": 3,
+    "name": "Ксения",
+    "date": "2018-12-12T18:03:06.105Z",
+    "breadcrumbs": [
+      {
+        "id": "portfolio",
+        "name": "Портфолио"
+      },
+      {
+        "id": "portfolio-studiynaya",
+        "name": "Студийная"
+      },
+      {
+        "id": "portfolio-studiynaya-devushki",
+        "name": "Девушки"
+      },
+      {
+        "id": "portfolio-studiynaya-devushki-kseniya",
+        "name": "Ксения"
+      }
+    ],
+    "albums": [],
+    "photos": [
+      {
+        "id": 121,
+        "url": {
+          "original": "images\\original\\49234-kseniya\\1.jpg",
+          "preview": "images\\preview\\49234-kseniya\\1.jpg"
+        },
+        "name": "1",
+        "isCover": false
+      },
+      {
+        "id": 122,
+        "url": {
+          "original": "images\\original\\49234-kseniya\\2.jpg",
+          "preview": "images\\preview\\49234-kseniya\\2.jpg"
+        },
+        "name": "2",
+        "isCover": false
+      },
+      {
+        "id": 123,
+        "url": {
+          "original": "images\\original\\49234-kseniya\\oblozhka.jpg",
+          "preview": "images\\preview\\49234-kseniya\\oblozhka.jpg"
+        },
+        "name": "обложка",
+        "isCover": true
+      }
+    ]
+  }
+}
