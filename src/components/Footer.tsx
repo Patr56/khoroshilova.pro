@@ -23,7 +23,7 @@ export class Footer extends React.Component<IProps, {}> {
                     <a className="link social_link social_link__vk" href={SOCIAL_LINK__VK} title="VK" />
                 </div>
 
-                <p className="copyright">© 2018 <a className="link" href="https://khoroshilova.pro">khoroshilova.pro</a></p>
+                <p className="copyright">© {new Date().getFullYear()} <a className="link" href="https://khoroshilova.pro">khoroshilova.pro</a></p>
             </footer>
         );
     }

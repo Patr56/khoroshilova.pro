@@ -11,11 +11,14 @@
 
 .qr {
     text-align: center;
+  
 }
 
-.qr_image {
+.qr_images {
     display: inline-block;
-    width: 250px;
     height: 250px;
-    background-image: url("./images/qr-code.svg")
+    width: 250px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
 }

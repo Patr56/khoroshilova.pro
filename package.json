@@ -23,6 +23,7 @@
     "axios": "0.18.0",
     "lodash": "^4.17.11",
     "moment": "2.22.2",
+    "qrcode.react": "^0.9.3",
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "react-images": "0.5.19",
@@ -35,6 +36,7 @@
     "remark-shortcodes": "0.2.1"
   },
   "devDependencies": {
+    "@types/qrcode.react": "^0.8.2",
     "@types/react": "16.4.18",
     "@types/react-dom": "16.0.9",
     "@types/react-redux": "6.0.9",
