@@ -39,7 +39,6 @@ export class Album extends React.Component<IProps, {}> {
 
         return (
             <div className="album link" onClick={this.handlerClick}>
-                <div className="album_pin" style={this.getStyle()}/>
                 <div className="album_pages">
                     {photosForPreview && photosForPreview.map((photo, index) => (
                         <div key={photo.id} className={`album_page ${index === 0 ? "album_page__transform-init" : ""}`} style={this.getStyle()}>

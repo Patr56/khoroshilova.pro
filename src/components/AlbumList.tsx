@@ -75,7 +75,6 @@ export class AlbumList extends React.Component<IProps, {}> {
                 )}
                 {albums && albums.map((album, index) => (
                     <React.Fragment key={album.id}>
-                        {index % ALBUM_IN_LINE === 0 && (<div className={`clothesline clothesline__left-${this.getRandomBird()} clothesline__right-${this.getRandomBird()}`}/>)}
                         <Link to={`/${prefix}/${album.id}`}>
                             <Album
                                 showName={showName}
@@ -88,9 +87,6 @@ export class AlbumList extends React.Component<IProps, {}> {
                 ))}
                 {photos && id && photos.map((photo, index) => (
                     <React.Fragment key={photo.id}>
-                        {(albumLength + index) % ALBUM_IN_LINE === 0 && (
-                            <div className={`clothesline clothesline__left-${this.getRandomBird()} clothesline__right-${this.getRandomBird()}`}/>
-                        )}
                         <Album
                             showName={showName}
                             photos={[photo]}
