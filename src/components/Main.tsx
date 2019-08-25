@@ -1,9 +1,8 @@
 import * as React from "react";
 // @ts-ignore
 import Lightbox from "react-images";
-import {Route, Switch, withRouter, RouteComponentProps} from "react-router";
+import {Route, Switch, withRouter, Redirect, RouteComponentProps} from "react-router";
 
-import {Home} from "./pages/home/Home";
 import {Blog} from "./pages/blog/Blog";
 import Portfolio from "./pages/portfolio/Portfolio";
 import Photo from "./pages/photo/Photo";
@@ -88,10 +87,11 @@ export class Main extends React.Component<IProps, {}> {
                     }}
                 />
                 <Switch>
-                    <Route path="/" component={Home} exact/>
+                    <Redirect from="/" exact to="/portfolio/portfolio" />
+
                     <Route path="/blog" component={Blog} />
                     <Route path="/photo/:id" component={Photo} />
-                    <Route path="/portfolio/:id" component={Portfolio} />
+                    <Route path="/portfolio/:id" component={Portfolio}/>
                     <Route path="/price" component={Price} />
                     <Route path="/contacts" component={Contacts} />
                     <Route component={NoMatch} />

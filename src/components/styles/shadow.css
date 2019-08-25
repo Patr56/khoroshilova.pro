@@ -5,8 +5,14 @@
     width: 100%;
     height: 100%;
 
-    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background: linear-gradient(-45deg, 
+     #F7F1F0,
+    #E1F3FB,
+    #FCE5CB,
+    #E3D9E6,
+    #C6EEFB,
+    #B4D6F3);
     background-position: 50% 50%;
-    background-size: 400% 400%;
-    box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+    background-size: 100% 100%;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.2);
 }

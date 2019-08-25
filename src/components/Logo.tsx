@@ -9,8 +9,10 @@ export class Logo extends React.Component<{}, {}> {
             <div className="logo">
                 <Link className="link logo_image" to="/" title="Татьяна Хорошилова" />
                 <div className="logo_info">
-                    <h1 className="logo_title">Татьяна Хорошилова</h1>
-                    <h2 className="logo_subtitle">Фотограф-портретист</h2>
+                    <div className="logo_title">
+                        <div className="logo_name"></div>
+                    </div>
+                    <h2 className="logo_subtitle">Фотограф</h2>
                 </div>
             </div>
         );
