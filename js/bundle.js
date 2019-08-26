@@ -1286,7 +1286,6 @@ var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./node_modules/
 var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./node_modules/axios/lib/helpers/parseHeaders.js");
 var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ "./node_modules/axios/lib/helpers/isURLSameOrigin.js");
 var createError = __webpack_require__(/*! ../core/createError */ "./node_modules/axios/lib/core/createError.js");
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(/*! ./../helpers/btoa */ "./node_modules/axios/lib/helpers/btoa.js");
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -1298,22 +1297,6 @@ module.exports = function xhrAdapter(config) {
     }
 
     var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if (true &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
 
     // HTTP basic authentication
     if (config.auth) {
@@ -1328,8 +1311,8 @@ module.exports = function xhrAdapter(config) {
     request.timeout = config.timeout;
 
     // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
+    request.onreadystatechange = function handleLoad() {
+      if (!request || request.readyState !== 4) {
         return;
       }
 
@@ -1346,15 +1329,26 @@ module.exports = function xhrAdapter(config) {
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        status: request.status,
+        statusText: request.statusText,
         headers: responseHeaders,
         config: config,
         request: request
       };
 
       settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle browser request cancellation (as opposed to a manual cancellation)
+    request.onabort = function handleAbort() {
+      if (!request) {
+        return;
+      }
+
+      reject(createError('Request aborted', config, 'ECONNABORTED', request));
 
       // Clean up request
       request = null;
@@ -1387,8 +1381,8 @@ module.exports = function xhrAdapter(config) {
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
+        cookies.read(config.xsrfCookieName) :
+        undefined;
 
       if (xsrfValue) {
         requestHeaders[config.xsrfHeaderName] = xsrfValue;
@@ -1475,6 +1469,7 @@ module.exports = function xhrAdapter(config) {
 var utils = __webpack_require__(/*! ./utils */ "./node_modules/axios/lib/utils.js");
 var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
 var Axios = __webpack_require__(/*! ./core/Axios */ "./node_modules/axios/lib/core/Axios.js");
+var mergeConfig = __webpack_require__(/*! ./core/mergeConfig */ "./node_modules/axios/lib/core/mergeConfig.js");
 var defaults = __webpack_require__(/*! ./defaults */ "./node_modules/axios/lib/defaults.js");
 
 /**
@@ -1504,7 +1499,7 @@ axios.Axios = Axios;
 
 // Factory for creating new instances
 axios.create = function create(instanceConfig) {
-  return createInstance(utils.merge(defaults, instanceConfig));
+  return createInstance(mergeConfig(axios.defaults, instanceConfig));
 };
 
 // Expose Cancel & CancelToken
@@ -1653,10 +1648,11 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var defaults = __webpack_require__(/*! ./../defaults */ "./node_modules/axios/lib/defaults.js");
 var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
+var buildURL = __webpack_require__(/*! ../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js");
 var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ "./node_modules/axios/lib/core/InterceptorManager.js");
 var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ "./node_modules/axios/lib/core/dispatchRequest.js");
+var mergeConfig = __webpack_require__(/*! ./mergeConfig */ "./node_modules/axios/lib/core/mergeConfig.js");
 
 /**
  * Create a new instance of Axios
@@ -1680,13 +1676,14 @@ Axios.prototype.request = function request(config) {
   /*eslint no-param-reassign:0*/
   // Allow for axios('example/url'[, config]) a la fetch API
   if (typeof config === 'string') {
-    config = utils.merge({
-      url: arguments[0]
-    }, arguments[1]);
+    config = arguments[1] || {};
+    config.url = arguments[0];
+  } else {
+    config = config || {};
   }
 
-  config = utils.merge(defaults, {method: 'get'}, this.defaults, config);
-  config.method = config.method.toLowerCase();
+  config = mergeConfig(this.defaults, config);
+  config.method = config.method ? config.method.toLowerCase() : 'get';
 
   // Hook up interceptors middleware
   var chain = [dispatchRequest, undefined];
@@ -1705,6 +1702,11 @@ Axios.prototype.request = function request(config) {
   }
 
   return promise;
+};
+
+Axios.prototype.getUri = function getUri(config) {
+  config = mergeConfig(this.defaults, config);
+  return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
 };
 
 // Provide aliases for supported request methods
@@ -1951,9 +1953,93 @@ module.exports = function enhanceError(error, config, code, request, response) {
   if (code) {
     error.code = code;
   }
+
   error.request = request;
   error.response = response;
+  error.isAxiosError = true;
+
+  error.toJSON = function() {
+    return {
+      // Standard
+      message: this.message,
+      name: this.name,
+      // Microsoft
+      description: this.description,
+      number: this.number,
+      // Mozilla
+      fileName: this.fileName,
+      lineNumber: this.lineNumber,
+      columnNumber: this.columnNumber,
+      stack: this.stack,
+      // Axios
+      config: this.config,
+      code: this.code
+    };
+  };
   return error;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/core/mergeConfig.js":
+/*!****************************************************!*\
+  !*** ./node_modules/axios/lib/core/mergeConfig.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/axios/lib/utils.js");
+
+/**
+ * Config-specific merge-function which creates a new config-object
+ * by merging two configuration objects together.
+ *
+ * @param {Object} config1
+ * @param {Object} config2
+ * @returns {Object} New object resulting from merging config2 to config1
+ */
+module.exports = function mergeConfig(config1, config2) {
+  // eslint-disable-next-line no-param-reassign
+  config2 = config2 || {};
+  var config = {};
+
+  utils.forEach(['url', 'method', 'params', 'data'], function valueFromConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    }
+  });
+
+  utils.forEach(['headers', 'auth', 'proxy'], function mergeDeepProperties(prop) {
+    if (utils.isObject(config2[prop])) {
+      config[prop] = utils.deepMerge(config1[prop], config2[prop]);
+    } else if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (utils.isObject(config1[prop])) {
+      config[prop] = utils.deepMerge(config1[prop]);
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  utils.forEach([
+    'baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer',
+    'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
+    'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength',
+    'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken',
+    'socketPath'
+  ], function defaultToConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  return config;
 };
 
 
@@ -1980,8 +2066,7 @@ var createError = __webpack_require__(/*! ./createError */ "./node_modules/axios
  */
 module.exports = function settle(resolve, reject, response) {
   var validateStatus = response.config.validateStatus;
-  // Note: status is not exposed by XDomainRequest
-  if (!response.status || !validateStatus || validateStatus(response.status)) {
+  if (!validateStatus || validateStatus(response.status)) {
     resolve(response);
   } else {
     reject(createError(
@@ -2054,12 +2139,13 @@ function setContentTypeIfUnset(headers, value) {
 
 function getDefaultAdapter() {
   var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ "./node_modules/axios/lib/adapters/xhr.js");
-  } else if (typeof process !== 'undefined') {
+  // Only Node.JS has a process variable that is of [[Class]] process
+  if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
     adapter = __webpack_require__(/*! ./adapters/http */ "./node_modules/axios/lib/adapters/xhr.js");
+  } else if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(/*! ./adapters/xhr */ "./node_modules/axios/lib/adapters/xhr.js");
   }
   return adapter;
 }
@@ -2068,6 +2154,7 @@ var defaults = {
   adapter: getDefaultAdapter(),
 
   transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Accept');
     normalizeHeaderName(headers, 'Content-Type');
     if (utils.isFormData(data) ||
       utils.isArrayBuffer(data) ||
@@ -2161,54 +2248,6 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 
-/***/ "./node_modules/axios/lib/helpers/btoa.js":
-/*!************************************************!*\
-  !*** ./node_modules/axios/lib/helpers/btoa.js ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-function E() {
-  this.message = 'String contains an invalid character';
-}
-E.prototype = new Error;
-E.prototype.code = 5;
-E.prototype.name = 'InvalidCharacterError';
-
-function btoa(input) {
-  var str = String(input);
-  var output = '';
-  for (
-    // initialize result and counter
-    var block, charCode, idx = 0, map = chars;
-    // if the next str index does not exist:
-    //   change the mapping table to "="
-    //   check if d has no fractional digits
-    str.charAt(idx | 0) || (map = '=', idx % 1);
-    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-  ) {
-    charCode = str.charCodeAt(idx += 3 / 4);
-    if (charCode > 0xFF) {
-      throw new E();
-    }
-    block = block << 8 | charCode;
-  }
-  return output;
-}
-
-module.exports = btoa;
-
-
-/***/ }),
-
 /***/ "./node_modules/axios/lib/helpers/buildURL.js":
 /*!****************************************************!*\
   !*** ./node_modules/axios/lib/helpers/buildURL.js ***!
@@ -2278,6 +2317,11 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   }
 
   if (serializedParams) {
+    var hashmarkIndex = url.indexOf('#');
+    if (hashmarkIndex !== -1) {
+      url = url.slice(0, hashmarkIndex);
+    }
+
     url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
   }
 
@@ -2329,50 +2373,50 @@ module.exports = (
   utils.isStandardBrowserEnv() ?
 
   // Standard browser envs support document.cookie
-  (function standardBrowserEnv() {
-    return {
-      write: function write(name, value, expires, path, domain, secure) {
-        var cookie = [];
-        cookie.push(name + '=' + encodeURIComponent(value));
+    (function standardBrowserEnv() {
+      return {
+        write: function write(name, value, expires, path, domain, secure) {
+          var cookie = [];
+          cookie.push(name + '=' + encodeURIComponent(value));
 
-        if (utils.isNumber(expires)) {
-          cookie.push('expires=' + new Date(expires).toGMTString());
+          if (utils.isNumber(expires)) {
+            cookie.push('expires=' + new Date(expires).toGMTString());
+          }
+
+          if (utils.isString(path)) {
+            cookie.push('path=' + path);
+          }
+
+          if (utils.isString(domain)) {
+            cookie.push('domain=' + domain);
+          }
+
+          if (secure === true) {
+            cookie.push('secure');
+          }
+
+          document.cookie = cookie.join('; ');
+        },
+
+        read: function read(name) {
+          var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+          return (match ? decodeURIComponent(match[3]) : null);
+        },
+
+        remove: function remove(name) {
+          this.write(name, '', Date.now() - 86400000);
         }
-
-        if (utils.isString(path)) {
-          cookie.push('path=' + path);
-        }
-
-        if (utils.isString(domain)) {
-          cookie.push('domain=' + domain);
-        }
-
-        if (secure === true) {
-          cookie.push('secure');
-        }
-
-        document.cookie = cookie.join('; ');
-      },
-
-      read: function read(name) {
-        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-        return (match ? decodeURIComponent(match[3]) : null);
-      },
-
-      remove: function remove(name) {
-        this.write(name, '', Date.now() - 86400000);
-      }
-    };
-  })() :
+      };
+    })() :
 
   // Non standard browser env (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return {
-      write: function write() {},
-      read: function read() { return null; },
-      remove: function remove() {}
-    };
-  })()
+    (function nonStandardBrowserEnv() {
+      return {
+        write: function write() {},
+        read: function read() { return null; },
+        remove: function remove() {}
+      };
+    })()
 );
 
 
@@ -2421,64 +2465,64 @@ module.exports = (
 
   // Standard browser envs have full support of the APIs needed to test
   // whether the request URL is of the same origin as current location.
-  (function standardBrowserEnv() {
-    var msie = /(msie|trident)/i.test(navigator.userAgent);
-    var urlParsingNode = document.createElement('a');
-    var originURL;
+    (function standardBrowserEnv() {
+      var msie = /(msie|trident)/i.test(navigator.userAgent);
+      var urlParsingNode = document.createElement('a');
+      var originURL;
 
-    /**
+      /**
     * Parse a URL to discover it's components
     *
     * @param {String} url The URL to be parsed
     * @returns {Object}
     */
-    function resolveURL(url) {
-      var href = url;
+      function resolveURL(url) {
+        var href = url;
 
-      if (msie) {
+        if (msie) {
         // IE needs attribute set twice to normalize properties
+          urlParsingNode.setAttribute('href', href);
+          href = urlParsingNode.href;
+        }
+
         urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
+
+        // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+        return {
+          href: urlParsingNode.href,
+          protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+          host: urlParsingNode.host,
+          search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+          hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+          hostname: urlParsingNode.hostname,
+          port: urlParsingNode.port,
+          pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+            urlParsingNode.pathname :
+            '/' + urlParsingNode.pathname
+        };
       }
 
-      urlParsingNode.setAttribute('href', href);
+      originURL = resolveURL(window.location.href);
 
-      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-                  urlParsingNode.pathname :
-                  '/' + urlParsingNode.pathname
-      };
-    }
-
-    originURL = resolveURL(window.location.href);
-
-    /**
+      /**
     * Determine if a URL shares the same origin as the current location
     *
     * @param {String} requestURL The URL to test
     * @returns {boolean} True if URL shares the same origin, otherwise false
     */
-    return function isURLSameOrigin(requestURL) {
-      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-      return (parsed.protocol === originURL.protocol &&
+      return function isURLSameOrigin(requestURL) {
+        var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+        return (parsed.protocol === originURL.protocol &&
             parsed.host === originURL.host);
-    };
-  })() :
+      };
+    })() :
 
   // Non standard browser envs (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  })()
+    (function nonStandardBrowserEnv() {
+      return function isURLSameOrigin() {
+        return true;
+      };
+    })()
 );
 
 
@@ -2623,7 +2667,7 @@ module.exports = function spread(callback) {
 
 
 var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
-var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/is-buffer/index.js");
+var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/axios/node_modules/is-buffer/index.js");
 
 /*global toString:true*/
 
@@ -2799,9 +2843,13 @@ function trim(str) {
  *
  * react-native:
  *  navigator.product -> 'ReactNative'
+ * nativescript
+ *  navigator.product -> 'NativeScript' or 'NS'
  */
 function isStandardBrowserEnv() {
-  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+  if (typeof navigator !== 'undefined' && (navigator.product === 'ReactNative' ||
+                                           navigator.product === 'NativeScript' ||
+                                           navigator.product === 'NS')) {
     return false;
   }
   return (
@@ -2883,6 +2931,32 @@ function merge(/* obj1, obj2, obj3, ... */) {
 }
 
 /**
+ * Function equal to merge with the difference being that no reference
+ * to original objects is kept.
+ *
+ * @see merge
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+function deepMerge(/* obj1, obj2, obj3, ... */) {
+  var result = {};
+  function assignValue(val, key) {
+    if (typeof result[key] === 'object' && typeof val === 'object') {
+      result[key] = deepMerge(result[key], val);
+    } else if (typeof val === 'object') {
+      result[key] = deepMerge({}, val);
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+  return result;
+}
+
+/**
  * Extends object a by mutably adding to it the properties of object b.
  *
  * @param {Object} a The object to be extended
@@ -2920,9 +2994,32 @@ module.exports = {
   isStandardBrowserEnv: isStandardBrowserEnv,
   forEach: forEach,
   merge: merge,
+  deepMerge: deepMerge,
   extend: extend,
   trim: trim
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/node_modules/is-buffer/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/axios/node_modules/is-buffer/index.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
 
 
 /***/ }),
@@ -2985,6 +3082,371 @@ module.exports = collapse
 /* collapse(' \t\nbar \nbaz\t'); // ' bar baz ' */
 function collapse(value) {
   return String(value).replace(/\s+/g, ' ')
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/pages/404/styles/nomatch.css":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/pages/404/styles/nomatch.css ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".no-match {\n    text-align: center;\n}\n\n.no-match__message {\n    font-size: 4em;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/pages/contacts/styles/contacts.css":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/pages/contacts/styles/contacts.css ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".contacts {\n    text-align: center;\n    padding: 40px 0;\n}\n\n.contacts_details {\n    list-style-type: none;\n    margin: 0;\n    padding: 20px 0 0 0;\n}\n\n.qr {\n    text-align: center;\n  \n}\n\n.qr_images {\n    display: inline-block;\n    height: 250px;\n    width: 250px;\n    padding: 10px;\n    background-color: #fff;\n    border-radius: 10px;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/styles/album-list.css":
+/*!************************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/styles/album-list.css ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".album-list {\n    text-align: center;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/styles/album.css":
+/*!*******************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/styles/album.css ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.album_label {\n    position: relative;\n    padding: 5px 10px;\n    z-index: 3;\n    font-size: 20px;\n    color: black;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden;\n}\n\n.album_page__blank {\n    height: 200px;\n}\n\n.album {\n    display: inline-block;\n    text-align: center;\n    width: 200px;\n    height: 200px;\n    padding: 0 25px 25px 0;\n}\n\n.album_page {\n    position: absolute;\n    border: 2px solid black;\n    width: 204px;\n    min-height: 172px;\n    font-size: 0;\n    background-color: white;\n}\n\n.album_cover {\n    width: 200px;\n    height: 168px;\n    border: 2px solid white;\n    overflow: hidden;\n    display: inline-block;\n}\n\n.album_photo {\n    width: 200px;\n}\n\n.album_page__transform-init {\n    z-index: 1;\n}\n\n.album_page__transform-1 {\n    transform: rotate(1deg);\n}\n\n.album_page__transform-2 {\n    transform: rotate(-1deg);\n}\n.album_page__transform-3 {\n    transform: rotate(2deg);\n}\n.album_page__transform-4 {\n    transform: rotate(-2deg);\n}\n.album_page__transform-5 {\n    transform: rotate(3deg);\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/styles/breadcrumbs.css":
+/*!*************************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/styles/breadcrumbs.css ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__(/*! ../../../node_modules/css-loader/lib/url/escape.js */ "./node_modules/css-loader/lib/url/escape.js");
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".breadcrumbs {\n    text-align: center;\n}\n\n.divider {\n    display: inline-block;\n    vertical-align: middle;\n    padding: 0 0 2px 0;\n    width: 20px;\n    height: 20px;\n    background-repeat: no-repeat;\n    background-image: url(" + escape(__webpack_require__(/*! ./images/divide-mathematical-sign.svg */ "./src/components/styles/images/divide-mathematical-sign.svg")) + ");\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/styles/container.css":
+/*!***********************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/styles/container.css ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".container {\n    position: relative;\n    z-index: 1;\n    width: 960px;\n    min-height: 100%;\n    margin: 0 auto;\n    padding: 0;\n    background: rgba(255,255,255, 0.5);\n}\n\n.container__shadow {\n    box-shadow:0px 0px 50px 30px #e1e1e1 ;\n}\n\n.container_wrap {\n    padding-bottom: 15em;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/styles/footer.css":
+/*!********************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/styles/footer.css ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__(/*! ../../../node_modules/css-loader/lib/url/escape.js */ "./node_modules/css-loader/lib/url/escape.js");
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".footer {\n    width: 100%;\n    position: absolute;\n    bottom: 0;\n    height: 15em;\n    text-align: center;\n    padding: 0;\n}\n\n.social_link {\n    padding: 0 15px;\n    background-repeat: no-repeat;\n    background-position-x: 15px;\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n}\n\n.social_link__instagram {\n    background-image: url(" + escape(__webpack_require__(/*! ./images/instagram.svg */ "./src/components/styles/images/instagram.svg")) + ")\n}\n\n.social_link__vk {\n    background-image: url(" + escape(__webpack_require__(/*! ./images/vk.svg */ "./src/components/styles/images/vk.svg")) + ")\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/styles/header.css":
+/*!********************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/styles/header.css ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".header {\n    padding: 40px 0 0 0;\n    text-align: center;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/styles/logo.css":
+/*!******************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/styles/logo.css ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__(/*! ../../../node_modules/css-loader/lib/url/escape.js */ "./node_modules/css-loader/lib/url/escape.js");
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.logo {\n\n}\n\n.logo_image {\n    background-image: url(" + escape(__webpack_require__(/*! ./images/photo-camera.svg */ "./src/components/styles/images/photo-camera.svg")) + ");\n    background-repeat: no-repeat;\n    vertical-align: middle;\n    display: inline-block;\n    width: 60px;\n    height: 60px;\n}\n\n.logo_info {\n    vertical-align: middle;\n    text-align: left;\n    display: inline-block;\n}\n\n.logo_title {\n    display: block;\n    margin: 0;\n    padding: 0 0 0 20px;\n}\n\n\n.logo_name {\n    display: block;\n    margin: 0;\n    width: 55ex;\n    height: 9ex;\n    padding: 0;\n    background: url(" + escape(__webpack_require__(/*! ./images/name.svg */ "./src/components/styles/images/name.svg")) + ");\n    background-repeat: no-repeat;\n    background-size: contain;\n}\n\n.logo_subtitle {\n    display: block;\n    margin: 0;\n    padding: 0 0 0 20px;\n    line-height: 1em;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/styles/main.css":
+/*!******************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/styles/main.css ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".main {\n    padding: 0 1.5em;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/styles/navigation.css":
+/*!************************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/styles/navigation.css ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__(/*! ../../../node_modules/css-loader/lib/url/escape.js */ "./node_modules/css-loader/lib/url/escape.js");
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".nav {\n    padding: 40px 0;\n    text-align: center;\n}\n\n.navigation {\n    list-style-type: none;\n    margin: 0;\n    padding: 0;\n}\n\n.navigation_link {\n    text-align: left;\n    vertical-align: middle;\n    display: inline-block;\n    padding: 0 32px;\n}\n\n.navigation_icon {\n    text-align: left;\n    vertical-align: middle;\n    display: inline-block;\n    width: 2em;\n    height: 2em;\n}\n\n.navigation_label {\n    padding: 0 0 0 1em;\n    display: inline-block;\n    vertical-align: baseline;\n}\n\n.navigation_icon__portfolio {\n    background-image: url(" + escape(__webpack_require__(/*! ./images/gallery.svg */ "./src/components/styles/images/gallery.svg")) + ")\n}\n\n.navigation_icon__price {\n    background-image: url(" + escape(__webpack_require__(/*! ./images/money.svg */ "./src/components/styles/images/money.svg")) + ")\n}\n\n.navigation_icon__blog {\n    background-image: url(" + escape(__webpack_require__(/*! ./images/diary.svg */ "./src/components/styles/images/diary.svg")) + ")\n}\n\n.navigation_icon__contacts {\n    background-image: url(" + escape(__webpack_require__(/*! ./images/speech.svg */ "./src/components/styles/images/speech.svg")) + ")\n}\n\n.navigation_icon__suitcase {\n    background-image: url(" + escape(__webpack_require__(/*! ./images/suitcase.svg */ "./src/components/styles/images/suitcase.svg")) + ")\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/components/styles/shadow.css":
+/*!********************************************************************!*\
+  !*** ./node_modules/css-loader!./src/components/styles/shadow.css ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".shadow {\n    position: fixed;\n    z-index: 0;\n    float: left;\n    width: 100%;\n    height: 100%;\n\n    background: linear-gradient(-45deg, \n     #F7F1F0,\n    #E1F3FB,\n    #FCE5CB,\n    #E3D9E6,\n    #C6EEFB,\n    #B4D6F3);\n    background-position: 50% 50%;\n    background-size: 100% 100%;\n    box-shadow: inset 0 0 100px rgba(0,0,0,0.2);\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./src/style/main.css":
+/*!******************************************************!*\
+  !*** ./node_modules/css-loader!./src/style/main.css ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "html {\n    width: 100%;\n    height: 100%;\n}\n\n.body {\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    height: 100%;\n    font-family: 'Roboto', sans-serif;\n    color: #000;\n    overflow-x: hidden;\n}\n\n.app {\n    width: 100%;\n    height: 100%;\n}\n\nh1, h2, h3 {\n    font-weight: 100;\n}\n\n.link {\n    color: black;\n    text-decoration: none;\n    font-size: 1em;\n}\n\n.link__active {\n    color: rgb(36, 36, 36);\n    text-decoration: none;\n    font-weight: bold;\n}\n\n.link:hover {\n    cursor: pointer;\n    color: black;\n    text-decoration: none;\n    filter: drop-shadow(1px 1px 5px rgba(0,0,0,0.5));\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/lib/css-base.js":
+/*!*************************************************!*\
+  !*** ./node_modules/css-loader/lib/css-base.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/lib/url/escape.js":
+/*!***************************************************!*\
+  !*** ./node_modules/css-loader/lib/url/escape.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function escape(url) {
+    if (typeof url !== 'string') {
+        return url
+    }
+    // If url is already wrapped in quotes, remove them
+    if (/^['"].*['"]$/.test(url)) {
+        url = url.slice(1, -1);
+    }
+    // Should url be wrapped?
+    // See https://drafts.csswg.org/css-values-3/#urls
+    if (/["'() \t\n]/.test(url)) {
+        return '"' + url.replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"'
+    }
+
+    return url
 }
 
 
@@ -43664,6 +44126,515 @@ function factory(key, state, ctx) {
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/lib/addStyles.js":
+/*!****************************************************!*\
+  !*** ./node_modules/style-loader/lib/addStyles.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getTarget = function (target, parent) {
+  if (parent){
+    return parent.querySelector(target);
+  }
+  return document.querySelector(target);
+};
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(target, parent) {
+                // If passing function in options, then use it for resolve "head" element.
+                // Useful for Shadow Root style i.e
+                // {
+                //   insertInto: function () { return document.querySelector("#foo").shadowRoot }
+                // }
+                if (typeof target === 'function') {
+                        return target();
+                }
+                if (typeof memo[target] === "undefined") {
+			var styleTarget = getTarget.call(this, target, parent);
+			// Special case to return head of iframe instead of iframe itself
+			if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+				try {
+					// This will throw an exception if access to iframe is blocked
+					// due to cross-origin restrictions
+					styleTarget = styleTarget.contentDocument.head;
+				} catch(e) {
+					styleTarget = null;
+				}
+			}
+			memo[target] = styleTarget;
+		}
+		return memo[target]
+	};
+})();
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(/*! ./urls */ "./node_modules/style-loader/lib/urls.js");
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+        if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
+		var nextSibling = getElement(options.insertAt.before, target);
+		target.insertBefore(style, nextSibling);
+	} else {
+		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+
+	if(options.attrs.nonce === undefined) {
+		var nonce = getNonce();
+		if (nonce) {
+			options.attrs.nonce = nonce;
+		}
+	}
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function getNonce() {
+	if (false) {}
+
+	return __webpack_require__.nc;
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = typeof options.transform === 'function'
+		 ? options.transform(obj.css) 
+		 : options.transform.default(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/lib/urls.js":
+/*!***********************************************!*\
+  !*** ./node_modules/style-loader/lib/urls.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/symbol-observable/es/index.js":
 /*!****************************************************!*\
   !*** ./node_modules/symbol-observable/es/index.js ***!
@@ -45662,12 +46633,12 @@ exports.MAX_PHOTO_IN_ALBUM_PREVIEW = 5;
 // Количество альбомов в линию.
 exports.ALBUM_IN_LINE = 4;
 // Количество альбомов в линию.
-exports.SOCIAL_LINK__INSTAGRAM = "https://instagram.com/simka001";
+exports.SOCIAL_LINK__INSTAGRAM = "https://instagram.com/tatyanafoto89";
 exports.SOCIAL_LINK__VK = "https://vk.com/public171631266";
 // Доступные страницы.
 exports.AVAILABLE_PAGES = (_a = {},
     _a[Enums_1.EPages.BLOG] = false,
-    _a[Enums_1.EPages.PHOTO] = true,
+    _a[Enums_1.EPages.PHOTO] = false,
     _a[Enums_1.EPages.PRICE] = true,
     _a[Enums_1.EPages.PORTFOLIO] = true,
     _a[Enums_1.EPages.CONTACTS] = true,
@@ -45984,7 +46955,6 @@ var Album = /** @class */ (function (_super) {
             .sort(function (x, y) { return (x.isCover === y.isCover) ? 0 : x.isCover ? -1 : 1; });
         var emptyPages = Array.from(Array(count > 5 ? 5 : count).keys());
         return (React.createElement("div", { className: "album link", onClick: this.handlerClick },
-            React.createElement("div", { className: "album_pin", style: this.getStyle() }),
             React.createElement("div", { className: "album_pages" },
                 photosForPreview && photosForPreview.map(function (photo, index) { return (React.createElement("div", { key: photo.id, className: "album_page " + (index === 0 ? "album_page__transform-init" : ""), style: _this.getStyle() },
                     index === 0 && (React.createElement("div", { className: "album_cover" },
@@ -46037,7 +47007,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "react");
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/es/index.js");
-var Config_1 = __webpack_require__(/*! ../Config */ "./src/Config.ts");
 var Album_1 = __webpack_require__(/*! ./Album */ "./src/components/Album.tsx");
 var ReducerGetAlbums_1 = __webpack_require__(/*! ../reducers/ReducerGetAlbums */ "./src/reducers/ReducerGetAlbums.ts");
 var Actions_1 = __webpack_require__(/*! ../Actions */ "./src/Actions.ts");
@@ -46079,11 +47048,9 @@ var AlbumList = /** @class */ (function (_super) {
             status === Enums_1.EStatus.BEGIN && (React.createElement("div", { className: "album-list_loader" }, "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430")),
             status === Enums_1.EStatus.FAILURE && (React.createElement("div", { className: "album-list_failure" }, error)),
             albums && albums.map(function (album, index) { return (React.createElement(React.Fragment, { key: album.id },
-                index % Config_1.ALBUM_IN_LINE === 0 && (React.createElement("div", { className: "clothesline clothesline__left-" + _this.getRandomBird() + " clothesline__right-" + _this.getRandomBird() })),
                 React.createElement(react_router_dom_1.Link, { to: "/" + prefix + "/" + album.id },
                     React.createElement(Album_1.Album, { showName: showName, photos: album.photos, count: album.count, onClick: _this.handleClickAlbum(album.id) })))); }),
             photos && id && photos.map(function (photo, index) { return (React.createElement(React.Fragment, { key: photo.id },
-                (albumLength + index) % Config_1.ALBUM_IN_LINE === 0 && (React.createElement("div", { className: "clothesline clothesline__left-" + _this.getRandomBird() + " clothesline__right-" + _this.getRandomBird() })),
                 React.createElement(Album_1.Album, { showName: showName, photos: [photo], count: 0, onClick: _this.handleClickPhoto(id, photo.id, index) }))); })));
     };
     return AlbumList;
@@ -46299,9 +47266,10 @@ var Container = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Container.prototype.render = function () {
-        return (React.createElement("div", { className: "container" },
-            React.createElement(Header_1.default, null),
-            React.createElement(Main_1.default, null),
+        return (React.createElement("div", { className: "container container__shadow" },
+            React.createElement("div", { className: "container_wrap" },
+                React.createElement(Header_1.default, null),
+                React.createElement(Main_1.default, null)),
             React.createElement(Footer_1.default, null)));
     };
     return Container;
@@ -46447,8 +47415,9 @@ var Logo = /** @class */ (function (_super) {
         return (React.createElement("div", { className: "logo" },
             React.createElement(react_router_dom_1.Link, { className: "link logo_image", to: "/", title: "\u0422\u0430\u0442\u044C\u044F\u043D\u0430 \u0425\u043E\u0440\u043E\u0448\u0438\u043B\u043E\u0432\u0430" }),
             React.createElement("div", { className: "logo_info" },
-                React.createElement("h1", { className: "logo_title" }, "\u0422\u0430\u0442\u044C\u044F\u043D\u0430 \u0425\u043E\u0440\u043E\u0448\u0438\u043B\u043E\u0432\u0430"),
-                React.createElement("h2", { className: "logo_subtitle" }, "\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444-\u043F\u043E\u0440\u0442\u0440\u0435\u0442\u0438\u0441\u0442"))));
+                React.createElement("div", { className: "logo_title" },
+                    React.createElement("div", { className: "logo_name" })),
+                React.createElement("h2", { className: "logo_subtitle" }, "\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444"))));
     };
     return Logo;
 }(React.Component));
@@ -46484,7 +47453,6 @@ var React = __webpack_require__(/*! react */ "react");
 // @ts-ignore
 var react_images_1 = __webpack_require__(/*! react-images */ "./node_modules/react-images/lib/Lightbox.js");
 var react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/es/index.js");
-var Home_1 = __webpack_require__(/*! ./pages/home/Home */ "./src/components/pages/home/Home.tsx");
 var Blog_1 = __webpack_require__(/*! ./pages/blog/Blog */ "./src/components/pages/blog/Blog.tsx");
 var Portfolio_1 = __webpack_require__(/*! ./pages/portfolio/Portfolio */ "./src/components/pages/portfolio/Portfolio.tsx");
 var Photo_1 = __webpack_require__(/*! ./pages/photo/Photo */ "./src/components/pages/photo/Photo.tsx");
@@ -46528,7 +47496,7 @@ var Main = /** @class */ (function (_super) {
                         _a)
                 } }),
             React.createElement(react_router_1.Switch, null,
-                React.createElement(react_router_1.Route, { path: "/", component: Home_1.Home, exact: true }),
+                React.createElement(react_router_1.Redirect, { from: "/", exact: true, to: "/portfolio/portfolio" }),
                 React.createElement(react_router_1.Route, { path: "/blog", component: Blog_1.Blog }),
                 React.createElement(react_router_1.Route, { path: "/photo/:id", component: Photo_1.default }),
                 React.createElement(react_router_1.Route, { path: "/portfolio/:id", component: Portfolio_1.default }),
@@ -46606,7 +47574,7 @@ var Navigation = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Navigation.prototype.render = function () {
-        var _a = this.props, show = _a.show, showIcon = _a.showIcon;
+        var show = this.props.show;
         if (!show) {
             return React.createElement("div", null);
         }
@@ -46614,24 +47582,24 @@ var Navigation = /** @class */ (function (_super) {
             React.createElement("ul", { className: "navigation" },
                 Config_1.AVAILABLE_PAGES[Enums_1.EPages.PORTFOLIO] && React.createElement("li", { className: "navigation_link" },
                     React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/portfolio/portfolio", title: "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E" },
-                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__suitcase" }),
-                        "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E")),
+                        React.createElement("div", { className: "navigation_icon navigation_icon__suitcase" }),
+                        React.createElement("div", { className: "navigation_label" }, "\u041F\u043E\u0440\u0442\u0444\u043E\u043B\u0438\u043E"))),
                 Config_1.AVAILABLE_PAGES[Enums_1.EPages.PHOTO] && React.createElement("li", { className: "navigation_link" },
                     React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/photo/fotografii", title: "\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0438" },
-                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__portfolio" }),
-                        "\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0438")),
+                        React.createElement("div", { className: "navigation_icon navigation_icon__portfolio" }),
+                        React.createElement("div", { className: "navigation_label" }, "\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0438"))),
                 Config_1.AVAILABLE_PAGES[Enums_1.EPages.PRICE] && React.createElement("li", { className: "navigation_link" },
                     React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/price", title: "\u0426\u0435\u043D\u044B" },
-                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__price" }),
-                        "\u0426\u0435\u043D\u044B")),
+                        React.createElement("div", { className: "navigation_icon navigation_icon__price" }),
+                        React.createElement("div", { className: "navigation_label" }, "\u0426\u0435\u043D\u044B"))),
                 Config_1.AVAILABLE_PAGES[Enums_1.EPages.BLOG] && React.createElement("li", { className: "navigation_link" },
                     React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/blog", title: "\u0411\u043B\u043E\u0433" },
-                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__blog" }),
-                        "\u0411\u043B\u043E\u0433")),
+                        React.createElement("div", { className: "navigation_icon navigation_icon__blog" }),
+                        React.createElement("div", { className: "navigation_label" }, "\u0411\u043B\u043E\u0433"))),
                 Config_1.AVAILABLE_PAGES[Enums_1.EPages.CONTACTS] && React.createElement("li", { className: "navigation_link" },
                     React.createElement(react_router_dom_1.NavLink, { className: "link", activeClassName: "link__active", to: "/contacts", title: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B" },
-                        showIcon && React.createElement("div", { className: "navigation_icon navigation_icon__contacts" }),
-                        "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B")))));
+                        React.createElement("div", { className: "navigation_icon navigation_icon__contacts" }),
+                        React.createElement("div", { className: "navigation_label" }, "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B"))))));
     };
     return Navigation;
 }(React.Component));
@@ -46781,9 +47749,28 @@ exports.NoMatch = NoMatch;
   !*** ./src/components/pages/404/styles/nomatch.css ***!
   \*****************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!./nomatch.css */ "./node_modules/css-loader/index.js!./src/components/pages/404/styles/nomatch.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -46900,62 +47887,28 @@ exports.Contacts = Contacts;
   !*** ./src/components/pages/contacts/styles/contacts.css ***!
   \***********************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./src/components/pages/home/Home.tsx":
-/*!********************************************!*\
-  !*** ./src/components/pages/home/Home.tsx ***!
-  \********************************************/
-/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ "react");
-var Navigation_1 = __webpack_require__(/*! ../../Navigation */ "./src/components/Navigation.tsx");
-__webpack_require__(/*! ./styles/home.css */ "./src/components/pages/home/styles/home.css");
-var Home = /** @class */ (function (_super) {
-    __extends(Home, _super);
-    function Home() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Home.prototype.render = function () {
-        return (React.createElement("div", { className: "page page_home" },
-            React.createElement(Navigation_1.Navigation, { show: true, showIcon: true })));
-    };
-    return Home;
-}(React.Component));
-exports.Home = Home;
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!./contacts.css */ "./node_modules/css-loader/index.js!./src/components/pages/contacts/styles/contacts.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
 
 
-/***/ }),
 
-/***/ "./src/components/pages/home/styles/home.css":
-/*!***************************************************!*\
-  !*** ./src/components/pages/home/styles/home.css ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+var options = {"hmr":true}
 
-// removed by extract-text-webpack-plugin
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -47116,9 +48069,28 @@ exports.Price = Price;
   !*** ./src/components/styles/album-list.css ***!
   \**********************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!./album-list.css */ "./node_modules/css-loader/index.js!./src/components/styles/album-list.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -47127,9 +48099,28 @@ exports.Price = Price;
   !*** ./src/components/styles/album.css ***!
   \*****************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!./album.css */ "./node_modules/css-loader/index.js!./src/components/styles/album.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -47138,9 +48129,28 @@ exports.Price = Price;
   !*** ./src/components/styles/breadcrumbs.css ***!
   \***********************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!./breadcrumbs.css */ "./node_modules/css-loader/index.js!./src/components/styles/breadcrumbs.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -47149,9 +48159,28 @@ exports.Price = Price;
   !*** ./src/components/styles/container.css ***!
   \*********************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!./container.css */ "./node_modules/css-loader/index.js!./src/components/styles/container.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -47160,9 +48189,28 @@ exports.Price = Price;
   !*** ./src/components/styles/footer.css ***!
   \******************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!./footer.css */ "./node_modules/css-loader/index.js!./src/components/styles/footer.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -47171,9 +48219,138 @@ exports.Price = Price;
   !*** ./src/components/styles/header.css ***!
   \******************************************/
 /*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!./header.css */ "./node_modules/css-loader/index.js!./src/components/styles/header.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./src/components/styles/images/diary.svg":
+/*!************************************************!*\
+  !*** ./src/components/styles/images/diary.svg ***!
+  \************************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+module.exports = "\"data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8'?%3E %3Csvg enable-background='new 0 0 480 480' version='1.1' viewBox='0 0 480 480' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M272,368H8V8h464v360h-32H272z' fill='%23E6E6E6'/%3E %3Cpath d='M240,8h232v360H240V8z' fill='%23ccc'/%3E %3Cpath d='m432 216l-16-32-16 32c8.834 8.837 23.159 8.839 31.995 5e-3l5e-3 -5e-3z' fill='%23333'/%3E %3Cpath d='m392 424h48v48h-48v-48z' fill='%23ccc'/%3E %3Cpath d='m432 216c-8.834 8.837-23.159 8.839-31.995 5e-3l-5e-3 -5e-3 -7.872 15.752h47.744l-7.872-15.752z' fill='%23EFC7B0'/%3E %3Cpath d='M392.128,231.752L392,232v192h48V232l-0.128-0.248H392.128z' fill='%2329ABE2'/%3E %3Cpath d='M272,8v432l32-40l32,40V8' fill='%23C1272D'/%3E %3Cpath d='m472 0h-464c-4.418 0-8 3.582-8 8v360c0 4.418 3.582 8 8 8h256v64c-2e-3 4.418 3.578 8.002 7.996 8.004 2.432 1e-3 4.733-1.104 6.252-3.004l25.752-32.2 25.752 32.192c2.759 3.451 7.794 4.011 11.244 1.252 1.897-1.517 3.002-3.814 3.004-6.244v-48h40v80c0 4.418 3.582 8 8 8h48c4.418 0 8-3.582 8-8v-96h24c4.418 0 8-3.582 8-8v-360c0-4.418-3.582-8-8-8zm-456 16h216v344h-216v-344zm232 344v-344h16v344h-16zm80 57.192l-17.752-22.192c-2.994-3.451-8.218-3.821-11.669-0.827-0.295 0.256-0.571 0.532-0.827 0.827l-17.752 22.192v-401.19h48v401.19zm72-183.3l3.112-6.224c8.144 3.926 17.632 3.926 25.776 0l3.112 6.224v182.11h-32v-182.11zm10.24-20.472l5.76-11.528 5.76 11.528c-3.678 1.576-7.842 1.576-11.52 0zm-10.24 250.58v-32h32v32h-32zm64-104h-16v-128c0.014-1.238-0.26-2.462-0.8-3.576l-24-48c-2.358-3.954-7.475-5.249-11.429-2.891-1.189 0.709-2.182 1.702-2.891 2.891l-24 48c-0.567 1.107-0.869 2.332-0.88 3.576v144h-40v-200h40c4.418 0 8-3.582 8-8s-3.582-8-8-8h-40v-16h96c4.418 0 8-3.582 8-8s-3.582-8-8-8h-96v-16h96c4.418 0 8-3.582 8-8s-3.582-8-8-8h-96v-16h96c4.418 0 8-3.582 8-8s-3.582-8-8-8h-96v-48h120v344z'/%3E %3Cpath d='m40 48h40c4.418 0 8-3.582 8-8s-3.582-8-8-8h-40c-4.418 0-8 3.582-8 8s3.582 8 8 8z'/%3E %3Cpath d='m40 80h168c4.418 0 8-3.582 8-8s-3.582-8-8-8h-168c-4.418 0-8 3.582-8 8s3.582 8 8 8z'/%3E %3Cpath d='m208 96h-168c-4.418 0-8 3.582-8 8s3.582 8 8 8h168c4.418 0 8-3.582 8-8s-3.582-8-8-8z'/%3E %3Cpath d='m208 128h-168c-4.418 0-8 3.582-8 8s3.582 8 8 8h168c4.418 0 8-3.582 8-8s-3.582-8-8-8z'/%3E %3Cpath d='m208 160h-168c-4.418 0-8 3.582-8 8s3.582 8 8 8h168c4.418 0 8-3.582 8-8s-3.582-8-8-8z'/%3E %3Cpath d='m208 192h-168c-4.418 0-8 3.582-8 8s3.582 8 8 8h168c4.418 0 8-3.582 8-8s-3.582-8-8-8z'/%3E %3Cpath d='m208 224h-168c-4.418 0-8 3.582-8 8s3.582 8 8 8h168c4.418 0 8-3.582 8-8s-3.582-8-8-8z'/%3E %3Cpath d='m208 256h-168c-4.418 0-8 3.582-8 8s3.582 8 8 8h168c4.418 0 8-3.582 8-8s-3.582-8-8-8z'/%3E %3Cpath d='m168 288h-128c-4.418 0-8 3.582-8 8s3.582 8 8 8h128c4.418 0 8-3.582 8-8s-3.582-8-8-8z'/%3E %3C/svg%3E\""
+
+/***/ }),
+
+/***/ "./src/components/styles/images/divide-mathematical-sign.svg":
+/*!*******************************************************************!*\
+  !*** ./src/components/styles/images/divide-mathematical-sign.svg ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\"data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8'?%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg enable-background='new 0 0 113.28 113.281' version='1.1' viewBox='0 0 113.28 113.281' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='m80.872 3.471l-60.903 98.662c-2.122 3.436-1.055 7.938 2.38 10.057 1.196 0.738 2.521 1.092 3.832 1.092 2.451 0 4.846-1.231 6.227-3.472l60.903-98.663c2.121-3.435 1.055-7.937-2.381-10.056-3.434-2.12-7.94-1.055-10.058 2.38z' fill='%23ddd'/%3E %3C/svg%3E\""
+
+/***/ }),
+
+/***/ "./src/components/styles/images/gallery.svg":
+/*!**************************************************!*\
+  !*** ./src/components/styles/images/gallery.svg ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\"data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8'?%3E %3Csvg enable-background='new 0 0 480.003 480.003' version='1.1' viewBox='0 0 480.003 480.003' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='m424 248h48v-240h-368v104l320 136z' fill='%23F2F2F2'/%3E %3Cpath d='m136 112v-72h304v176h-24l-280-96v-8z' fill='%233FA9F5'/%3E %3Cpath d='m376 104v24l-256 216h-112v-240h368z' fill='%23E6E6E6'/%3E %3Cpath d='m320 136h-280v176h72l208-176z' fill='%2329ABE2'/%3E %3Cpath d='m472 336l-344 136-88-232 344-128 88 224z' fill='%23F2F2F2'/%3E %3Ccircle cx='96.001' cy='192' r='24' fill='%23F8CF26'/%3E %3Cpath d='m80.001 264l64 168 288-112-64-168-288 112z' fill='%2329ABE2'/%3E %3Cpath d='m160.17 425.5l7.832-129.5 109.17 84.336-117 45.16z' fill='%238C6239'/%3E %3Cpath d='m432 320l-10-25.832-102-54.168v32l-72-48-16.336 121.34 45.504 35 154.83-60.336z' fill='%23754C24'/%3E %3Cpath d='m472 0h-368c-4.418 0-8 3.582-8 8v88h-88c-4.418 0-8 3.582-8 8v240c0 4.418 3.582 8 8 8h64c0.609-0.05 1.211-0.171 1.792-0.36l46.728 123.2c1.568 4.131 6.188 6.208 10.319 4.639 0.027-0.01 0.054-0.021 0.081-0.031l344-136c4.111-1.618 6.132-6.263 4.514-10.374-3e-3 -9e-3 -7e-3 -0.017-0.01-0.026l-30.256-77.048h22.832c4.418 0 8-3.582 8-8v-240c0-4.418-3.581-8-8-8zm-456 336v-224h345.06l-43 16h-278.06c-4.418 0-8 3.582-8 8v176c0 4.418 3.582 8 8 8h21.792l6.064 16h-51.856zm416-128h-1.688l-38.864-98.928c-1.222-3.039-4.173-5.026-7.448-5.016v-0.056c0-4.418-3.582-8-8-8h-232v-48h288v160zm-352-16c0-8.837 7.163-16 16-16s16 7.163 16 16-7.163 16-16 16-16-7.163-16-16zm16-32c-17.624-0.046-31.95 14.203-31.996 31.828-0.027 10.211 4.834 19.817 13.076 25.844l-29.08 10.816v-84.488h227.06l-147.86 55.032c3.995-17.102-6.631-34.205-23.734-38.199-2.447-0.572-4.953-0.851-7.466-0.833zm-48 123.65l7.72 20.352h-7.72v-20.352zm84.6 177.95l-82.264-216.91 329.09-122.45 82.216 209.26-329.04 130.1zm331.4-221.6h-21.12l-6.288-16h3.408c4.418 0 8-3.582 8-8v-176c0-4.418-3.582-8-8-8h-304c-4.418 0-8 3.582-8 8v56h-16v-80h352v224z'/%3E %3Cpath d='m375.48 149.15c-1.568-4.131-6.188-6.208-10.319-4.639-0.027 0.01-0.054 0.021-0.081 0.031l-288 112c-4.101 1.591-6.148 6.193-4.584 10.304l64 168c1.185 3.112 4.174 5.164 7.504 5.152 0.991 3e-3 1.974-0.181 2.896-0.544l288-112c4.101-1.591 6.148-6.193 4.584-10.304l-7.632-20c0.367-2.648-0.644-5.3-2.68-7.032l-53.688-140.97zm-285.18 119.42l273.09-106.18 44.048 115.6-83.648-45.04c-3.89-2.094-8.742-0.638-10.836 3.252-0.627 1.164-0.955 2.466-0.956 3.788v17.048l-59.56-39.704c-3.676-2.451-8.643-1.458-11.094 2.218-0.677 1.015-1.113 2.172-1.274 3.382l-14.32 107.38-52.872-40.664c-3.501-2.695-8.524-2.041-11.219 1.46-0.973 1.263-1.545 2.789-1.645 4.38l-7.792 124.72-3.616 1.4-58.304-153.05zm170.94 109.25l-92.6 36 6.4-102.32 86.2 66.32zm16.984-6.608c-0.378-0.577-0.832-1.099-1.352-1.552l-36.488-28.064 13.84-103.82 61.328 40.888c3.675 2.452 8.643 1.461 11.095-2.215 0.879-1.317 1.347-2.866 1.345-4.449v-18.608l88.144 47.464 5.552 14.568-143.46 55.792z'/%3E %3C/svg%3E\""
+
+/***/ }),
+
+/***/ "./src/components/styles/images/instagram.svg":
+/*!****************************************************!*\
+  !*** ./src/components/styles/images/instagram.svg ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\"data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8'?%3E %3Csvg enable-background='new 0 0 551.034 551.034' version='1.1' viewBox='0 0 551.034 551.034' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E %3ClinearGradient id='a' x1='275.52' x2='275.52' y1='4.57' y2='549.72' gradientTransform='matrix(1 0 0 -1 0 554)' gradientUnits='userSpaceOnUse'%3E %3Cstop stop-color='%23E09B3D' offset='0'/%3E %3Cstop stop-color='%23C74C4D' offset='.3'/%3E %3Cstop stop-color='%23C21975' offset='.6'/%3E %3Cstop stop-color='%237024C4' offset='1'/%3E %3C/linearGradient%3E %3Cpath d='m386.88 0h-222.72c-90.516 0-164.16 73.64-164.16 164.16v222.72c0 90.516 73.64 164.16 164.16 164.16h222.72c90.516 0 164.16-73.64 164.16-164.16v-222.72c-1e-3 -90.516-73.641-164.16-164.16-164.16zm108.72 386.88c0 60.045-48.677 108.72-108.72 108.72h-222.72c-60.045 0-108.72-48.677-108.72-108.72v-222.72c0-60.046 48.677-108.72 108.72-108.72h222.72c60.045 0 108.72 48.676 108.72 108.72v222.72z' fill='url(%23a)'/%3E %3Cpath d='m275.52 133c-78.584 0-142.52 63.933-142.52 142.52s63.933 142.52 142.52 142.52 142.52-63.933 142.52-142.52-63.933-142.52-142.52-142.52zm0 229.6c-48.095 0-87.083-38.988-87.083-87.083s38.989-87.083 87.083-87.083c48.095 0 87.083 38.988 87.083 87.083 0 48.094-38.989 87.083-87.083 87.083z' fill='url(%23a)'/%3E %3ClinearGradient id='b' x1='418.31' x2='418.31' y1='4.57' y2='549.72' gradientTransform='matrix(1 0 0 -1 0 554)' gradientUnits='userSpaceOnUse'%3E %3Cstop stop-color='%23E09B3D' offset='0'/%3E %3Cstop stop-color='%23C74C4D' offset='.3'/%3E %3Cstop stop-color='%23C21975' offset='.6'/%3E %3Cstop stop-color='%237024C4' offset='1'/%3E %3C/linearGradient%3E %3Ccircle cx='418.31' cy='134.07' r='34.15' fill='url(%23b)'/%3E %3C/svg%3E\""
+
+/***/ }),
+
+/***/ "./src/components/styles/images/money.svg":
+/*!************************************************!*\
+  !*** ./src/components/styles/images/money.svg ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\"data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8'?%3E %3Csvg enable-background='new 0 0 478.856 478.856' version='1.1' viewBox='0 0 478.856 478.856' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='m406.86 358.87h-400v-192h400v192z' fill='%238CC153'/%3E %3Cpath d='m15.744 166.87l23.112-104 357.54 80.448-4.224 23.552' fill='%2387B748'/%3E %3Cpath d='m262.86 326.87h60.264l35.736-34.856v-57.592l-32.504-35.552h-251.76l-35.736 34.856v57.592l32.504 35.552h191.5z' fill='%23A0D468'/%3E %3Cpath d='m96.384 75.817l26.256-62.696 260.22 108.42-5.728 17.448' fill='%237CAA33'/%3E %3Cpath d='m310.86 406.87v32c0 13.256 35.816 24 80 24s80-10.744 80-24v-32' fill='%23F8CF26'/%3E %3Ccircle cx='198.86' cy='262.87' r='64' fill='%238CC153'/%3E %3Cpath d='m310.86 374.87v32c0 13.256 35.816 24 80 24s80-10.744 80-24v-32' fill='%23CDA349'/%3E %3Cpath d='m310.86 342.87v32c0 13.256 35.816 24 80 24s80-10.744 80-24v-32' fill='%23F8CF26'/%3E %3Cpath d='m310.86 310.87v32c0 13.256 35.816 24 80 24s80-10.744 80-24v-32' fill='%23CDA349'/%3E %3Cpath d='m310.86 278.87v32c0 13.256 35.816 24 80 24s80-10.744 80-24v-32' fill='%23F8CF26'/%3E %3Cpath d='m310.86 246.87v32c0 13.256 35.816 24 80 24s80-10.744 80-24v-32' fill='%23CDA349'/%3E %3Cellipse cx='390.86' cy='246.87' rx='80' ry='24' fill='%23F8CF26'/%3E %3Cpath d='m406.86 197.73c3.782 4e-3 6.852-3.058 6.856-6.84v-0.016-24c4e-3 -3.782-3.058-6.852-6.84-6.856h-0.016-400c-3.782-4e-3 -6.852 3.058-6.856 6.84v0.016 192c-4e-3 3.782 3.058 6.852 6.84 6.856h0.016 272c3.786 0 6.856-3.07 6.856-6.856s-3.07-6.856-6.856-6.856h-265.14v-178.29h386.29v17.144c-4e-3 3.782 3.058 6.852 6.84 6.856h0.016z'/%3E %3Cpath d='m35.184 57.081c-1.537 0.979-2.624 2.526-3.024 4.304l-16 72c-0.822 3.698 1.51 7.362 5.208 8.184s7.362-1.51 8.184-5.208l14.504-65.288 313.3 70.488c0.496 0.115 1.003 0.171 1.512 0.168 3.786-7e-3 6.85-3.082 6.844-6.868-6e-3 -3.201-2.225-5.971-5.348-6.676l-320-72c-1.776-0.396-3.637-0.074-5.176 0.896z'/%3E %3Cpath d='m117.01 49.945l13.128-26.272 186.07 77.528c3.504 1.462 7.53-0.192 8.992-3.696s-0.192-7.53-3.696-8.992l-192-80c-3.337-1.391-7.182 0.038-8.8 3.272l-16 32c-1.807 3.342-0.563 7.517 2.78 9.324s7.517 0.563 9.324-2.78c0.071-0.131 0.138-0.265 0.2-0.401v0.017z'/%3E %3Cpath d='m333.21 198.87c0-3.786-3.07-6.856-6.856-6.856h-63.496c-3.786 0-6.856 3.07-6.856 6.856s3.07 6.856 6.856 6.856h63.496c3.786 0 6.856-3.069 6.856-6.856z'/%3E %3Cpath d='m198.86 333.27c38.881 0 70.4-31.519 70.4-70.4s-31.519-70.4-70.4-70.4-70.4 31.519-70.4 70.4c0.04 38.865 31.536 70.361 70.4 70.4zm0-128c31.812 0 57.6 25.788 57.6 57.6s-25.788 57.6-57.6 57.6-57.6-25.788-57.6-57.6c0.035-31.797 25.803-57.564 57.6-57.6z'/%3E %3Cpath d='m390.86 214.87c-42.4 0-88 10.016-88 32v192c0 21.984 45.6 32 88 32s88-10.016 88-32v-192c0-21.984-45.6-32-88-32zm72 191.88c-1.208 4.44-25.2 16.12-72 16.12s-70.792-11.68-72-16v-12.576c17.024 8.576 45.144 12.576 72 12.576s54.984-4.04 72-12.584v12.464zm0-32c-1.208 4.44-25.2 16.12-72 16.12s-70.792-11.68-72-16v-12.576c17.024 8.576 45.144 12.576 72 12.576s54.984-4.04 72-12.584v12.464zm0-32c-1.208 4.44-25.2 16.12-72 16.12s-70.792-11.68-72-16v-12.576c17.024 8.576 45.144 12.576 72 12.576s54.984-4.04 72-12.584v12.464zm0-32c-1.208 4.44-25.2 16.12-72 16.12s-70.792-11.68-72-16v-12.576c17.024 8.536 45.144 12.576 72 12.576s54.984-4.04 72-12.584v12.464zm0-32c-1.208 4.44-25.2 16.12-72 16.12s-70.792-11.68-72-16v-12.576c17.024 8.536 45.144 12.576 72 12.576s54.984-4.04 72-12.584v12.464zm-72-47.88c46.4 0 70.4 11.472 72 16-1.6 4.528-25.6 16-72 16-46.728 0-70.712-11.648-72-15.856v-0.048c1.288-4.456 25.272-16.096 72-16.096zm0 224c-46.8 0-70.792-11.68-72-16v-12.576c17.024 8.576 45.144 12.576 72 12.576s54.984-4.04 72-12.584v12.464c-1.208 4.44-25.2 16.12-72 16.12z'/%3E %3Cpath d='m77.376 205.73h57.48c3.786 0 6.856-3.07 6.856-6.856s-3.07-6.856-6.856-6.856h-60.264c-1.792-4e-3 -3.515 0.694-4.8 1.944l-35.736 34.856c-1.335 1.56-2.067 3.547-2.064 5.6v56.896c0 1.711 0.639 3.36 1.792 4.624l32.504 35.552c1.299 1.422 3.137 2.233 5.064 2.232h63.504c3.786 0 6.856-3.07 6.856-6.856s-3.07-6.856-6.856-6.856h-60.472l-28.672-31.36v-52l31.664-30.92z'/%3E %3Cpath d='m202.86 274.87h-20c-4.418 0-8 3.582-8 8s3.582 8 8 8h8c0 4.418 3.582 8 8 8s8-3.582 8-8v-0.36c8.873-1.253 15.595-8.648 16-17.6-0.573-10.489-9.507-18.548-20-18.04h-8c-2.488 0-4-1.392-4-2s1.512-2 4-2h20c4.418 0 8-3.582 8-8s-3.582-8-8-8h-8c0-4.418-3.582-8-8-8s-8 3.582-8 8v0.36c-8.873 1.253-15.595 8.648-16 17.6 0.573 10.489 9.507 18.548 20 18.04h8c2.488 0 4 1.392 4 2s-1.512 2-4 2z'/%3E %3C/svg%3E\""
+
+/***/ }),
+
+/***/ "./src/components/styles/images/name.svg":
+/*!***********************************************!*\
+  !*** ./src/components/styles/images/name.svg ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\"data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8'?%3E %3Csvg width='29.849mm' height='4.7869mm' version='1.1' viewBox='0 0 29.848974 4.7868752' xmlns='http://www.w3.org/2000/svg' xmlns:cc='http://creativecommons.org/ns%23' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns%23'%3E %3Cmetadata%3E %3Crdf:RDF%3E %3Ccc:Work rdf:about=''%3E %3Cdc:format%3Eimage/svg+xml%3C/dc:format%3E %3Cdc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage'/%3E %3Cdc:title/%3E %3C/cc:Work%3E %3C/rdf:RDF%3E %3C/metadata%3E %3Cg transform='translate(0 -292.21)'%3E %3Cg style='font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal' aria-label='Татьяна Хорошилова'%3E %3Cpath d='m1.6953 292.21c-0.19254-8e-3 -0.37515 7e-3 -0.54688 0.043-0.18994 0.0416-0.35364 0.10815-0.49414 0.19922-0.1405 0.0911-0.2592 0.19542-0.35547 0.3125-0.093667 0.11449-0.16541 0.2371-0.21484 0.36719-0.049435 0.13009-0.076828 0.25531-0.082031 0.375-0.0078056 0.14311 0.0091516 0.28203 0.050781 0.41992 0.04163 0.1353 0.10685 0.25661 0.19531 0.36328 0.091065 0.10668 0.20716 0.19538 0.34766 0.26563 0.1405 0.0677 0.30551 0.10678 0.49805 0.11718 0.18994 8e-3 0.35429-0.0143 0.49219-0.0664 0.1379-0.052 0.25138-0.12378 0.33984-0.21485 0.091065-0.0937 0.15889-0.20193 0.20312-0.32421 0.044232-0.12229 0.07032-0.24817 0.078125-0.38086v-0.0977c0-0.0338-0.00131-0.0691-0.00391-0.10547l-0.22266 0.0234c0.00521 0.0676 0.00521 0.13284 0 0.19531-0.0052 0.11448-0.026074 0.2234-0.0625 0.33008-0.033824 0.10407-0.086 0.19668-0.15625 0.27734-0.07025 0.078-0.16025 0.14064-0.26953 0.1875-0.10928 0.0468-0.24233 0.0664-0.39844 0.0586-0.15611-8e-3 -0.28851-0.0417-0.40039-0.10157-0.11188-0.0598-0.20449-0.1368-0.27734-0.23046-0.072852-0.0963-0.12503-0.20324-0.15625-0.32032-0.031222-0.11968-0.044266-0.24034-0.039062-0.36523 0.007806-0.15091 0.045633-0.297 0.11328-0.4375 0.067648-0.1405 0.15765-0.26442 0.26953-0.37109 0.11449-0.10922 0.24558-0.19661 0.39649-0.26167 0.15351-0.0651 0.31786-0.0977 0.49219-0.0977 0.088463-3e-3 0.1876 1e-3 0.29688 0.0117 0.11188 0.0104 0.23188 0.0274 0.35938 0.0508 0.12749 0.0208 0.26184 0.0456 0.40234 0.0742 0.1431 0.0261 0.28919 0.0547 0.4375 0.0859-0.036426 0.0702-0.075558 0.16155-0.11719 0.27343-0.041629 0.10928-0.082066 0.23711-0.12109 0.38282-0.039028 0.1457-0.075551 0.30874-0.10938 0.48828-0.033824 0.17692-0.062521 0.36802-0.085937 0.57617-0.033824 0.30702-0.076869 0.57442-0.12891 0.80078-0.049435 0.22636-0.10552 0.42072-0.16797 0.58203-0.062444 0.16132-0.13158 0.29241-0.20703 0.39649-0.072852 0.10404-0.14981 0.18622-0.23047 0.24609-0.078056 0.0599-0.15893 0.10029-0.24219 0.12109-0.083259 0.0234-0.16674 0.0352-0.25 0.0352-0.11188 0-0.2084-0.0157-0.28906-0.0469-0.080657-0.0312-0.14523-0.0729-0.19727-0.125-0.052037-0.052-0.091169-0.11204-0.11719-0.17968-0.023417-0.065-0.035156-0.13093-0.035156-0.20117 0-0.0572 0.007826-0.11331 0.023438-0.16797 0.018213-0.0521 0.042996-0.0977 0.074219-0.13672 0.031222-0.0417 0.067745-0.0743 0.10938-0.0977s0.08533-0.0351 0.13477-0.0351l-0.011719-0.21485c-0.078056 0-0.14915 0.0183-0.2168 0.0547-0.065046 0.0364-0.12114 0.0847-0.16797 0.14453-0.046833 0.0573-0.083356 0.12507-0.10938 0.20313-0.026018 0.0754-0.039062 0.15371-0.039062 0.23437 0 0.0859 0.015653 0.16869 0.046875 0.25195 0.033824 0.0832 0.084696 0.15759 0.15234 0.22266 0.067648 0.0651 0.15374 0.11725 0.25781 0.15625 0.10407 0.0416 0.22734 0.0625 0.37305 0.0625 0.15611 0 0.31133-0.0326 0.46484-0.0977 0.15351-0.0624 0.29699-0.17984 0.42969-0.35156 0.13269-0.16912 0.25009-0.40196 0.35156-0.70117 0.10147-0.29921 0.17713-0.68532 0.22656-1.1562 0.046833-0.46573 0.10031-0.83423 0.16016-1.1074 0.062444-0.2732 0.11984-0.46885 0.17188-0.58594 0.26019 0.0521 0.52172 0.10033 0.78711 0.14453 0.26799 0.0443 0.52365 0.0703 0.76562 0.0781 0.24197 5e-3 0.46502-0.0144 0.66797-0.0586 0.20555-0.0442 0.37447-0.12771 0.50977-0.25l-0.10156-0.12096c-0.1379 0.10144-0.28856 0.17318-0.45508 0.21484-0.16652 0.039-0.34392 0.0586-0.53125 0.0586-0.18733 0-0.3843-0.0157-0.58984-0.0469-0.20294-0.0313-0.41034-0.0691-0.62109-0.11328-0.21075-0.0443-0.42141-0.0899-0.63477-0.13672-0.21075-0.0495-0.41945-0.0899-0.625-0.12109-0.20555-0.0312-0.40512-0.0508-0.59766-0.0586zm16.787 0.0195c-0.18994-1e-5 -0.36081 0.0535-0.51172 0.16015-0.1483 0.10667-0.28396 0.25016-0.40625 0.42969-0.11968 0.17693-0.22926 0.38171-0.32812 0.61328-0.09627 0.22896-0.18562 0.46702-0.27148 0.7168-0.04163-0.23937-0.0912-0.4709-0.14844-0.69727-0.05464-0.22636-0.12377-0.42724-0.20703-0.60156-0.08326-0.17693-0.18631-0.3178-0.30859-0.42188-0.11968-0.10667-0.26578-0.16015-0.4375-0.16015-0.10668 0-0.20842 0.0183-0.30469 0.0547-0.09367 0.0338-0.17584 0.0821-0.24609 0.14454-0.07025 0.0624-0.12634 0.1381-0.16797 0.22656-0.04163 0.0859-0.0625 0.17978-0.0625 0.28125 0 0.0859 0.01435 0.17065 0.04297 0.25391 0.02862 0.0806 0.07036 0.15368 0.125 0.21874 0.05724 0.0651 0.12768 0.11726 0.21094 0.15626s0.17848 0.0566 0.28516 0.0566c0.01041-0.0417 0.01824-0.0801 0.02344-0.11914 0.0078-0.0417 0.01694-0.0834 0.02734-0.125-0.08066-3e-3 -0.1524-0.0183-0.21484-0.0469-0.06244-0.0312-0.11462-0.0717-0.15625-0.12109-0.04163-0.0494-0.07424-0.1042-0.09766-0.16407-0.02081-0.0624-0.03125-0.12503-0.03125-0.1875 0-0.0624 0.01044-0.12242 0.03125-0.17968 0.02081-0.0599 0.05342-0.11205 0.09766-0.15625 0.04423-0.0469 0.09902-0.0847 0.16406-0.11329 0.06765-0.0286 0.14722-0.043 0.23828-0.043 0.1457 0 0.26832 0.0509 0.36719 0.15234 0.10147 0.0989 0.18756 0.23974 0.25781 0.42188 0.07025 0.17952 0.13025 0.39605 0.17969 0.64843 0.05204 0.25238 0.1003 0.52957 0.14453 0.83399l0.01172 0.0859c-0.09367 0.24198-0.19541 0.47807-0.30469 0.70704-0.10668 0.22896-0.22798 0.43244-0.36328 0.60937-0.1353 0.17953-0.28922 0.32106-0.46094 0.42774-0.17172 0.10667-0.36868 0.16015-0.58984 0.16015-0.1483 0-0.27549-0.0287-0.38476-0.0859-0.10668-0.0546-0.19668-0.12899-0.26953-0.22265-0.07025-0.0937-0.12242-0.19868-0.15625-0.31836-0.03383-0.11968-0.05078-0.24491-0.05078-0.375 0-0.15091 0.02087-0.30091 0.0625-0.44922 0.04423-0.14831 0.10815-0.28135 0.19141-0.39844 0.08326-0.11968 0.185-0.21621 0.30469-0.28906 0.12229-0.0728 0.2586-0.10938 0.41211-0.10938 0.08586 0 0.16412 0.0183 0.23437 0.0547 0.07025 0.0338 0.12895 0.0808 0.17578 0.14063 0.04943 0.0572 0.08726 0.12376 0.11328 0.19922 0.02862 0.0729 0.04297 0.14981 0.04297 0.23046 0 0.10148-0.01957 0.20713-0.05859 0.31641-0.03643 0.10667-0.09643 0.20972-0.17969 0.30859l0.19141 0.11329c0.08326-0.0989 0.14587-0.20584 0.1875-0.32032 0.04163-0.11708 0.0625-0.23447 0.0625-0.35156 0-0.10927-0.01695-0.21363-0.05078-0.3125-0.03122-0.0989-0.07949-0.18626-0.14453-0.26172-0.06505-0.0755-0.14461-0.13549-0.23828-0.17969-0.09367-0.0442-0.20063-0.0664-0.32031-0.0664-0.20034 0-0.37318 0.0404-0.52148 0.12109-0.14831 0.0807-0.27353 0.18762-0.375 0.32031-0.09887 0.1301-0.17322 0.27749-0.22266 0.44141-0.04943 0.16131-0.07422 0.32437-0.07422 0.48828 0 0.14831 0.02087 0.28984 0.0625 0.42774 0.04423 0.1405 0.10945 0.26442 0.19531 0.37109 0.08846 0.10926 0.19934 0.19665 0.33203 0.26172 0.1327 0.0676 0.28727 0.10156 0.4668 0.10156 0.22896 0 0.43245-0.0535 0.60938-0.16016 0.17953-0.10668 0.33997-0.24755 0.48047-0.42187 0.1405-0.17433 0.26442-0.37194 0.37109-0.5957 0.10928-0.22376 0.21102-0.45204 0.30469-0.6836 0.02602 0.18734 0.05341 0.37256 0.08203 0.55469 0.03122 0.18213 0.06905 0.35692 0.11328 0.52344 0.04423 0.16652 0.09641 0.31979 0.15625 0.46289 0.06245 0.14311 0.13745 0.26702 0.22852 0.37109 0.09107 0.10405 0.19802 0.18623 0.32031 0.2461 0.12489 0.0599 0.27098 0.0898 0.4375 0.0898 0.17172 0 0.31651-0.0351 0.43359-0.10547h0.16406c0.01369-0.087 0.03049-0.17308 0.04492-0.25976 0.02106-0.0362 0.05471-0.0493 0.07227-0.0918l-0.05469-0.0176c0.01827-0.10729 0.03528-0.21554 0.05469-0.32227 0.03903-0.22896 0.07685-0.45788 0.11328-0.68945 0.01821 0.078 0.05082 0.13802 0.09766 0.17969 0.04944 0.0416 0.11987 0.0625 0.21094 0.0625 0.08846 0 0.17716-0.0196 0.26562-0.0586 0.09107-0.039 0.17716-0.0938 0.25781-0.16407 0.08066-0.0702 0.15501-0.15503 0.22266-0.2539 0.05172-0.0756 0.09174-0.16463 0.13281-0.25391-0.0086 0.11442-0.016 0.22824 0 0.32422 0.01822 0.12229 0.05735 0.22142 0.11719 0.29687 0.06245 0.0729 0.14984 0.10938 0.26172 0.10938 0.10147 0 0.1993-0.043 0.29297-0.12891 0.09366-0.0885 0.17193-0.19673 0.23438-0.32422 0.09627-0.0286 0.1778-0.0821 0.24805-0.16015 0.0282-0.0324 0.04742-0.0866 0.07227-0.12696-0.01522 0.11916-0.02734 0.23387-0.02734 0.33399 0 0.12489 0.01565 0.22403 0.04687 0.29687 0.03122 0.0703 0.0847 0.10547 0.16016 0.10547 0.07545 0 0.1498-0.0457 0.22266-0.13672 0.07285-0.0911 0.13677-0.20846 0.19141-0.35156-0.0052 0.0546-0.0065 0.1107-0.0039 0.16797 0.0052 0.0572 0.01434 0.11069 0.02734 0.16016 0.01561 0.0469 0.03779 0.086 0.06641 0.11718 0.02862 0.0286 0.06645 0.043 0.11328 0.043 0.07545 0 0.1498-0.0457 0.22266-0.13672 0.07285-0.0911 0.13677-0.20846 0.19141-0.35156 0 0.013-0.0013 0.0261-0.0039 0.0391v0.0391c0 0.12488 0.01304 0.22532 0.03906 0.30078 0.02862 0.0729 0.07949 0.10937 0.15234 0.10937 0.06245 0 0.11658-0.0222 0.16602-0.0664 0.04943-0.0468 0.09639-0.11075 0.14062-0.19141 0.04683-0.0833 0.09248-0.18109 0.13672-0.29297 0.0082-0.0207 0.0189-0.0469 0.02734-0.0684-0.0062 0.0716-0.01758 0.14907-0.01758 0.21289 0 0.12229 0.01565 0.22012 0.04687 0.29297 0.03122 0.0729 0.0847 0.10938 0.16016 0.10938 0.07545 0 0.1498-0.0457 0.22266-0.13672 0.07285-0.0911 0.13677-0.20846 0.19141-0.35156 0 0.013-0.0013 0.0261-0.0039 0.0391v0.0391c0 0.12489 0.01304 0.22533 0.03906 0.30078 0.02862 0.0729 0.07949 0.10938 0.15234 0.10938 0.06245 0 0.11854-0.0222 0.16797-0.0664 0.04943-0.0468 0.09639-0.11075 0.14062-0.19141 0.03772-0.0671 0.07334-0.15069 0.10938-0.23632-0.0196 0.0404-0.03672 0.0827-0.04297 0.13476-0.0078 0.0624-0.0039 0.12242 0.01172 0.17969 0.01561 0.0547 0.04561 0.099 0.08984 0.13281 0.04163 0.0338 0.10033 0.0443 0.17578 0.0312 0.05724-0.0104 0.11072-0.0482 0.16016-0.11328 0.04943-0.0677 0.09639-0.15113 0.14062-0.25 0.04423-0.10147 0.08467-0.21365 0.12109-0.33594 0.03903-0.12489 0.07425-0.2488 0.10547-0.37109 0.03382-0.12229 0.06382-0.23968 0.08984-0.35156 0.02863-0.11188 0.05471-0.20711 0.07813-0.28516h0.08594c-0.02081 0.0989-0.04429 0.20583-0.07031 0.32031-0.02342 0.11448-0.04559 0.23058-0.06641 0.34766-0.02081 0.11449-0.03907 0.22666-0.05469 0.33594-0.01301 0.10928-0.01953 0.20841-0.01953 0.29687 0 0.11968 0.01565 0.21752 0.04687 0.29297 0.03122 0.0754 0.08209 0.11328 0.15234 0.11328 0.06245 0 0.11854-0.0222 0.16797-0.0664 0.05204-0.0468 0.1003-0.11075 0.14453-0.19141 0.04423-0.0833 0.08663-0.18109 0.13086-0.29297 0.01023-0.0259 0.02255-0.0588 0.0332-0.0859-0.0026 0.0865-0.01253 0.17875 0 0.25391 0.01822 0.12229 0.05735 0.22142 0.11719 0.29687 0.06245 0.0729 0.14984 0.10938 0.26172 0.10938 0.10147 0 0.1993-0.043 0.29297-0.12891 0.09366-0.0885 0.17193-0.19673 0.23438-0.32422 0.09627-0.0286 0.17975-0.0821 0.25-0.16015 0.03985-0.0457 0.06841-0.11803 0.10156-0.17969-5e-6 2e-3 0 5e-3 0 8e-3 0 0.11188 0.0065 0.21624 0.01953 0.3125 0.01301 0.0963 0.03388 0.17976 0.0625 0.25 0.03122 0.0703 0.07035 0.12507 0.11719 0.16407 0.04683 0.039 0.10553 0.0586 0.17578 0.0586 0.10407 0 0.19669-0.0404 0.27734-0.12109 0.08066-0.0833 0.14979-0.18892 0.20703-0.31641 0.09887-0.0234 0.18887-0.0782 0.26953-0.16406 0.03672-0.0379 0.0592-0.0976 0.08984-0.14453-0.0152 0.1-0.02344 0.19531-0.02344 0.28515 0 0.1405 0.01957 0.25137 0.05859 0.33203 0.03903 0.0807 0.10034 0.1211 0.18359 0.1211 0.05204 0 0.1003-0.0157 0.14453-0.0469 0.04683-0.0338 0.08988-0.0768 0.12891-0.1289 0.03903-0.0546 0.07425-0.11726 0.10547-0.1875 0.03383-0.0729 0.06513-0.14851 0.09375-0.22657l-0.01953 0.1875c0 0.268 0.05348 0.40235 0.16016 0.40235 0.04163 0 0.08207-0.017 0.12109-0.0508 0.03903-0.0338 0.08077-0.0873 0.125-0.16016 0.04683-0.0755 0.0964-0.17198 0.14844-0.28906 0.05464-0.11709 0.11594-0.25796 0.18359-0.42188 0-5e-3 -0.0091-0.013-0.02734-0.0234-0.01561-0.0104-0.02996-0.0156-0.04297-0.0156-0.09887 0.26279-0.18887 0.46236-0.26953 0.59766-0.07805 0.13269-0.13936 0.19921-0.18359 0.19921-0.03122 0-0.04687-0.0469-0.04687-0.14062 0-0.0261 0.0013-0.0547 0.0039-0.0859 0.0026-0.0338 0.0065-0.0704 0.01172-0.10937 0.02342-0.18474 0.05472-0.38692 0.09375-0.60547 0.04163-0.21856 0.08729-0.44943 0.13672-0.69141h-0.17578l-0.05469 0.27344c-0.01041-0.0884-0.03389-0.16018-0.07031-0.21484-0.03643-0.0573-0.09382-0.0859-0.17188-0.0859-0.05984 0-0.11724 0.0222-0.17188 0.0664-0.05204 0.0416-0.1016 0.0977-0.14844 0.16797-0.04683 0.0703-0.08988 0.15243-0.12891 0.2461-0.03903 0.0937-0.07294 0.19149-0.10156 0.29297-0.0076 0.0295-0.01089 0.0601-0.01758 0.0898-4.54e-4 -1e-5 -0.0015 0-2e-3 0-0.04684 0.12227-0.10032 0.21618-0.16016 0.28125-0.05984 0.0651-0.12506 0.10941-0.19531 0.13281 0.03643-0.0989 0.06382-0.20192 0.08203-0.30859 0.01821-0.10928 0.02734-0.21493 0.02734-0.31641 0-0.0885-0.0078-0.17194-0.02344-0.25-0.01301-0.078-0.03519-0.14586-0.06641-0.20312-0.03122-0.0599-0.07166-0.10683-0.12109-0.14063-0.04683-0.0364-0.10292-0.0547-0.16797-0.0547-0.07546 0-0.14328 0.0196-0.20312 0.0586-0.05984 0.0364-0.11202 0.086-0.15625 0.14844l0.03516-0.1836c0.19996-0.20823 0.2068-0.38353 0.30078-0.57422-0.07327 0.14646-0.16152 0.28542-0.26953 0.41797 0.02862-0.1379 0.05862-0.26638 0.08984-0.38867 0.03383-0.12489 0.06644-0.23316 0.09766-0.32422 0.03383-0.0936 0.06513-0.16799 0.09375-0.22265 0.02862-0.0547 0.05341-0.082 0.07422-0.082 0.03122 0 0.04687 0.03 0.04687 0.0899 0 0.16002-0.04085 0.31759-0.11524 0.47265 0.07186-0.15611 0.24805-0.32843 0.24805-0.47265 0-0.0755-0.02087-0.13288-0.0625-0.17188-0.03902-0.0416-0.08468-0.0625-0.13672-0.0625-0.04423 0-0.08727 0.0144-0.12891 0.043-0.03903 0.0286-0.07294 0.073-0.10156 0.13281-0.04943 0.10928-0.10161 0.25016-0.15625 0.42188-0.05204 0.17173-0.1003 0.35695-0.14453 0.55469-0.04163 0.19774-0.07685 0.39927-0.10547 0.60742-0.01963 0.14096-0.02313 0.26776-0.0293 0.39648-0.0015-1.2e-4 -0.0045-2e-3 -0.0059-2e-3 -0.04423 0.11706-0.09249 0.20576-0.14453 0.26562-0.04943 0.0599-0.10683 0.10552-0.17188 0.13672 0.05204-0.1353 0.08856-0.27747 0.10938-0.42578 0.02341-0.1483 0.02603-0.28396 0.0078-0.40625-0.01561-0.12489-0.05213-0.22794-0.10938-0.30859-0.05464-0.0807-0.13421-0.1211-0.23828-0.1211-0.06765 0-0.13026 0.0157-0.1875 0.0469-0.05464 0.0286-0.1029 0.0677-0.14453 0.11719-0.04163 0.0494-0.07685 0.10681-0.10547 0.17187-0.02862 0.065-0.04949 0.13418-0.0625 0.20703l-0.12109-0.0312c-0.03595 0.12784-0.05513 0.25177-0.07422 0.375-0.08797 0.23319-0.16824 0.4252-0.23828 0.55078-0.07286 0.1327-0.13938 0.19922-0.19922 0.19922-0.02082 0-0.03777-0.0118-0.05078-0.0352s-0.01953-0.0651-0.01953-0.125c0-0.0807 0.0065-0.17458 0.01953-0.28125 0.01561-0.10668 0.03387-0.22407 0.05469-0.35157 0.02342-0.12749 0.0495-0.26184 0.07813-0.40234 0.03123-0.1431 0.06253-0.28919 0.09375-0.4375h-0.5625l-0.03906 0.0937h0.19922c-0.02602 0.0859-0.05472 0.19413-0.08594 0.32422-0.03122 0.12749-0.06644 0.26054-0.10547 0.39844-0.03903 0.1379-0.08207 0.27225-0.12891 0.40234-0.04683 0.13009-0.09901 0.24097-0.15625 0.33203-0.03903 0.0651-0.07685 0.0977-0.11328 0.0977-0.03643 0-0.06512-0.0183-0.08594-0.0547-0.01821-0.0364-0.02604-0.0834-0.02344-0.14062 0.0052-0.0572 0.02738-0.112 0.06641-0.16407h-0.19141c0.0036-9e-3 0.0081-0.0144 0.01172-0.0234 0.04423-0.11188 0.0925-0.2358 0.14453-0.3711 0-0.0104-0.01044-0.0195-0.03125-0.0273-0.01821-8e-3 -0.03126-0.0117-0.03906-0.0117-0.09887 0.25498-0.18496 0.45194-0.25781 0.58984-0.07286 0.1353-0.13938 0.20313-0.19922 0.20313-0.02081 0-0.03907-0.0118-0.05469-0.0352-0.01301-0.0234-0.01953-0.0651-0.01953-0.125 0-0.0806 0.0065-0.17457 0.01953-0.28125 0.01561-0.10667 0.03517-0.22407 0.05859-0.35156s0.0495-0.26184 0.07813-0.40234c0.02862-0.14311 0.05862-0.2892 0.08984-0.4375h-0.20312c-0.02602 0.11708-0.05472 0.24491-0.08594 0.38281-0.02862 0.13789-0.05601 0.28138-0.08203 0.42969-0.02081 0.11188-0.04951 0.21883-0.08594 0.32031-0.03383 0.0989-0.07035 0.18626-0.10938 0.26172-0.03643 0.0729-0.07426 0.13158-0.11328 0.17578-0.03642 0.0442-0.06642 0.0664-0.08984 0.0664-0.02602 0-0.04689-0.0131-0.0625-0.0391-0.01561-0.0286-0.02344-0.0743-0.02344-0.13672 0-0.0624 0.0052-0.13809 0.01563-0.22656 0.01041-0.0885 0.02345-0.18107 0.03906-0.27734 0.01821-0.0989 0.03778-0.198 0.05859-0.29688 0.02081-0.0989 0.04038-0.19148 0.05859-0.27734 0.01821-0.0885 0.03517-0.16673 0.05078-0.23438 0.01561-0.0677 0.02605-0.11723 0.03125-0.14843h-0.20703c-0.0078 0.0442-0.02476 0.11988-0.05078 0.22656s-0.05341 0.22799-0.08203 0.36328c-0.01715 0.0875-0.03199 0.18228-0.04687 0.27539-0.09435 0.24632-0.17785 0.4419-0.24805 0.57227-0.07286 0.13269-0.13938 0.19921-0.19922 0.19921-0.02081 0-0.03712-0.0118-0.05273-0.0351-0.01301-0.0234-0.01953-0.0651-0.01953-0.125 0-0.0781 0.0065-0.17067 0.01953-0.27735 0.01561-0.10928 0.03192-0.22797 0.05273-0.35546 0.02342-0.12749 0.0495-0.26185 0.07813-0.40235 0.03123-0.1431 0.06253-0.2892 0.09375-0.4375h-0.20312c-0.02602 0.11708-0.05276 0.24491-0.08398 0.38281-0.02862 0.1379-0.05601 0.28139-0.08203 0.42969-0.02081 0.11188-0.04951 0.21884-0.08594 0.32031-0.03383 0.0989-0.07035 0.18627-0.10938 0.26172-0.03643 0.0729-0.07425 0.13158-0.11328 0.17578-0.03642 0.0442-0.06642 0.0664-0.08984 0.0664-0.02601 0-0.04689-0.0131-0.0625-0.0391-0.01561-0.0286-0.02344-0.0743-0.02344-0.13672 0-0.0625 0.0052-0.1381 0.01563-0.22656 0.01301-0.0885 0.02736-0.18108 0.04297-0.27735l0.05469-0.29687c0.02081-0.0989 0.04038-0.19149 0.05859-0.27735 0.02082-0.0884 0.03777-0.1654 0.05078-0.23046 0.01561-0.0677 0.02605-0.11855 0.03125-0.15235h-0.20703c-0.0052 0.0286-0.01434 0.0703-0.02734 0.125-0.01301 0.0546-0.02736 0.11986-0.04297 0.19531-0.01561 0.0729-0.03257 0.15243-0.05078 0.23829-0.01821 0.0833-0.03517 0.16804-0.05078 0.2539-0.02081 0.11188-0.04951 0.21884-0.08594 0.32031-0.03382 0.0989-0.07165 0.18627-0.11328 0.26172-0.03903 0.0729-0.07816 0.13158-0.11719 0.17578-0.03642 0.0442-0.06642 0.0664-0.08984 0.0664-0.02602 0-0.04689-0.0131-0.0625-0.0391-0.01561-0.0286-0.02344-0.0743-0.02344-0.13672 0-0.0625 0.0052-0.1381 0.01563-0.22656 0.01301-0.0885 0.02736-0.18108 0.04297-0.27735l0.05469-0.29687c0.02081-0.0989 0.04038-0.19149 0.05859-0.27735 0.02082-0.0884 0.03777-0.1654 0.05078-0.23046 0.01561-0.0677 0.02605-0.11855 0.03125-0.15235h-0.20703c-0.0078 0.0442-0.02476 0.11988-0.05078 0.22656s-0.05341 0.22799-0.08203 0.36329c-0.01605 0.0818-0.0289 0.17103-0.04297 0.25781-0.04264 0.10962-0.08889 0.19663-0.13867 0.2539-0.04943 0.0599-0.10488 0.10552-0.16992 0.13672 0.05204-0.1353 0.08856-0.27747 0.10938-0.42578 0.02341-0.1483 0.02603-0.28396 0.0078-0.40625-0.01561-0.12489-0.05213-0.22794-0.10938-0.30859-0.05464-0.0807-0.13421-0.1211-0.23828-0.1211-0.06765 0-0.13026 0.0157-0.1875 0.0469-0.05464 0.0286-0.1029 0.0677-0.14453 0.11719-0.04163 0.0494-0.07685 0.10681-0.10547 0.17187-0.02863 0.065-0.04949 0.13418-0.0625 0.20703l-0.12109-0.0312c-0.03372 0.1199-0.05143 0.23572-0.07031 0.35157-0.0027-6.5e-4 -0.0074-4e-3 -0.0098-4e-3 -0.08586 0.22636-0.19217 0.4155-0.32226 0.56641-0.12749 0.14834-0.26967 0.24355-0.42578 0.28515 0.06244-0.0598 0.11984-0.1368 0.17188-0.23047 0.05204-0.0963 0.09639-0.19931 0.13281-0.30859 0.03643-0.11188 0.06512-0.22667 0.08594-0.34375 0.02081-0.11709 0.03125-0.22666 0.03125-0.32813 0-0.1457-0.02348-0.26701-0.07031-0.36328-0.04423-0.0963-0.11597-0.14453-0.21484-0.14453-0.07545 0-0.1485 0.0417-0.21875 0.125-0.06765 0.0807-0.12895 0.18762-0.18359 0.32031l0.0625-0.41796h-0.1875c-0.0052 0.0702-0.01955 0.18373-0.04297 0.33984-0.02013 0.14838-0.04633 0.31858-0.07617 0.50586-0.04338 0.11305-0.08979 0.20129-0.14062 0.25976-0.04943 0.0599-0.10683 0.10552-0.17188 0.13672 0.05204-0.1353 0.08856-0.27747 0.10938-0.42578 0.02341-0.1483 0.02603-0.28396 0.0078-0.40625-0.01561-0.12489-0.05214-0.22794-0.10938-0.30859-0.05464-0.0807-0.13225-0.1211-0.23633-0.1211-0.06765 0-0.13026 0.0157-0.1875 0.0469-0.05464 0.0286-0.1029 0.0677-0.14453 0.11719-0.04163 0.0494-0.07685 0.10681-0.10547 0.17187-0.02862 0.065-0.04949 0.13418-0.0625 0.20703l-0.12109-0.0312c-0.04683 0.16652-0.07944 0.32957-0.09766 0.48828-0.02081 0.15612-0.02081 0.29699 0 0.42188 0.01822 0.12229 0.05735 0.22142 0.11719 0.29687 0.06244 0.0729 0.14984 0.10938 0.26172 0.10938 0.10147 0 0.1993-0.043 0.29297-0.12891 0.09366-0.0885 0.16998-0.19673 0.23242-0.32422 0.09627-0.0286 0.17975-0.0821 0.25-0.16015 0.02736-0.0314 0.04611-0.0841 0.07031-0.12305-0.02104 0.13022-0.0423 0.25845-0.06445 0.39649-0.03383 0.21074-0.06644 0.40706-0.09766 0.59179-0.02081 0.065-0.04038 0.142-0.05859 0.23047-0.01561 0.0755-0.03257 0.16807-0.05078 0.27734-2.1e-4 1e-3 2.1e-4 3e-3 0 4e-3 -0.0358 0.0948-0.07754 0.18172-0.14062 0.23828-0.07545 0.0677-0.18241 0.10157-0.32031 0.10157-0.1353-1e-5 -0.254-0.03-0.35547-0.0899-0.09887-0.0572-0.18626-0.13811-0.26172-0.24219-0.07545-0.10407-0.14067-0.22799-0.19531-0.37109-0.05204-0.14311-0.09769-0.29638-0.13672-0.46289-0.03903-0.16652-0.0723-0.34392-0.10352-0.53125-0.02862-0.18733-0.05601-0.37647-0.08203-0.56641l-0.035017-0.25424c0.09367-0.24718 0.18563-0.48719 0.2793-0.71875 0.09627-0.23156 0.20062-0.4357 0.3125-0.61524 0.11188-0.17952 0.2358-0.32301 0.37109-0.42969 0.1353-0.10928 0.29052-0.16406 0.46484-0.16406 0.10928 0 0.2045 0.0222 0.28516 0.0664 0.08065 0.0416 0.13805 0.11076 0.17188 0.20703l0.08594-0.0469c0.03123-0.0182 0.06253-0.0352 0.09375-0.0508-0.01561-0.0442-0.04039-0.0872-0.07422-0.1289-0.03383-0.0443-0.07557-0.0821-0.125-0.11328-0.04943-0.0338-0.10683-0.0612-0.17188-0.082-0.06505-0.0208-0.13548-0.0312-0.21094-0.0312zm9.3691 1.1055c-0.0055 0.012-0.01163 0.025-0.01758 0.0371 0.0044-9e-3 0.01136-0.0166 0.01563-0.0254 0.0019-4e-3 1.42e-4 -8e-3 2e-3 -0.0117zm-23.553-0.42964c-0.057241 0.23937-0.1055 0.45851-0.14453 0.65625-0.036426 0.19514-0.067731 0.38232-0.09375 0.56445-0.023417 0.18213-0.045592 0.36344-0.066406 0.54297-0.020815 0.17692-0.041685 0.36345-0.0625 0.55859-0.00781 0.065-0.013025 0.1381-0.015625 0.21875-0.0026 0.078-0.00391 0.14586-0.00391 0.20313 0 0.27579 0.037828 0.47211 0.11328 0.59179 0.078056 0.11969 0.20197 0.17969 0.37109 0.17969 0.14831 0 0.27353-0.0574 0.375-0.17187 0.10407-0.11188 0.17451-0.29646 0.21094-0.55664l-0.19531-0.0117c-0.020815 0.20814-0.065164 0.36011-0.13281 0.45898-0.065046 0.0989-0.14722 0.14844-0.24609 0.14844-0.096268 0-0.17062-0.0509-0.22266-0.15235-0.049435-0.0989-0.074219-0.23909-0.074219-0.42382 0-0.1379 0.00522-0.2879 0.015625-0.44922 0.013009-0.16132 0.028662-0.32828 0.046875-0.5 0.020815-0.17433 0.044294-0.34781 0.070312-0.51953 0.026019-0.17433 0.052106-0.34129 0.078125-0.5 0.026018-0.16132 0.053411-0.31067 0.082031-0.45117 0.02862-0.14051 0.056013-0.26181 0.082031-0.36329zm-0.72656 0.0742-0.61914 3.4805h0.24805l0.51562-3.4414zm3.4355 0.93164c-0.049435 0-0.093784 0.0131-0.13281 0.0391-0.039028 0.0234-0.075551 0.0574-0.10938 0.10156-0.033824 0.0442-0.066434 0.0964-0.097656 0.15625-0.031223 0.0598-0.062528 0.12507-0.09375 0.19531 0.020815-0.10407 0.037772-0.19799 0.050781-0.28125 0.015608-0.0833 0.026043-0.14328 0.03125-0.17968h-0.20703c-0.013009 0.0729-0.027357 0.15502-0.042969 0.24609-0.015611 0.0911-0.032568 0.1876-0.050781 0.28906-0.015611 0.10148-0.033873 0.20713-0.054688 0.31641-6.441e-4 3e-3 -0.00131 6e-3 -0.00195 0.01-0.094679 0.24891-0.18201 0.44575-0.25977 0.57618-0.078056 0.13269-0.13936 0.19921-0.18359 0.19921-0.031222 0-0.046875-0.0469-0.046875-0.14062 0-0.0261 0.00131-0.0547 0.00391-0.0859 0.0026-0.0338 0.00651-0.0704 0.011719-0.10937 0.023417-0.18474 0.054722-0.38692 0.09375-0.60547 0.041629-0.21856 0.087283-0.44943 0.13672-0.69141h-0.17579l-0.054687 0.27344c-0.010407-0.0884-0.033887-0.16018-0.070313-0.21484-0.036426-0.0573-0.093819-0.0859-0.17188-0.0859-0.059843 0-0.11724 0.0222-0.17188 0.0664-0.052037 0.0416-0.099651 0.0977-0.14648 0.16797-0.046833 0.0703-0.089878 0.15243-0.12891 0.2461-0.039027 0.0937-0.072942 0.19149-0.10156 0.29297-0.026018 0.10147-0.046889 0.20452-0.0625 0.30859-0.015611 0.10147-0.023437 0.198-0.023437 0.28906 0 0.1405 0.019566 0.25137 0.058594 0.33203 0.039028 0.0807 0.10033 0.1211 0.18359 0.1211 0.052037 0 0.098347-0.0157 0.14258-0.0469 0.046833-0.0338 0.089878-0.0768 0.12891-0.1289 0.039028-0.0546 0.074247-0.11726 0.10547-0.1875 0.033824-0.0729 0.065129-0.14851 0.09375-0.22657l-0.019531 0.1875c0 0.268 0.05348 0.40235 0.16016 0.40235 0.041629 0 0.082066-0.017 0.12109-0.0508 0.039028-0.0338 0.080769-0.0873 0.125-0.16016 0.046833-0.0755 0.0964-0.17198 0.14844-0.28906 0.00914-0.0196 0.021749-0.0494 0.03125-0.0703-0.015413 0.0555-0.031655 0.11127-0.042969 0.16407-0.015611 0.0728-0.028655 0.13804-0.039063 0.19531-0.013009 0.0572-0.024749 0.12116-0.035156 0.19141h0.21094l0.14844-0.76595c0.031222-0.12489 0.065137-0.23968 0.10156-0.34375 0.039028-0.10667 0.076855-0.19928 0.11328-0.27734 0.039028-0.0781 0.076855-0.1394 0.11328-0.1836 0.039028-0.0442 0.074247-0.0664 0.10547-0.0664 0.028621 0 0.046882 0.0157 0.054687 0.0469 0.010407 0.0287 0.015625 0.0613 0.015625 0.0977 0 0.0286-0.00522 0.0756-0.015625 0.14062-0.00781 0.0624-0.019545 0.13811-0.035156 0.22657-0.015611 0.0859-0.033873 0.17977-0.054687 0.28125l-0.0625 0.30468c-0.020815 0.0989-0.041685 0.1967-0.0625 0.29297-0.018213 0.0937-0.03517 0.17585-0.050781 0.2461h0.22266c0.018213-0.0755 0.042997-0.18634 0.074219-0.33204 0.031222-0.1483 0.061223-0.30483 0.089844-0.46875 0.065046-0.27579 0.1407-0.4871 0.22656-0.63281 0.085862-0.1457 0.16152-0.21875 0.22656-0.21875 0.059843 0 0.089844 0.0496 0.089844 0.14844-1e-7 0.0625-0.014348 0.14201-0.042969 0.23828-0.028621 0.0963-0.059926 0.20192-0.09375 0.31641-0.033824 0.11188-0.065129 0.22667-0.09375 0.34375-0.028621 0.11448-0.042969 0.22274-0.042969 0.32422 1e-7 0.0962 0.018262 0.17059 0.054688 0.22265 0.036426 0.0521 0.091211 0.0781 0.16406 0.0781 0.057241 0 0.11007-0.0222 0.16211-0.0664 0.054639-0.0468 0.10551-0.10814 0.15234-0.18359 0.046833-0.0755 0.091182-0.16154 0.13281-0.25782 0.02298-0.0531 0.044218-0.10933 0.066406-0.16406-0.00857 0.0761-0.015625 0.15118-0.015625 0.21875-0.0026 0.0806 0.00262 0.15238 0.015625 0.21485 0.013009 0.0625 0.033879 0.11334 0.0625 0.15234 0.020815 0.0287 0.049511 0.0482 0.085937 0.0586 0.036426 0.0105 0.074253 0.0144 0.11328 0.0117 0.039028-3e-3 0.078159-0.0104 0.11719-0.0234 0.039028-0.013 0.071638-0.0287 0.097656-0.0469 0.078056-0.052 0.14719-0.12508 0.20703-0.21875 0.062444-0.0937 0.11332-0.1928 0.15234-0.29688 0.039028-3e-3 0.079464-0.0143 0.12109-0.0351 0.04163-0.0235 0.080761-0.0534 0.11719-0.0899 0.036425-0.039 0.069036-0.0833 0.097656-0.13281 0.02862-0.0494 0.050795-0.1055 0.066406-0.16797-0.0052-0.0103-0.016943-0.0181-0.035156-0.0234-0.015611-8e-3 -0.028655-0.0117-0.039063-0.0117-0.041629 0.11445-0.088588 0.20054-0.14062 0.25781-0.049435 0.0547-0.10031 0.0886-0.15234 0.10156 0.023417-0.0754 0.03907-0.14587 0.046875-0.21094 0.00781-0.0677 0.00781-0.12376 0-0.16796-0.010407-0.0521-0.031278-0.0951-0.0625-0.12891-0.031222-0.0339-0.071658-0.0483-0.12109-0.043-0.07025 8e-3 -0.12764 0.0378-0.17188 0.0898-0.044231 0.0494-0.071624 0.10814-0.082031 0.17579-0.010408 0.065-0.00128 0.13157 0.027344 0.19921 0.02862 0.0651 0.083405 0.11725 0.16406 0.15625-0.031222 0.0781-0.066441 0.15371-0.10547 0.22657-0.036426 0.0728-0.074253 0.13282-0.11328 0.17968-0.031223 0.0365-0.063832 0.0612-0.097656 0.0742-0.031222 0.0105-0.061223 0.0117-0.089844 4e-3 -0.026019-0.0104-0.049498-0.03-0.070312-0.0586-0.018215-0.0287-0.02865-0.0652-0.03125-0.10938-0.00521-0.0416-0.00521-0.0886 0-0.14062 0.0052-0.0546 0.011726-0.11071 0.019531-0.16797 0.00781-0.0598 0.016936-0.11852 0.027344-0.17578 0.010407-0.0598 0.019538-0.11721 0.027344-0.17188 0.020815-0.12749 0.045598-0.26054 0.074219-0.39844 0.028621-0.1405 0.058622-0.28398 0.089844-0.42968h-0.20703c-0.0026 0.026-0.00912 0.0651-0.019531 0.11718-0.00781 0.052-0.018241 0.11334-0.03125 0.1836-0.013009 0.0676-0.028662 0.14199-0.046875 0.22265-0.015611 0.0807-0.031264 0.16414-0.046875 0.25-0.00494 0.0253-0.00736 0.0475-0.011719 0.0723-0.00381-1e-3 -0.00811-6e-3 -0.011719-6e-3 -0.044232 0.11188-0.087277 0.21623-0.12891 0.3125-0.039028 0.0963-0.078159 0.18106-0.11719 0.25391-0.039028 0.0703-0.076855 0.12636-0.11328 0.16796-0.033824 0.039-0.067738 0.0586-0.10156 0.0586-0.028621 0-0.050147-9e-3 -0.068359-0.0274-0.015611-0.0208-0.023437-0.0573-0.023437-0.10937 0-0.0807 0.014348-0.17588 0.042969-0.28516 0.028621-0.11188 0.057973-0.22666 0.091797-0.34375 0.033824-0.11708 0.065129-0.23056 0.09375-0.33984 0.028621-0.11188 0.042969-0.20971 0.042969-0.29297 0-0.0859-0.02087-0.1485-0.0625-0.1875-0.039028-0.0417-0.082728-0.0625-0.13477-0.0625-0.10928 0-0.20189 0.0496-0.27734 0.14844-0.072852 0.0963-0.14068 0.21888-0.20312 0.36719 0.020815-0.11967 0.03125-0.21098 0.03125-0.27344 0-0.0728-0.014349-0.13413-0.042969-0.1836-0.026019-0.0494-0.069064-0.0742-0.12891-0.0742zm5.4805 8e-3c-0.05984 0-0.11724 0.0222-0.17188 0.0664-0.05204 0.0416-0.1016 0.0977-0.14844 0.16797-0.04683 0.0703-0.08988 0.15243-0.12891 0.2461-0.03903 0.0937-0.07099 0.19149-0.09961 0.29297-0.0112 0.0437-0.01807 0.0886-0.02734 0.13281-0.08875 0.23291-0.17127 0.42447-0.24414 0.55078-0.07546 0.1353-0.14328 0.20312-0.20312 0.20312-0.02082 0-0.03777-0.0118-0.05078-0.0351-0.01301-0.0234-0.01953-0.0651-0.01953-0.125 0-0.0807 0.0065-0.17457 0.01953-0.28125 0.01561-0.10668 0.03518-0.22407 0.05859-0.35156 0.02602-0.12749 0.05341-0.26185 0.08203-0.40235 0.03123-0.1431 0.06253-0.2892 0.09375-0.4375h-0.20313c-0.02081 0.0989-0.0456 0.20975-0.07422 0.33203-0.02862 0.12229-0.05471 0.24751-0.07813 0.375h-0.41016l0.13281-0.70703h-0.21875c-0.01041 0.10408-0.02867 0.23582-0.05469 0.39453-0.0228 0.13679-0.04743 0.28096-0.07422 0.42774-0.0021-2.6e-4 -0.0059-2e-3 -0.0078-2e-3 -0.09627 0.25759-0.18041 0.45455-0.25586 0.58985-0.07286 0.13529-0.13938 0.20312-0.19922 0.20312-0.02082 0-0.03777-0.0118-0.05078-0.0352s-0.01953-0.0651-0.01953-0.125c0-0.0833 0.0065-0.17849 0.01953-0.28516 0.01561-0.10928 0.03517-0.22928 0.05859-0.35937l0.01953-0.14063h-0.19531c0.02081-0.0859 0.03516-0.16543 0.04297-0.23828 0.0078-0.0728 0.0091-0.13413 0.0039-0.18359-0.01041-0.11711-0.04302-0.19146-0.097656-0.22266-0.052037-0.0338-0.11204-0.0469-0.17969-0.0391-0.083259 0.0104-0.15761 0.0378-0.22266 0.082-0.062445 0.0442-0.11592 0.099-0.16016 0.16406-0.04163 0.065-0.071631 0.13548-0.089844 0.21094-0.018213 0.0754-0.02343 0.1498-0.015625 0.22265 0.010407 0.0702 0.035191 0.13414 0.074219 0.19141 0.039028 0.0546 0.093813 0.0951 0.16406 0.12109 0.044232 0.0104 0.088581 0.0156 0.13281 0.0156 0.046833-3e-3 0.095096-0.0117 0.14453-0.0273-0.10407 0.26018-0.2293 0.45975-0.375 0.59765-0.059843 0.0546-0.10811 0.0781-0.14453 0.0703-0.036426-0.0104-0.062514-0.0352-0.078125-0.0742-0.015611-0.0391-0.019524-0.086-0.011719-0.14063 0.00781-0.0547 0.027372-0.10162 0.058594-0.14062h-0.1914c-0.028621 0.0468-0.048186 0.10159-0.058594 0.16406-0.013009 0.0599-0.013009 0.11727 0 0.17187 0.010407 0.0547 0.035191 0.099 0.074219 0.13282 0.039028 0.0338 0.096421 0.0455 0.17188 0.0351 0.067648-0.0104 0.13417-0.0417 0.19922-0.0937 0.065046-0.0546 0.12766-0.12246 0.1875-0.20312 0.059843-0.0833 0.11463-0.17457 0.16406-0.27344 0.052037-0.10147 0.097691-0.20452 0.13672-0.30859 0.0052-5e-3 0.01303-0.0103 0.023437-0.0156-0.013009 0.0885-0.024749 0.17455-0.035156 0.25781-0.00781 0.0833-0.011719 0.16022-0.011719 0.23047 0 0.11968 0.015653 0.21752 0.046875 0.29297 0.031222 0.0754 0.082094 0.11328 0.15234 0.11328 0.06245 0 0.11854-0.0222 0.16797-0.0664 0.05204-0.0468 0.1003-0.11075 0.14453-0.19141 0.04423-0.0833 0.08663-0.18109 0.13086-0.29297 0.0023-6e-3 0.0055-0.0136 0.0078-0.0195-0.01087 0.0555-0.02263 0.11334-0.0332 0.16797-0.03382 0.15871-0.06252 0.28981-0.08594 0.39648h0.20898l0.17969-0.9707 0.41016 4e-3c-0.02082 0.10928-0.03777 0.21363-0.05078 0.3125-0.01041 0.0989-0.01563 0.19017-0.01563 0.27343 0 0.11969 0.01435 0.21752 0.04297 0.29297 0.03122 0.0755 0.08209 0.11328 0.15234 0.11328 0.06245 0 0.11854-0.0222 0.16797-0.0664 0.05204-0.0468 0.1016-0.11075 0.14844-0.19141 0.04683-0.0833 0.09248-0.18109 0.13672-0.29297 0.0021-5e-3 0.0057-0.0121 0.0078-0.0176-0.0023 0.0366-0.0098 0.0762-0.0098 0.11133 0 0.1405 0.01957 0.25137 0.05859 0.33203 0.03903 0.0807 0.09838 0.1211 0.18164 0.1211 0.05204 0 0.1003-0.0157 0.14453-0.0469 0.04683-0.0338 0.08988-0.0768 0.12891-0.1289 0.03903-0.0546 0.07425-0.11726 0.10547-0.1875 0.03383-0.0729 0.06513-0.14851 0.09375-0.22657l-0.01953 0.1875c0 0.268 0.05348 0.40235 0.16016 0.40235 0.04163 0 0.08207-0.017 0.12109-0.0508 0.03903-0.0338 0.08077-0.0873 0.125-0.16016 0.04683-0.0755 0.0964-0.17198 0.14844-0.28906 0.05464-0.11709 0.11595-0.25796 0.18359-0.42188 0-5e-3 -0.0091-0.013-0.02734-0.0234-0.01561-0.0104-0.02996-0.0156-0.04297-0.0156-0.09887 0.26279-0.18887 0.46236-0.26953 0.59766-0.07805 0.13269-0.13936 0.19921-0.18359 0.19921-0.03122 0-0.04687-0.0469-0.04687-0.14062 0-0.0261 0.0013-0.0547 0.0039-0.0859 0.0026-0.0338 0.0065-0.0704 0.01172-0.10937 0.02342-0.18474 0.05472-0.38692 0.09375-0.60547 0.04163-0.21856 0.08729-0.44943 0.13672-0.69141h-0.17578l-0.05469 0.27344c-0.01041-0.0884-0.03389-0.16018-0.07031-0.21484-0.03643-0.0573-0.09382-0.0859-0.17188-0.0859zm5.9004 0.10547c0.06245 0 0.10614 0.0378 0.13477 0.11328 0.03122 0.0754 0.04557 0.17197 0.04297 0.28906 0 0.11708-0.01435 0.24622-0.04297 0.38672-0.02862 0.1379-0.0658 0.27094-0.11524 0.39844-0.10408 0-0.18625-0.0287-0.24609-0.0859-0.05984-0.0598-0.10289-0.1342-0.12891-0.22266-0.02601-0.0885-0.03645-0.18368-0.03125-0.28515 0.0078-0.10147 0.02737-0.19669 0.05859-0.28516 0.03382-0.0884 0.07817-0.16148 0.13281-0.21875 0.05724-0.0599 0.12246-0.0898 0.19531-0.0898zm2.5 0c0.06245 0 0.1081 0.0378 0.13672 0.11328 0.03122 0.0754 0.04557 0.17197 0.04297 0.28906 0 0.11708-0.01435 0.24622-0.04297 0.38672-0.02862 0.1379-0.06775 0.27094-0.11719 0.39844-0.10408 0-0.18625-0.0287-0.24609-0.0859-0.05984-0.0598-0.10289-0.1342-0.12891-0.22266-0.02601-0.0885-0.03645-0.18368-0.03125-0.28515 0.0078-0.10147 0.02737-0.19669 0.05859-0.28516 0.03382-0.0884 0.07817-0.16148 0.13281-0.21875 0.05724-0.0599 0.12246-0.0898 0.19531-0.0898zm5.7852 0c0.06245 0 0.1081 0.0378 0.13672 0.11328 0.03122 0.0754 0.04557 0.17197 0.04297 0.28906 0 0.11708-0.01435 0.24622-0.04297 0.38672-0.02862 0.1379-0.06775 0.27094-0.11719 0.39844-0.10408 0-0.18625-0.0287-0.24609-0.0859-0.05984-0.0598-0.10289-0.1342-0.12891-0.22266-0.02601-0.0885-0.03645-0.18368-0.03125-0.28515 0.0078-0.10147 0.02737-0.19669 0.05859-0.28516 0.03382-0.0884 0.07817-0.16148 0.13281-0.21875 0.05724-0.0599 0.12246-0.0898 0.19531-0.0898zm1.0977 0.0156c0.04684 0 0.08597 0.0157 0.11719 0.0469 0.03383 0.0286 0.06122 0.069 0.08203 0.12109 0.02081 0.052 0.03647 0.11335 0.04687 0.18359 0.01041 0.0677 0.01563 0.1407 0.01563 0.21875 0 0.0989-0.0091 0.20192-0.02734 0.3086-0.01561 0.10667-0.03779 0.20711-0.06641 0.30078-0.09107-3e-3 -0.16933-0.0222-0.23438-0.0586-0.06245-0.0364-0.11332-0.0821-0.15234-0.13672-0.03903-0.0572-0.06772-0.12116-0.08594-0.19141-0.01821-0.0703-0.02734-0.14199-0.02734-0.21484 0-0.0728 0.0078-0.14329 0.02344-0.21094 0.01561-0.0702 0.03779-0.13283 0.06641-0.1875 0.03122-0.0547 0.06644-0.0977 0.10547-0.12891 0.04163-0.0338 0.08729-0.0508 0.13672-0.0508zm-17.969 8e-3c0.039027-0.0104 0.072942-3e-3 0.10156 0.0234 0.031222 0.0234 0.052093 0.073 0.0625 0.14844 0.013009 0.10407-0.00264 0.24625-0.046875 0.42578-0.00781 0.0287-0.015632 0.056-0.023437 0.082-0.0052 0.0234-0.01303 0.0469-0.023437 0.0703-0.054639 0.0287-0.11073 0.0405-0.16797 0.0352-0.059842-5e-3 -0.10419-0.0287-0.13281-0.0703-0.028621-0.0416-0.046882-0.0925-0.054687-0.15235-0.0052-0.0624 1.37e-5 -0.12766 0.015625-0.19531 0.015611-0.0676 0.039091-0.12893 0.070312-0.18359 0.023417-0.0417 0.053418-0.0795 0.089844-0.11328 0.036426-0.0364 0.072949-0.0599 0.10938-0.0703zm-4.2129 0.0274c0.052037 0 0.091169 0.0287 0.11719 0.0859 0.026019 0.0572 0.039063 0.13289 0.039063 0.22656 0 0.065-0.00783 0.13939-0.023438 0.22265-0.013009 0.0833-0.032575 0.16936-0.058594 0.25782-0.023417 0.0859-0.052113 0.17064-0.085937 0.2539-0.031222 0.0833-0.065137 0.15892-0.10156 0.22657-0.033824 0.065-0.070347 0.11849-0.10938 0.16015-0.039028 0.039-0.073598 0.0586-0.10742 0.0586-0.04163 0-0.071631-0.0248-0.089844-0.0742-0.018213-0.052-0.027344-0.11987-0.027344-0.20313 0-0.10927 0.013044-0.23319 0.039063-0.37109 0.026019-0.1405 0.059933-0.27355 0.10156-0.39844 0.044231-0.12489 0.090541-0.23055 0.14258-0.31641 0.054639-0.0859 0.10942-0.1289 0.16406-0.1289zm6.9063 0c0.05204 0 0.09117 0.0287 0.11719 0.0859 0.02602 0.0572 0.03906 0.13289 0.03906 0.22656 0 0.065-0.0078 0.13939-0.02344 0.22265-0.01301 0.0833-0.03257 0.16936-0.05859 0.25782-0.02341 0.0859-0.05211 0.17064-0.08594 0.2539-0.03122 0.0833-0.06514 0.15892-0.10156 0.22657-0.03382 0.065-0.07035 0.11849-0.10937 0.16015-0.03903 0.039-0.07555 0.0586-0.10938 0.0586-0.04163 0-0.07163-0.0248-0.08984-0.0742-0.01821-0.052-0.02734-0.11987-0.02734-0.20313 0-0.10927 0.01304-0.23319 0.03906-0.37109 0.02602-0.1405 0.05993-0.27355 0.10156-0.39844 0.04424-0.12489 0.0925-0.23055 0.14453-0.31641 0.05464-0.0859 0.10942-0.1289 0.16406-0.1289zm7.0254 0c0.04424 0 0.07815 0.0313 0.10156 0.0937 0.02602 0.0624 0.03906 0.1394 0.03906 0.23047 0 0.10928-0.01304 0.23189-0.03906 0.36718-0.02341 0.1327-0.05602 0.25922-0.09766 0.37891-0.04163 0.11969-0.0912 0.22013-0.14844 0.30078-0.05464 0.0807-0.11333 0.1211-0.17578 0.1211-0.03383 0-0.06122-9e-3 -0.08203-0.0274-0.02082-0.0182-0.03777-0.0417-0.05078-0.0703-0.01041-0.0312-0.01824-0.0665-0.02344-0.10547-0.0052-0.0391-0.0078-0.0782-0.0078-0.11719 0-0.0676 0.0078-0.13939 0.02344-0.21484 0.01561-0.078 0.02996-0.1511 0.04297-0.21875 0.02601-0.10667 0.05602-0.20581 0.08984-0.29688 0.03382-0.091 0.06904-0.1693 0.10547-0.23437 0.03903-0.0651 0.07685-0.11594 0.11328-0.15234 0.03642-0.0364 0.07295-0.0547 0.10938-0.0547zm9.5391 0c0.05204 0 0.09117 0.0287 0.11719 0.0859 0.02602 0.0572 0.03906 0.13289 0.03906 0.22656 0 0.065-0.0078 0.13939-0.02344 0.22265-0.01301 0.0833-0.03257 0.16936-0.05859 0.25782-0.02341 0.0859-0.05211 0.17064-0.08594 0.2539-0.03122 0.0833-0.06514 0.15892-0.10156 0.22657-0.03383 0.065-0.07035 0.11849-0.10938 0.16015-0.03903 0.039-0.07555 0.0586-0.10938 0.0586-0.04163 0-0.07163-0.0248-0.08984-0.0742-0.01821-0.052-0.02734-0.11987-0.02734-0.20313 0-0.10927 0.01304-0.23319 0.03906-0.37109 0.02602-0.1405 0.05993-0.27355 0.10156-0.39844 0.04423-0.12489 0.09249-0.23055 0.14453-0.31641 0.05464-0.0859 0.10942-0.1289 0.16406-0.1289zm-20.254 0.52344c0.01821 3e-3 0.02995 0.017 0.035156 0.043 0.00781 0.0235 0.010412 0.0548 0.00781 0.0937-0.0026 0.0365-0.010428 0.0795-0.023437 0.12891-0.010408 0.0494-0.024756 0.10028-0.042969 0.15234-0.046833-0.026-0.078139-0.0626-0.09375-0.10937-0.015614-0.0495-0.020832-0.0977-0.015625-0.14453 0.0052-0.0469 0.019552-0.0873 0.042969-0.1211 0.026019-0.0339 0.05602-0.0483 0.089844-0.043zm9.0781 0.0898c0.0026 0.0781 0.01304 0.15371 0.03125 0.22656 0.01821 0.0728 0.04691 0.13935 0.08594 0.19922 0.03903 0.0573 0.0886 0.10423 0.14844 0.14063 0.05984 0.0364 0.13158 0.0586 0.21484 0.0664-0.03643 0.091-0.08208 0.1667-0.13672 0.22656-0.05204 0.0599-0.10943 0.0899-0.17188 0.0899-0.07805 0-0.13414-0.0339-0.16797-0.10156-0.03122-0.0677-0.05079-0.15113-0.05859-0.25-0.0052-0.0989-0.0013-0.20192 0.01172-0.3086 0.01301-0.10928 0.02736-0.2058 0.04297-0.28906zm2.5 0c0.0026 0.0781 0.01304 0.15371 0.03125 0.22656 0.01821 0.0728 0.04691 0.13935 0.08594 0.19922 0.03903 0.0573 0.0886 0.10423 0.14844 0.14063 0.05984 0.0364 0.13158 0.0586 0.21484 0.0664-0.03642 0.091-0.08208 0.1667-0.13672 0.22656-0.05204 0.0599-0.10943 0.0899-0.17188 0.0899-0.07805 0-0.13414-0.0339-0.16797-0.10156-0.03122-0.0677-0.05079-0.15113-0.05859-0.25-0.0052-0.0989-0.0013-0.20192 0.01172-0.3086 0.01301-0.10928 0.02736-0.2058 0.04297-0.28906zm5.7852 0c0.0026 0.0781 0.01304 0.15371 0.03125 0.22656 0.01821 0.0728 0.04691 0.13935 0.08594 0.19922 0.03903 0.0573 0.0886 0.10423 0.14844 0.14063 0.05984 0.0364 0.13158 0.0586 0.21484 0.0664-0.03642 0.091-0.08208 0.1667-0.13672 0.22656-0.05204 0.0599-0.10943 0.0899-0.17188 0.0899-0.07805 0-0.13414-0.0339-0.16797-0.10156-0.03122-0.0677-0.05079-0.15113-0.05859-0.25-0.0052-0.0989-0.0013-0.20192 0.01172-0.3086 0.01301-0.10928 0.02736-0.2058 0.04297-0.28906zm1.2344 0.23828c0.03643 0.10408 0.09512 0.19278 0.17578 0.26563 0.08066 0.0729 0.18762 0.1159 0.32031 0.1289-0.03642 0.0936-0.08077 0.1706-0.13281 0.23047-0.05204 0.0573-0.10943 0.0859-0.17188 0.0859-0.07025 0-0.12112-0.0483-0.15234-0.14453-0.03122-0.0963-0.04687-0.2228-0.04687-0.37891v-0.0898c0.0026-0.0313 0.0052-0.0639 0.0078-0.0977z' stroke-width='.26458'/%3E %3C/g%3E %3C/g%3E %3C/svg%3E\""
+
+/***/ }),
+
+/***/ "./src/components/styles/images/photo-camera.svg":
+/*!*******************************************************!*\
+  !*** ./src/components/styles/images/photo-camera.svg ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\"data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8'?%3E %3Csvg viewBox='0 -56 512 512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='m10 130h492v220h-492z' fill='%232bbdc4'/%3E %3Cpath d='m482 50h-20v-20c0-11.051-8.9492-20-20-20h-20c-11.051 0-20 8.9492-20 20v20h-252v-20c0-11.051-8.9492-20-20-20h-60c-11.051 0-20 8.9492-20 20v20h-20c-11.051 0-20 8.9492-20 20v60h492v-60c0-11.051-8.9492-20-20-20z' fill='%23495d85'/%3E %3Cpath d='m90 110c11.051 0 20 8.94a92 20 20s-8.9492 20-20 20-20-8.9492-20-20 8.9492-20 20-20z' fill='%23ffd86e'/%3E %3Cpath d='m256 150c44.109 0 80 35.891 80 80s-35.891 80-80 80-80-35.891-80-80 35.891-80 80-80z' fill='%23adf3ff'/%3E %3Cpath d='m376 230c0 66.172-53.828 120-120 120s-120-53.828-120-120c0-66.379 54.062-120 120-120 65.863 0 120 53.547 120 120zm-40 0c0-44.109-35.891-80-80-80s-80 35.891-80 80 35.891 80 80 80 80-35.891 80-80z' fill='%23e9eef0'/%3E %3Cpath d='m502 350v20c0 11.051-8.9492 20-20 20h-452c-11.051 0-20-8.9492-20-20v-20z' fill='%23495d85'/%3E %3Cpath d='m354.93 82.93c-3.9102 3.8984-3.9102 10.242 0 14.141 3.8984 3.9102 10.242 3.9102 14.141 0 3.9102-3.8984 3.9102-10.242 0-14.141-3.8984-3.9102-10.242-3.9102-14.141 0z'/%3E %3Cpath d='m482 40h-10v-10c0-16.543-13.457-30-30-30h-20c-16.543 0-30 13.457-30 30v10h-232v-10c0-16.543-13.457-30-30-30h-60c-16.543 0-30 13.457-30 30v10h-10c-16.543 0-30 13.457-30 30v300c0 16.543 13.457 30 30 30h452c16.543 0 30-13.457 30-30v-300c0-16.543-13.457-30-30-30zm-70-10c0-5.5156 4.4844-10 10-10h20c5.5156 0 10 4.4844 10 10v10h-40zm-352 0c0-5.5156 4.4844-10 10-10h60c5.5156 0 10 4.4844 10 10v10h-80zm-40 110h41.719c4.1289 11.641 15.246 20 28.281 20s24.152-8.3711 28.281-20.012h43.973c-23.055 23.965-36.254 56.043-36.254 90.012 0 46.266 24.297 86.953 60.797 110h-166.8zm60-10c0-5.5156 4.4844-10 10-10s10 4.4844 10 10-4.4844 10-10 10-10-4.4844-10-10zm176-10c60.652 0 110 49.363 110 110 0 60.652-49.348 110-110 110s-110-49.348-110-110c0-60.711 49.426-110 110-110zm236 250c0 5.5156-4.4844 10-10 10h-452c-5.5156 0-10-4.4844-10-10v-10h472zm0-30h-166.8c36.5-23.047 60.797-63.734 60.797-110 0-33.969-13.199-66.039-36.25-90h142.25zm0-220h-166.84c-20.723-13.082-44.562-20-69.164-20-24.605 0-48.445 6.918-69.164 20h-68.555c-4.1289-11.641-15.246-20-28.281-20s-24.152 8.3594-28.281 20h-41.719v-50c0-5.5156 4.4844-10 10-10h452c5.5156 0 10 4.4844 10 10z'/%3E %3Cpath d='m256 320c49.625 0 90-40.375 90-90s-40.375-90-90-90-90 40.375-90 90 40.375 90 90 90zm0-160c38.598 0 70 31.402 70 70s-31.402 70-70 70-70-31.402-70-70 31.402-70 70-70z'/%3E %3Cpath d='m256 200c16.543 0 30 13.457 30 30 0 5.5234 4.4766 10 10 10s10-4.4766 10-10c0-27.57-22.43-50-50-50-5.5234 0-10 4.4766-10 10s4.4766 10 10 10z'/%3E %3Cpath d='m442 80h-40c-5.5234 0-10 4.4766-10 10s4.4766 10 10 10h40c5.5234 0 10-4.4766 10-10s-4.4766-10-10-10z'/%3E %3C/svg%3E\""
+
+/***/ }),
+
+/***/ "./src/components/styles/images/speech.svg":
+/*!*************************************************!*\
+  !*** ./src/components/styles/images/speech.svg ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\"data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8'?%3E %3Csvg enable-background='new 0 0 478.579 478.579' version='1.1' viewBox='0 0 478.579 478.579' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='m458.04 118.04l-3.2 41.336c-1.335 17.356-16.299 30.461-33.68 29.496l-112.72-6.296-8 56-32-56h-128c-17.673 0-32-14.327-32-32v-60.96c0.016-17.673 14.356-31.987 32.029-31.971 0.957 1e-3 1.914 0.045 2.867 0.131l285.67 25.968c17.426 1.572 30.358 16.849 29.032 34.296z' fill='%23FB7B76'/%3E %3Cg fill='%23FFD949'%3E %3Ccircle cx='94.566' cy='286.58' r='48'/%3E %3Cpath d='m162.57 470.58h-136l-4-68.24c-2.077-35.285 24.844-65.573 60.129-67.649 1.246-0.073 2.494-0.11 3.743-0.111h16.248c35.346-4e-3 64.003 28.647 64.007 63.993 0 1.256-0.037 2.512-0.111 3.767l-4.016 68.24z'/%3E %3C/g%3E %3Cg fill='%2324AE5F'%3E %3Ccircle cx='366.6' cy='286.58' r='48'/%3E %3Cpath d='m434.57 470.58h-136l-4-68.24c-2.077-35.285 24.844-65.573 60.129-67.649 1.246-0.073 2.494-0.11 3.743-0.111h16.248c35.346-4e-3 64.003 28.647 64.007 63.993 0 1.256-0.037 2.512-0.111 3.767l-4.016 68.24z'/%3E %3C/g%3E %3Cpath d='m85.742 21.643l251.77-13.6c13.236-0.715 24.545 9.435 25.259 22.671 0.05 0.928 0.046 1.858-0.011 2.785l-4.8 77.288c-0.82 13.168-12.115 23.206-25.288 22.472l-120.23-6.68-56 104 8-112-90.72-6.048c-13.226-0.88-23.233-12.315-22.353-25.541 0.106-1.597 0.372-3.179 0.793-4.723l11.72-42.976c2.723-9.98 11.534-17.093 21.864-17.648z' fill='%2397D7D9'/%3E %3Cpath d='m12.566 402.8l4 68.248c0.25 4.233 3.76 7.535 8 7.528h136c4.24 7e-3 7.75-3.295 8-7.528l4-68.248c1.761-30.384-15.737-58.605-43.736-70.536 25.273-17.827 31.31-52.766 13.483-78.04s-52.766-31.31-78.04-13.483c-25.273 17.826-31.31 52.766-13.483 78.039 3.052 4.326 6.701 8.198 10.84 11.499-30.866 10.306-50.982 40.035-49.072 72.52l8e-3 1e-3zm44-116.22c0-22.091 17.909-40 40-40s40 17.909 40 40-17.909 40-40 40c-22.081-0.027-39.974-17.92-40-40zm27.872 56h16.248c30.928-5e-3 56.004 25.063 56.009 55.991 0 1.1-0.032 2.199-0.097 3.297l-3.576 60.712h-120.92l-3.568-60.712c-1.816-30.875 21.741-57.375 52.615-59.191 1.095-0.065 2.192-0.097 3.289-0.097z'/%3E %3Cpath d='m284.57 402.8l4 68.248c0.25 4.233 3.76 7.535 8 7.528h136c4.24 7e-3 7.75-3.295 8-7.528l4-68.248c1.761-30.384-15.737-58.605-43.736-70.536 25.273-17.827 31.31-52.766 13.483-78.04-17.827-25.273-52.766-31.31-78.04-13.483-25.273 17.827-31.31 52.766-13.483 78.04 3.052 4.326 6.701 8.198 10.84 11.499-30.866 10.306-50.982 40.035-49.072 72.52h8e-3zm44-116.22c0-22.091 17.909-40 40-40s40 17.909 40 40-17.909 40-40 40c-22.081-0.027-39.974-17.92-40-40zm27.872 56h16.248c30.928-5e-3 56.004 25.063 56.009 55.991 0 1.1-0.032 2.199-0.097 3.297l-3.576 60.712h-120.92l-3.568-60.712c-1.816-30.875 21.741-57.375 52.615-59.191 1.095-0.065 2.192-0.097 3.289-0.097z'/%3E %3Cpath d='m85.302 13.659c-13.772 0.745-25.516 10.23-29.144 23.536l-11.72 42.984c-4.656 17.049 5.39 34.644 22.439 39.3 2.061 0.563 4.173 0.918 6.305 1.06l27.256 1.792v28.248c0.026 22.08 17.92 39.974 40 40h10.84l-2.84 39.432c-0.266 3.761 2.13 7.198 5.752 8.248 3.621 1.051 7.484-0.569 9.272-3.888l23.6-43.792h76.728l29.704 52c2.193 3.836 7.08 5.168 10.915 2.975 2.141-1.224 3.598-3.366 3.949-5.807l6.96-48.736 105.4 5.848c21.705 1.109 40.362-15.234 42.12-36.896l3.2-41.296c1.59-21.783-14.513-40.847-36.256-42.92l-61.256-5.6 2.264-36.192c0.562-9.116-2.79-18.038-9.216-24.528-6.476-6.444-15.372-9.852-24.496-9.384l-251.78 13.6v0.016zm55.136 160.92c-13.255 0-24-10.745-24-24v-27.2l39.448 2.632-3.448 48.568h-12zm225.47-63.288l1.6-25.128 60.8 5.528c13.046 1.232 22.715 12.667 21.76 25.736l-3.2 41.304c-1.043 12.995-12.236 22.802-25.256 22.128l-112.73-6.28c-4.136-0.21-7.756 2.752-8.368 6.848l-4.704 32.928-20.432-35.776c-1.432-2.48-4.08-4.006-6.944-4h-72.76l21.392-39.728 115.13 6.4c17.552 0.948 32.592-12.418 33.712-29.96zm-28-95.264c4.573-0.327 9.054 1.4 12.224 4.712 3.245 3.216 4.938 7.681 4.64 12.24l-4.8 77.296c-0.604 8.75-8.095 15.41-16.856 14.984l-120.23-6.68c-3.106-0.21-6.043 1.434-7.488 4.192l-38.32 71.2 5.36-74.824c0.323-4.406-2.988-8.24-7.395-8.563-0.026-2e-3 -0.052-4e-3 -0.077-5e-3l-90.72-6.048c-8.818-0.572-15.502-8.185-14.93-17.003 0.07-1.073 0.247-2.136 0.53-3.173l11.792-42.952c1.814-6.654 7.689-11.397 14.576-11.768l251.7-13.608z'/%3E %3C/svg%3E\""
+
+/***/ }),
+
+/***/ "./src/components/styles/images/suitcase.svg":
+/*!***************************************************!*\
+  !*** ./src/components/styles/images/suitcase.svg ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\"data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8'?%3E %3Csvg enable-background='new 0 0 480 480' version='1.1' viewBox='0 0 480 480' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='m216 252c-152 0-208-40-208-40v197c0 10.493 8.507 19 19 19h426c10.493 0 19-8.507 19-19v-197s-56 40-208 40h-48z' fill='%2329485A'/%3E %3Cpath d='m453 116h-426c-10.493 0-19 8.507-19 19v93s56 40 208 40h48c152 0 208-40 208-40v-93c0-10.493-8.507-19-19-19z' fill='%231E3642'/%3E %3Cpath d='m453 100h-426c-10.493 0-19 8.507-19 19v93s56 40 208 40h48c152 0 208-40 208-40v-93c0-10.493-8.507-19-19-19z' fill='%2340718C'/%3E %3Cpath d='m216 212h48v72h-48v-72z' fill='%23CDA349'/%3E %3Cpath d='m27 436h426c14.904-0.018 26.982-12.096 27-27v-290c-0.018-14.904-12.096-26.982-27-27h-141v-26c-9e-3 -12.147-9.853-21.991-22-22h-100c-12.147 9e-3 -21.991 9.853-22 22v26h-141c-14.904 0.018-26.982 12.096-27 27v290c0.018 14.904 12.096 26.982 27 27zm426-16h-426c-6.071-9e-3 -10.991-4.929-11-11v-183.34c23.688 11.616 82.448 33.248 192 34.272v24.064c0 4.418 3.582 8 8 8h48c4.418 0 8-3.582 8-8v-24.064c109.55-1.024 168.31-22.656 192-34.272v183.34c-9e-3 6.071-4.929 10.991-11 11zm-197-144h-32v-56h32v56zm-72-210c4e-3 -3.312 2.688-5.996 6-6h100c3.312 4e-3 5.996 2.688 6 6v26h-112v-26zm-157 42h426c6.071 9e-3 10.991 4.929 11 11v88.52c-13.68 7.776-70.552 35.2-192 36.416v-31.936c0-4.418-3.582-8-8-8h-48c-4.418 0-8 3.582-8 8v31.936c-121.43-1.176-178.31-28.624-192-36.416v-88.52c9e-3 -6.071 4.929-10.991 11-11z'/%3E %3C/svg%3E\""
+
+/***/ }),
+
+/***/ "./src/components/styles/images/vk.svg":
+/*!*********************************************!*\
+  !*** ./src/components/styles/images/vk.svg ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\"data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8'?%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg enable-background='new 0 0 112.196 112.196' version='1.1' viewBox='0 0 112.196 112.196' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'%3E %3Ccircle cx='56.098' cy='56.098' r='56.098' fill='%234D76A1'/%3E %3Cpath d='m53.979 80.702h4.403s1.33-0.146 2.009-0.878c0.625-0.672 0.605-1.934 0.605-1.934s-0.086-5.908 2.656-6.778c2.703-0.857 6.174 5.71 9.853 8.235 2.782 1.911 4.896 1.492 4.896 1.492l9.837-0.137s5.146-0.317 2.706-4.363c-0.2-0.331-1.421-2.993-7.314-8.463-6.168-5.725-5.342-4.799 2.088-14.702 4.525-6.031 6.334-9.713 5.769-11.29-0.539-1.502-3.867-1.105-3.867-1.105l-11.076 0.069s-0.821-0.112-1.43 0.252c-0.595 0.357-0.978 1.189-0.978 1.189s-1.753 4.667-4.091 8.636c-4.932 8.375-6.904 8.817-7.71 8.297-1.875-1.212-1.407-4.869-1.407-7.467 0-8.116 1.231-11.5-2.397-12.376-1.204-0.291-2.09-0.483-5.169-0.514-3.952-0.041-7.297 0.012-9.191 0.94-1.26 0.617-2.232 1.992-1.64 2.071 0.732 0.098 2.39 0.447 3.269 1.644 1.135 1.544 1.095 5.012 1.095 5.012s0.652 9.554-1.523 10.741c-1.493 0.814-3.541-0.848-7.938-8.446-2.253-3.892-3.954-8.194-3.954-8.194s-0.328-0.804-0.913-1.234c-0.71-0.521-1.702-0.687-1.702-0.687l-10.525 0.069s-1.58 0.044-2.16 0.731c-0.516 0.611-0.041 1.875-0.041 1.875s8.24 19.278 17.57 28.993c8.555 8.907 18.27 8.322 18.27 8.322z' clip-rule='evenodd' fill='%23fff' fill-rule='evenodd'/%3E %3C/svg%3E\""
 
 /***/ }),
 
@@ -47182,9 +48359,28 @@ exports.Price = Price;
   !*** ./src/components/styles/logo.css ***!
   \****************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!./logo.css */ "./node_modules/css-loader/index.js!./src/components/styles/logo.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -47193,9 +48389,28 @@ exports.Price = Price;
   !*** ./src/components/styles/main.css ***!
   \****************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!./main.css */ "./node_modules/css-loader/index.js!./src/components/styles/main.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -47204,9 +48419,28 @@ exports.Price = Price;
   !*** ./src/components/styles/navigation.css ***!
   \**********************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!./navigation.css */ "./node_modules/css-loader/index.js!./src/components/styles/navigation.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -47215,9 +48449,28 @@ exports.Price = Price;
   !*** ./src/components/styles/shadow.css ***!
   \******************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!./shadow.css */ "./node_modules/css-loader/index.js!./src/components/styles/shadow.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
@@ -47425,9 +48678,28 @@ exports.reducerLastAlbums = function (store, action) {
   !*** ./src/style/main.css ***!
   \****************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+
+var content = __webpack_require__(/*! !../../node_modules/css-loader!./main.css */ "./node_modules/css-loader/index.js!./src/style/main.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 
