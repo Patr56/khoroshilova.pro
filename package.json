@@ -10,9 +10,9 @@
     }
   ],
   "scripts": {
-    "start:dev": "webpack-dev-server --hot --inline",
+    "start:dev": "webpack-dev-server --config webpack.dev.js",
     "start:mock": "node server.js",
-    "build": "webpack --env.production && npm run size",
+    "build": "webpack --config webpack.prod.js && npm run size",
     "size": "size-limit",
     "make:gallery": "node makeGallery.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,7 +26,7 @@
     "qrcode.react": "^0.9.3",
     "react": "16.5.2",
     "react-dom": "16.5.2",
-    "react-images": "0.5.19",
+    "react-images": "^1.0.0",
     "react-markdown": "4.0.3",
     "react-redux": "5.0.7",
     "react-router-dom": "4.3.1",
@@ -50,7 +50,6 @@
     "cssnano": "4.1.5",
     "express": "4.16.4",
     "express-http-proxy": "1.4.0",
-    "extract-text-webpack-plugin": "next",
     "file-loader": "2.0.0",
     "mkdirp": "0.5.1",
     "postcss-import": "12.0.0",
@@ -62,12 +61,13 @@
     "size-limit": "0.20.1",
     "source-map-loader": "0.2.4",
     "style-loader": "0.23.1",
-    "svg-url-loader": "^2.3.2",
-    "text-to-svg": "^3.1.3",
+    "svg-url-loader": "^2.3.3",
+    "text-to-svg": "^3.1.5",
     "transliteration": "1.6.6",
     "typescript": "3.1.3",
     "webpack": "4.22.0",
     "webpack-cli": "3.1.2",
-    "webpack-dev-server": "^3.2.1"
+    "webpack-dev-server": "^3.8.0",
+    "webpack-merge": "^4.2.2"
   }
 }

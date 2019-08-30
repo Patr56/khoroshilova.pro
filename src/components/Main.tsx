@@ -1,6 +1,6 @@
 import * as React from "react";
 // @ts-ignore
-import Lightbox from "react-images";
+import Carousel, { Modal, ModalGateway }  from "react-images";
 import {Route, Switch, withRouter, Redirect, RouteComponentProps} from "react-router";
 
 import {Blog} from "./pages/blog/Blog";
@@ -56,8 +56,34 @@ export class Main extends React.Component<IProps, {}> {
         this.props.lookAtPhoto(albumId, photoId, index);
     };
 
+    formatters = {
+        getAltText: () => "{caption} | Номер {currentIndex}",
+        getNextLabel: () => "Показать {nextIndex} из {totalCount}",
+        getPrevLabel: () => "Показать {prevIndex} из {totalCount}",
+        getNextTitle: () => "Туда",
+        getPrevTitle: () => "Сюда",
+        getCloseLabel: () => "Закрыть (esc)",
+        getFullscreenLabel: () => "[Enter | Exit] полный экран (f)"
+    }
+
+    components = {
+        FooterCount: (props: any) => {
+            const { currentIndex, views } = props;
+            const activeView = currentIndex + 1;
+            const totalViews = views.length;
+          
+            if (!activeView || !totalViews) return null;
+          
+            return (
+              <span>
+                {activeView} из {totalViews}
+              </span>
+            )
+          }
+    }
+
     render() {
-        const {isOpen, photos, viewPhoto: {index}} = this.props;
+        const {isOpen, photos} = this.props;
 
         const imagesForGallery = photos.map(photo => ({
             src: photo.url.original,
@@ -66,26 +92,19 @@ export class Main extends React.Component<IProps, {}> {
 
         return (
             <main className="main">
-                <Lightbox
-                    enableKeyboardInput
-                    backdropClosesModal
-                    showThumbnails
-                    imageCountSeparator=" из "
-                    closeButtonTitle="Закрыть (Esc)"
-                    currentImage={index}
-                    images={imagesForGallery}
-                    isOpen={isOpen}
-                    onClickPrev={this.handlePrev}
-                    onClickNext={this.handleNext}
-                    onClickThumbnail={this.handleClickThumbnail}
-                    onClose={this.handleClose}
-                    theme={{
-                        image: {
-                            ["user-select"]: "auto",
-                            ["-webkit-touch-callout"]: "default",
-                        }
-                    }}
-                />
+                <ModalGateway>
+                    {isOpen ? (
+                        <Modal onClose={this.handleClose}>
+                            <Carousel
+                                components={this.components}
+                                views={imagesForGallery}
+                                trackProps={{swipe: true}}
+                                formatters={this.formatters}
+                            />
+                        </Modal>
+                    ) : null}
+                </ModalGateway>
+            
                 <Switch>
                     <Redirect from="/" exact to="/portfolio/portfolio" />
 
