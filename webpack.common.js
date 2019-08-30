@@ -1,9 +1,8 @@
-var path = require('path');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-var BUILD_FOLDER = 'build';
+const BUILD_FOLDER = 'build';
 
 module.exports = {
     entry: "./src/index.tsx",
@@ -19,15 +18,6 @@ module.exports = {
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".json"]
-    },
-
-    devServer: {
-        contentBase: path.join(__dirname, BUILD_FOLDER),
-        compress: true, // enable gzip compression
-        hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
-        inline: true,
-        https: false, // true for self-signed, object for cert authority
-        port: 9000
     },
 
     module: {
@@ -63,10 +53,7 @@ module.exports = {
         new CopyWebpackPlugin([
             { from: 'CNAME'},
             { from: 'static'},
-            { from: 'node_modules/react/umd/react.development.js', to: 'js/react.development.js' },
-            { from: 'node_modules/react-dom/umd/react-dom.development.js', to: 'js/react-dom.development.js' }
-        ]),
-        new ExtractTextPlugin('css/main.css')
+        ])
     ],
 
     // When importing a module whose path matches one of the following, just
