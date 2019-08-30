@@ -3,7 +3,7 @@ import * as QRCode from "qrcode.react";
 
 import "./styles/contacts.css";
 
-const PHONE_NUMBER = '8 (916) 827 28 19';
+const PHONE_NUMBER = '8 (916) 827 28 13';
 const EMAIL = 'tatyana@khoroshilova.pro';
 
 function getCleanPhoneNumber(phone: string) {
@@ -15,10 +15,9 @@ VERSION:3.0
 N:Хорошилова;Татьяна
 FN:Татьяна Хорошилова
 ORG:Фотограф
-URL:khoroshilova.pro
+URL:https://www.khoroshilova.pro
 EMAIL;TYPE=INTERNET:${EMAIL}
 TEL;TYPE=voice,work,pref:${getCleanPhoneNumber(PHONE_NUMBER)}
-ADR:;;;Железнодорожный;;;Россия
 END:VCARD
 `
 
