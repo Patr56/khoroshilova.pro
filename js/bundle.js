@@ -47848,12 +47848,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "react");
 var QRCode = __webpack_require__(/*! qrcode.react */ "./node_modules/qrcode.react/lib/index.js");
 __webpack_require__(/*! ./styles/contacts.css */ "./src/components/pages/contacts/styles/contacts.css");
-var PHONE_NUMBER = '8 (916) 827 28 19';
+var PHONE_NUMBER = '8 (916) 827 28 13';
 var EMAIL = 'tatyana@khoroshilova.pro';
 function getCleanPhoneNumber(phone) {
     return phone.replace("(", "").replace(")", "").split(" ").join("");
 }
-var VCARD = "BEGIN:VCARD\nVERSION:3.0\nN:\u0425\u043E\u0440\u043E\u0448\u0438\u043B\u043E\u0432\u0430;\u0422\u0430\u0442\u044C\u044F\u043D\u0430\nFN:\u0422\u0430\u0442\u044C\u044F\u043D\u0430 \u0425\u043E\u0440\u043E\u0448\u0438\u043B\u043E\u0432\u0430\nORG:\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444\nURL:khoroshilova.pro\nEMAIL;TYPE=INTERNET:" + EMAIL + "\nTEL;TYPE=voice,work,pref:" + getCleanPhoneNumber(PHONE_NUMBER) + "\nADR:;;;\u0416\u0435\u043B\u0435\u0437\u043D\u043E\u0434\u043E\u0440\u043E\u0436\u043D\u044B\u0439;;;\u0420\u043E\u0441\u0441\u0438\u044F\nEND:VCARD\n";
+var VCARD = "BEGIN:VCARD\nVERSION:3.0\nN:\u0425\u043E\u0440\u043E\u0448\u0438\u043B\u043E\u0432\u0430;\u0422\u0430\u0442\u044C\u044F\u043D\u0430\nFN:\u0422\u0430\u0442\u044C\u044F\u043D\u0430 \u0425\u043E\u0440\u043E\u0448\u0438\u043B\u043E\u0432\u0430\nORG:\u0424\u043E\u0442\u043E\u0433\u0440\u0430\u0444\nURL:https://www.khoroshilova.pro\nEMAIL;TYPE=INTERNET:" + EMAIL + "\nTEL;TYPE=voice,work,pref:" + getCleanPhoneNumber(PHONE_NUMBER) + "\nEND:VCARD\n";
 var Contacts = /** @class */ (function (_super) {
     __extends(Contacts, _super);
     function Contacts() {
