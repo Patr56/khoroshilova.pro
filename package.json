@@ -57,7 +57,7 @@
     "random-words": "1.1.0",
     "recursive-readdir": "2.2.2",
     "rimraf": "2.6.2",
-    "sharp": "0.21.0",
+    "sharp": "0.30.5",
     "size-limit": "0.20.1",
     "source-map-loader": "0.2.4",
     "style-loader": "0.23.1",
